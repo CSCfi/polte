@@ -1,0 +1,16 @@
+#!/bin/bash
+sed -i '/^ - ssh$/a \ - resolv_conf' /etc/cloud/cloud.cfg
+echo "$hostname.openstacklocal" > /etc/hostname
+cat >/etc/cloud/cloud.cfg.d/99_hostname.cfg<<EOF
+hostname: $hostname.openstacklocal
+manage-resolv-conf: true
+manage_resolv_conf: true
+resolv_conf:
+  nameservers: $nameservers
+  searchdomains:
+    - openstacklocal
+  domain: openstacklocal
+  options:
+    rotate: true
+    timeout: 1
+EOF

@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Rebuild OpenStack nodes
+      os_server_actions:
+        action: rebuild
+        server: "{{ item }}"
+        timeout: 200
+        image: CentOS-7
+      with_items:
+        - groups.api
+#        - groups.galera

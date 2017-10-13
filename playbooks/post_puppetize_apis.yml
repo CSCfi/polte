@@ -1,0 +1,16 @@
+---
+# Post puppetization mods
+- hosts: api
+  become: yes
+  become_user: root
+  tasks:
+    - name: Disable horizon to keystone SSL verification
+      lineinfile:
+        path: /etc/openstack-dashboard/local_settings
+        regexp: '.*OPENSTACK_SSL_NO_VERIFY.*'
+        line: 'OPENSTACK_SSL_NO_VERIFY = True'
+    - name: Relax allowed hosts
+      shell: sed -i "s/^ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*', ]/" /etc/openstack-dashboard/local_settings
+    - name: Change horizon login backend to ldap
+      shell: sed -i 's/native/ldap/' /etc/openstack-dashboard/local_settings
+

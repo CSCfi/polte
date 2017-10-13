@@ -1,0 +1,28 @@
+# {{ ansible_managed }}
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+{% for item in play_hosts %}
+{% set alt_name = item | regex_replace('^(.*)$', '\\1.openstacklocal') %}
+{{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} {{ item }} {{ alt_name }}
+{% endfor %}
+
+{% for item in play_hosts %}
+{% if 'ansible_eth1' in hostvars[item]
+and 'ipv4' in hostvars[item]['ansible_eth1']
+and hostvars[item]['ansible_eth1']['ipv4']['address'] is defined %}
+{% set alt_name = item | regex_replace('^(.*)$', '\\1.ext') %}
+{% set alt_name2 = item | regex_replace('^(.*)$', '\\1.ext.openstacklocal') %}
+{{ hostvars[item]['ansible_eth1']['ipv4']['address'] }} {{ alt_name }} {{ alt_name2 }}
+{% endif %}
+{% endfor %}
+
+{% for item in play_hosts %}
+{% if 'ansible_eth2' in hostvars[item]
+and 'ipv4' in hostvars[item]['ansible_eth2']
+and hostvars[item]['ansible_eth2']['ipv4']['address'] is defined %}
+{% set alt_name = item | regex_replace('^(.*)$', '\\1.hb') %}
+{% set alt_name2 = item | regex_replace('^(.*)$', '\\1.hb.openstacklocal') %}
+{{ hostvars[item]['ansible_eth2']['ipv4']['address'] }} {{ alt_name }} {{ alt_name2 }}
+{% endif %}
+{% endfor %}

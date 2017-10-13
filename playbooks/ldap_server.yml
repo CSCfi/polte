@@ -1,0 +1,33 @@
+---
+- hosts: ldap
+  become: true
+  become_user: root
+  pre_tasks:
+    - shell: mkdir /etc/openldap/slapd.d;mkdir /etc/ldap;touch /etc/ldap/acl.conf
+      ignore_errors: true
+  roles:
+    - role: ansible-role-openldap-server
+      openldap_server_domain_name: acme.org
+      openldap_server_rootpw: "{{ vault_openldap_server_rootpw }}"
+      openldap_server_enable_ssl: false
+      openldap_enable_user_creation: true
+      openldap_server_users:
+        testuser:
+          password: "{{ vault_testuser_password }}"
+          uid: 90000001
+        keystone:
+          password: "{{ vault_keystone_password }}"
+          uid: 90000002
+        heat:
+          password: "{{ vault_heat_password }}"
+          uid: 90000003
+        neutron:
+          password: "{{ vault_neutron_password }}"
+          uid: 90000004
+      openldap_server_groups:
+        testgroup:
+          - testuser
+        service:
+          - keystone
+          - heat
+          - neutron

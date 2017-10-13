@@ -1,0 +1,4 @@
+---
+puppetmaster: "{{hostvars['puppet-node']['inventory_hostname']}}"
+puppetmaster_fqdn: "{{hostvars['puppet-node']['inventory_hostname']}}.openstacklocal"
+puppet_environment: newton

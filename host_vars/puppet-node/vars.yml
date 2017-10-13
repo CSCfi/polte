@@ -1,0 +1,2 @@
+---
+puppet_environments_repo: "{{ vault_puppet_environments_repo }}"

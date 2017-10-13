@@ -1,0 +1,17 @@
+parameter_defaults:
+  ssh_key_name:
+
+  api_node_flavor:
+  api_node_image:
+  galera_node_flavor:
+  galera_node_image:
+  puppet_node_flavor:
+  puppet_node_image:
+  ldap_node_flavor:
+  ldap_node_image:
+
+  jumphost_allow_ssh_cidr:
+  mgmt_subnet_cidr:
+  ext_subnet_cidr:
+
+  cloud_init_nameservers:

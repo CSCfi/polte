@@ -1,0 +1,280 @@
+heat_template_version: 2016-10-14
+
+description: >
+  Build machines for deployment of OpenStack.
+
+parameters:
+  ssh_key_name:
+    description: The name of the SSH key in OpenStack to add to hosts.
+    type: string
+  api_server_count:
+    type: number
+    default: 2
+  api_node_names:
+    description: List of api node hostnames
+    type: comma_delimited_list
+    default: ["api-node0", "api-node1"]
+  jumphost_allow_ssh_cidr:
+    description: The CIDR where SSH is allowed to the jumphost from.
+    type: string
+  galera_node_flavor:
+    description: The flavor to use for Galera nodes.
+    type: string
+  galera_node_image:
+    description: The image to use for Galera nodes.
+    type: string
+  ldap_node_flavor:
+    description: The flavor to use for LDAP nodes.
+    type: string
+  ldap_node_image:
+    description: The image to use for LDAP nodes.
+    type: string
+  puppet_node_flavor:
+    description: The flavor to use for Puppet nodes.
+    type: string
+  puppet_node_image:
+    description: The image to use for Puppet nodes.
+    type: string
+  floating_ip_pool:
+    type: string
+    description: The pool from which floating IPs should be reserved.
+    default: 'public'
+  mgmt_subnet_cidr:
+    type: string
+    description: The CIDR of the VM management subnet.
+  ext_subnet_cidr:
+    type: string
+    description: The CIDR of the ext subnet of API nodes.
+  cloud_init_nameservers:
+    type: comma_delimited_list
+    description: The nameservers to configure via cloud-init.
+
+resources:
+  backend_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 3306
+          port_range_max: 3306
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 4444
+          port_range_max: 4444
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 4567
+          port_range_max: 4567
+        - protocol: udp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 4567
+          port_range_max: 4567
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 4568
+          port_range_max: 4568
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 27017
+          port_range_max: 27017
+
+  puppet_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 8140
+          port_range_max: 8140
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 8081
+          port_range_max: 8081
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          remote_ip_prefix: { get_param: jumphost_allow_ssh_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  frontend_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: icmp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          remote_ip_prefix: { get_param: ext_subnet_cidr }
+          port_range_min: 1
+          port_range_max: 65535
+
+  ldap_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 389
+          port_range_max: 389
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 636
+          port_range_max: 636
+
+  ext_network:
+    type: OS::Neutron::Net
+
+  ext_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: { get_param: ext_subnet_cidr }
+      network: { get_resource: ext_network }
+
+  ext_router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info: { network: public }
+
+  ext_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: ext_router }
+      subnet: { get_resource: ext_subnet }
+
+  mgmt_network:
+    type: OS::Neutron::Net
+
+  mgmt_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: { get_param: mgmt_subnet_cidr }
+      network: { get_resource: mgmt_network }
+
+  mgmt_router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info: { network: public }
+
+  mgmt_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: mgmt_router }
+      subnet: { get_resource: mgmt_subnet }
+
+  api_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: api_server_count }
+      resource_def:
+        type: api-node.yaml
+        properties:
+          index: "%index%"
+          api_node_names: { get_param: api_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ext_network_name: { get_resource: ext_network }
+          ooo_frontend_secgroup: { get_resource: frontend_secgroup }
+
+  galera_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: 1
+      resource_def:
+        type: OS::Nova::Server
+        properties:
+          name: galera-node%index%
+          flavor: { get_param: galera_node_flavor }
+          image: { get_param: galera_node_image }
+          key_name: { get_param: ssh_key_name }
+          security_groups:
+            - { get_resource: backend_secgroup }
+          networks:
+            - network: { get_resource: mgmt_network }
+          metadata: { 'ansible_group': 'galera' }
+          user_data_format: RAW
+          user_data:
+            str_replace:
+              params:
+                $hostname: galera-node%index%
+                $nameservers: { get_param: cloud_init_nameservers }
+              template: { get_file: user-data-generic.yaml }
+
+  puppet_node:
+    type: OS::Nova::Server
+    properties:
+      name: puppet-node
+      flavor: { get_param: puppet_node_flavor }
+      image: { get_param: puppet_node_image }
+      key_name: { get_param: ssh_key_name }
+      security_groups:
+        - { get_resource: puppet_secgroup }
+      networks:
+        - network: { get_resource: mgmt_network }
+      metadata: { 'ansible_group': 'puppet' }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            $hostname: puppet-node
+            $nameservers: { get_param: cloud_init_nameservers }
+          template: { get_file: user-data-generic.yaml }
+
+  ldap_node:
+    type: OS::Nova::Server
+    properties:
+      name: ldap-node
+      flavor: { get_param: ldap_node_flavor }
+      image: { get_param: ldap_node_image }
+      key_name: { get_param: ssh_key_name }
+      security_groups:
+        - { get_resource: ldap_secgroup }
+      networks:
+        - network: { get_resource: mgmt_network }
+      metadata: { 'ansible_group': 'ldap' }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            $hostname: ldap-node
+            $nameservers: { get_param: cloud_init_nameservers }
+          template: { get_file: user-data-generic.yaml }
+
+  jumphost_public_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+
+  jumphost_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: jumphost_public_ip }
+      server_id: { get_resource: puppet_node }
+
+outputs:
+  api_nodes_group:
+    description: The group of API nodes
+    value: { get_attr: [api_nodes, show] }
+  galera_nodes_group:
+    description: The group of Galera nodes
+    value: { get_attr: [galera_nodes, show] }
+  puppet_node:
+    description: The puppet node
+    value: { get_attr: [puppet_node, show] }
+  ldap_node:
+    description: The LDAP node
+    value: { get_attr: [ldap_node, show] }

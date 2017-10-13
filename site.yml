@@ -1,0 +1,28 @@
+---
+# Build heat stack
+- include: playbooks/build-heat-stack.yml
+
+# workaround: Generate hosts file, reboot to enforce openstacklocal domain
+- include: playbooks/generate_hostsfile.yml
+
+# Install and configure LDAP server
+- include: playbooks/ldap_server.yml
+
+# Bootstrap and puppetize puppetmaster, apply modifications to envs
+- include: playbooks/puppetmaster.yml
+- include: playbooks/puppet_environment_mods.yml
+
+# workaround: Regenerate after puppetmaster puppetization
+- include: playbooks/generate_hostsfile.yml
+
+# Puppetize backend nodes
+- include: playbooks/puppetize_backends.yml
+
+# Puppetize API nodes
+- include: playbooks/pre_puppetize_apis.yml
+- include: playbooks/puppetize_apis_loop.yml # init
+- include: playbooks/puppetize_apis_loop.yml # cluster formation
+- include: playbooks/puppetize_apis_loop.yml # openstack cli gets added only after this 3rd run
+- include: playbooks/puppetize_apis_loop.yml # first run to accept selfsigned certs
+- include: playbooks/puppetize_apis_loop.yml # first run with admin role for service project
+- include: playbooks/post_puppetize_apis.yml

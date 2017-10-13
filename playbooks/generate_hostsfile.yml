@@ -1,0 +1,35 @@
+---
+- hosts: all
+  become: yes
+  become_user: root
+  gather_facts: yes
+  tasks:
+    - meta: clear_host_errors
+# workaround: Prevent dhcp on eth[012] touching DNS
+    - name: Modify interface network-scripts
+      copy:
+        content: |
+          DEVICE="{{ item }}"
+          BOOTPROTO="dhcp"
+          ONBOOT="yes"
+          PEERDNS="no"
+        dest: /etc/sysconfig/network-scripts/ifcfg-{{ item }}
+      with_items: "{{ ansible_interfaces | difference('lo') }}"
+      notify:
+        - Reboot
+    - meta: flush_handlers
+    - pause:
+        seconds: 30
+    - meta: clear_host_errors
+# workaround: Populate hosts file
+    - name: Generate /etc/hosts file
+      template:
+        src: templates/hosts.j2
+        dest: /etc/hosts
+
+  handlers:
+    - name: Reboot
+      shell: sleep 5 && shutdown -r now
+      async: 1
+      poll: 0
+      ignore_errors: true

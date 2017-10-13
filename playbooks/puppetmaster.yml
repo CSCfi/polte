@@ -1,0 +1,8 @@
+---
+- name: Configure puppetmaster
+  hosts: puppet
+  tags: puppet
+  become: true
+  become_user: root
+  roles:
+    - role: ansible-role-puppetmaster

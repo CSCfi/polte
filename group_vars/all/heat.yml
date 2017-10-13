@@ -1,0 +1,8 @@
+---
+# For extraction to Ansible inventory
+ooo_network_name: "ooo-mgmt-net"
+# For Heat
+heat_stack_name: "ooo-stack"
+heat_environment_file: "../files/heat-params.yml"
+# For both
+vm_user_account: "cloud-user"

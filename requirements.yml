@@ -1,0 +1,17 @@
+- src: git@github.com:CSCfi/ansible-role-puppetmaster.git
+  scm: git
+  path: roles
+  version: cloud-OoO-workarounds
+
+- src: git@github.com:CSCfi/ansible-role-puppetize.git
+  scm: git
+  path: roles
+  version: puppetconfmod
+
+- src: https://github.com/geerlingguy/ansible-role-nfs.git
+  path: roles
+
+- src: https://github.com/junousi/ansible-openldap_server.git
+  name: ansible-role-openldap-server
+  path: roles
+  version: simpleusertemplate
