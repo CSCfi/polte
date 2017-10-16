@@ -5,20 +5,17 @@ components.
 
 ## Requirements
 
-* Ansible >= 2.3
+* ansible >= 2.3
 * shade >= 1.8.0
 
 ## Caveats
 
-Agent is forwarded to all connections. Think about what kind of keys you are
-forwarding and modify this behavior if necessary.
+SSH agent is forwarded to all connections. Think about what kind of keys you
+are forwarding and modify this behavior if necessary.
 
 ## Installation
 
-* Install roles
-
-`$ ansible-galaxy -r requirements.yml install`
-
+* Install roles from requirements.yml
 * Load keys into SSH agent
 * Load keys into environment (see README.md in ansible-role-puppetmaster)
 * Source openrc.sh
@@ -29,13 +26,13 @@ forwarding and modify this behavior if necessary.
   * vault_keystone_password - Hashed into userPassword LDAP attribute
   * vault_heat_password - Hashed into userPassword LDAP attribute
   * vault_neutron_password - Hashed into userPassword LDAP attribute
-* Run (adding --ask-vault-pass if such in use):
+* Run playbook (--ask-vault-pass presumed but not mandatory):
 
-`$ ansible-playbook -i inventory site.yml`
+`$ ansible-playbook -i inventory site.yml --ask-vault-pass`
 
 ## Contributors
 
 * Risto Laurikainen - https://github.com/rlaurika
-  * Heat stack ( https://github.com/CSCfi/etherpad-deployment-demo )
+  * Heat stack (adapted from https://github.com/CSCfi/etherpad-deployment-demo)
 * Jukka Nousiainen - https://github.com/junousi
   * Hacks & bugs
