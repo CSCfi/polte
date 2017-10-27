@@ -6,11 +6,12 @@ pipeline {
             steps {
                 echo 'Building Heat stack'
                 sh '''
+                    cp /tmp/quest_of_the_sacred_baboon/*.sh .
                     source build.sh
                 '''
             }
         }
-        stage('Enforce hostsfile') {
+        stage('Generate hostsfile') {
             steps {
                 echo 'Generating hostsfile'
                 sh '''
@@ -22,28 +23,50 @@ pipeline {
             steps {
                 parallel("Bootstrap LDAP server": {
                     echo "LDAP"
+                    sh '''
+                        source ldap.sh
+                    '''
                 },
                 "Bootstrap puppetmaster": {
                     echo "Puppetmaster"
+                    sh '''
+                        source puppetmaster.sh
+                    '''
                 },
                 "Bootstrap API nodes": {
                     echo "APIs"
+                    sh '''
+                        source api-pre.sh
+                    '''
                 })
             }
         }
         stage('Puppetize backend') {
             steps {
                 echo 'Puppetizing'
+                sh '''
+                    source puppetize-backend.sh
+                '''
             }
         }
         stage('Puppetize APIs') {
             steps {
                 echo 'Puppetizing'
+                sh '''
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                '''
             }
         }
         stage('Post-puppetize actions') {
             steps {
                 echo 'Deploying'
+                sh '''
+                    source api-post.sh
+                '''
             }
         }
     }
