@@ -1,9 +1,11 @@
 ---
 # Build heat stack
 - include: playbooks/build-heat-stack.yml
+  tags: build
 
 # workaround: Generate hosts file, reboot to enforce openstacklocal domain
 - include: playbooks/generate_hostsfile.yml
+  tags: hosts
 
 # Install and configure LDAP server
 - include: playbooks/ldap_server.yml

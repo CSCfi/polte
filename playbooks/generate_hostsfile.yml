@@ -19,7 +19,7 @@
         - Reboot
     - meta: flush_handlers
     - pause:
-        seconds: 30
+        seconds: 40
     - meta: clear_host_errors
 # workaround: Populate hosts file
     - name: Generate /etc/hosts file

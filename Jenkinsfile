@@ -2,17 +2,20 @@ pipeline {
     agent any
 
     stages {
-        stage('Build stack') {
+        stage('Build Heat stack') {
             steps {
-                echo 'Building heat stack'
+                echo 'Building Heat stack'
                 sh '''
-                    source env.sh
+                    source build.sh
                 '''
             }
         }
-        stage('Reboot to enforce cloud-init changes') {
+        stage('Enforce hostsfile') {
             steps {
-                echo 'Booting'
+                echo 'Generating hostsfile'
+                sh '''
+                    source hosts.sh
+                '''
             }
         }
         stage('Parallel actions') {
