@@ -55,7 +55,7 @@ pipeline {
                         source hosts.sh
                     '''
                 },
-                "Puppet environment mods": {
+                "Puppet env mods": {
                     echo "Modifying puppet envs"
                     sh '''
                         source puppet-env-mods.sh
