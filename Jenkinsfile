@@ -41,15 +41,7 @@ pipeline {
                 })
             }
         }
-        stage('Regenerate hostsfile') {
-            steps {
-                echo 'Generating hostsfile'
-                sh '''
-                    source hosts.sh
-                '''
-            }
-        }
-        stage('Parallel puppetize') {
+        stage('Parallel backend etc.') {
             steps {
                 parallel("Puppetize backend": {
                     echo 'Puppetizing'
@@ -57,16 +49,30 @@ pipeline {
                         source puppetize-backend.sh
                     '''
                 },
-                "Puppetize APIs": {
-                    echo 'Puppetizing'
+                "Regenerate hostsfile": {
+                    echo 'Generating hostsfile'
                     sh '''
-                        source puppetize-api.sh
-                        source puppetize-api.sh
-                        source puppetize-api.sh
-                        source puppetize-api.sh
-                        source puppetize-api.sh
+                        source hosts.sh
+                    '''
+                },
+                "Puppet environment mods": {
+                    echo "Modifying puppet envs"
+                    sh '''
+                        source puppet-env-mods.sh
                     '''
                 })
+            }
+        }
+        stage('Puppetize APIs') {
+            steps {
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                    source puppetize-api.sh
+                '''
             }
         }
         stage('Post-puppetize actions') {
