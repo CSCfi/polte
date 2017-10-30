@@ -1,2 +1,3 @@
 ---
 vm_user_account: "cloud-user"
+heat_environment_file: "../files/heat-params.yml"
