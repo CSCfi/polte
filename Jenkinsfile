@@ -41,7 +41,7 @@ pipeline {
                 })
             }
         }
-        stage('Parallel backend etc.') {
+        stage('Parallel backend') {
             steps {
                 parallel("Puppetize backend": {
                     echo 'Puppetizing'
@@ -55,7 +55,7 @@ pipeline {
                         source hosts.sh
                     '''
                 },
-                "Puppet env mods": {
+                "Puppetmaster mods": {
                     echo "Modifying puppet envs"
                     sh '''
                         source puppet-env-mods.sh
