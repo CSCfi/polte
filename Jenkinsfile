@@ -68,10 +68,6 @@ pipeline {
                 echo 'Puppetizing'
                 sh '''
                     source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
                 '''
             }
         }
