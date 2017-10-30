@@ -19,7 +19,7 @@ pipeline {
                 '''
             }
         }
-        stage('Parallel actions') {
+        stage('Parallel bootstrap') {
             steps {
                 parallel("Bootstrap LDAP server": {
                     echo "LDAP"
@@ -49,24 +49,24 @@ pipeline {
                 '''
             }
         }
-        stage('Puppetize backend') {
+        stage('Parallel puppetize') {
             steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-backend.sh
-                '''
-            }
-        }
-        stage('Puppetize APIs') {
-            steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                    source puppetize-api.sh
-                '''
+                parallel("Puppetize backend": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-backend.sh
+                    '''
+                },
+                "Puppetize APIs": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-api.sh
+                        source puppetize-api.sh
+                        source puppetize-api.sh
+                        source puppetize-api.sh
+                        source puppetize-api.sh
+                    '''
+                })
             }
         }
         stage('Post-puppetize actions') {
