@@ -41,6 +41,14 @@ pipeline {
                 })
             }
         }
+        stage('Regenerate hostsfile') {
+            steps {
+                echo 'Generating hostsfile'
+                sh '''
+                    source hosts.sh
+                '''
+            }
+        }
         stage('Puppetize backend') {
             steps {
                 echo 'Puppetizing'
