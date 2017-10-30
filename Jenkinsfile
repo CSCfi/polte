@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Building Heat stack'
                 sh '''
-                    cp /tmp/quest_of_the_sacred_baboon/*.sh .
+                    cp /tmp/buildscripts/*.sh .
                     source build.sh
                 '''
             }
