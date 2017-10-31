@@ -1,11 +1,11 @@
 ---
 # Run Puppet on the first backend node only. Needed to initialize MongoDB
 # without authentication enabled.
-- hosts: galera[0]
-  become: true
-  become_user: root
-  roles:
-    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
+#- hosts: galera[0]
+#  become: true
+#  become_user: root
+#  roles:
+#    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
 
 ### NB! The cluster will consist only of the first node for now.
 #
@@ -36,4 +36,3 @@
 # workaround: Missing ssh tunneling for bootstrap.
   tasks:
     - shell: iptables -F
-

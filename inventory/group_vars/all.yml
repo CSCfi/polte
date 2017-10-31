@@ -1,4 +1,7 @@
 ---
+vm_user_account: "cloud-user"
+heat_environment_file: "../files/heat-params.yml"
+
 puppetmaster: "{{hostvars['puppet-node']['inventory_hostname']}}"
 puppetmaster_fqdn: "{{hostvars['puppet-node']['inventory_hostname']}}.openstacklocal"
-puppet_environment: newton
+

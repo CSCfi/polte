@@ -18,8 +18,6 @@
       notify:
         - Reboot
     - meta: flush_handlers
-    - pause:
-        seconds: 30
     - meta: clear_host_errors
 # workaround: Populate hosts file
     - name: Generate /etc/hosts file
@@ -28,8 +26,13 @@
         dest: /etc/hosts
 
   handlers:
-    - name: Reboot
+    - name: Sleep and reboot
       shell: sleep 5 && shutdown -r now
       async: 1
       poll: 0
       ignore_errors: true
+      listen: Reboot
+    - name: Pause while waiting rebooted hosts
+      pause:
+        seconds: 30
+      listen: Reboot

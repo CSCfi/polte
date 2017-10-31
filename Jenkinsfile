@@ -2,45 +2,81 @@ pipeline {
     agent any
 
     stages {
-        stage('Build stack') {
+        stage('Build Heat stack') {
             steps {
-                echo 'Building heat stack'
+                echo 'Building Heat stack'
                 sh '''
-                    source env.sh
+                    cp /tmp/buildscripts/*.sh .
+                    source build.sh
                 '''
             }
         }
-        stage('Reboot to enforce cloud-init changes') {
+        stage('Generate hostsfile') {
             steps {
-                echo 'Booting'
+                echo 'Generating hostsfile'
+                sh '''
+                    source hosts.sh
+                '''
             }
         }
-        stage('Parallel actions') {
+        stage('Parallel bootstrap') {
             steps {
                 parallel("Bootstrap LDAP server": {
                     echo "LDAP"
+                    sh '''
+                        source ldap.sh
+                    '''
                 },
                 "Bootstrap puppetmaster": {
                     echo "Puppetmaster"
+                    sh '''
+                        source puppetmaster.sh
+                    '''
                 },
                 "Bootstrap API nodes": {
                     echo "APIs"
+                    sh '''
+                        source api-pre.sh
+                    '''
                 })
             }
         }
-        stage('Puppetize backend') {
+        stage('Parallel backend') {
             steps {
-                echo 'Puppetizing'
+                parallel("Puppetize backend": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-backend.sh
+                    '''
+                },
+                "Regenerate hostsfile": {
+                    echo 'Generating hostsfile'
+                    sh '''
+                        source hosts.sh
+                    '''
+                },
+                "Puppetmaster mods": {
+                    echo "Modifying puppet envs"
+                    sh '''
+                        source puppet-env-mods.sh
+                    '''
+                })
             }
         }
         stage('Puppetize APIs') {
             steps {
                 echo 'Puppetizing'
+                sh '''
+                    source puppetize-api.sh
+                '''
             }
         }
         stage('Post-puppetize actions') {
             steps {
                 echo 'Deploying'
+                sh '''
+                    source api-post.sh
+                '''
             }
         }
     }
