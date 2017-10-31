@@ -1,0 +1,69 @@
+heat_template_version: 2016-10-14
+
+description: >
+  Build machines for deployment of OpenStack.
+
+parameters:
+  index:
+    type: number
+  ssh_key_name:
+    description: The name of the SSH key in OpenStack to add to hosts.
+    type: string
+  net_node_flavor:
+    description: The flavor to use for the VMs running OpenStack network nodes.
+    type: string
+  net_node_image:
+    description: The image to use for the VMs running OpenStack network nodes.
+    type: string
+  ext_network_name:
+    description: The network to use for the VMs.
+    type: string
+  mgmt_network_name:
+    description: The network to use for the VMs.
+    type: string
+  proj_network_name:
+    description: The network to use for project networks.
+    type: string
+  proj_subnet_name:
+    description: The subnet to use for project networks.
+    type: string
+  floating_ip_pool:
+    type: string
+    label: Floating IP pool
+    description: The pool from which floating IPs should be reserved.
+    default: 'public'
+  net_node_names:
+    type: comma_delimited_list
+  ooo_network_secgroup:
+    type: string
+
+resources:
+  net_node:
+    type: OS::Nova::Server
+    properties:
+      flavor: { get_param: net_node_flavor }
+      image: { get_param: net_node_image }
+      key_name: { get_param: ssh_key_name }
+      security_groups:
+        - ooo_network_secgroup
+      name: { get_param: [net_node_names, {get_param: index}] }
+      networks:
+        - network: { get_param: mgmt_network_name }
+        - network: { get_param: ext_network_name }
+        - network: { get_param: proj_network_name }
+      metadata: { 'ansible_group': 'net' }
+
+  net_public_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+
+  net_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: net_public_ip }
+      server_id: { get_resource: net_node }
+
+outputs:
+  show:
+    value: {get_attr: [net_node, show]}

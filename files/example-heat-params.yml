@@ -11,9 +11,12 @@ parameter_defaults:
   puppet_node_image:  CentOS-7
   ldap_node_flavor:   io.70GB
   ldap_node_image:    CentOS-7
+  net_node_flavor:    io.70GB
+  net_node_image:     CentOS-7
 
   jumphost_allow_ssh_cidr: X.Y.Z.V/32
   mgmt_subnet_cidr:        S.P.Q.R/24
   ext_subnet_cidr:         P.L.U.R/24
+  proj_subnet_cidr:        S.W.A.G/24
 
   cloud_init_nameservers: ["193.166.4.24", "193.166.4.25"]

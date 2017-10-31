@@ -14,6 +14,13 @@ parameters:
     description: List of api node hostnames
     type: comma_delimited_list
     default: ["api-node0", "api-node1"]
+  net_server_count:
+    type: number
+    default: 2
+  net_node_names:
+    description: List of net node hostnames
+    type: comma_delimited_list
+    default: ["net-node0", "net-node1"]
   jumphost_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the jumphost from.
     type: string
@@ -137,6 +144,25 @@ resources:
           port_range_min: 636
           port_range_max: 636
 
+  network_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  proj_network:
+    type: OS::Neutron::Net
+
+  proj_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: { get_param: proj_subnet_cidr }
+      gateway_ip: null
+      network: { get_resource: proj_network }
+
   ext_network:
     type: OS::Neutron::Net
 
@@ -189,6 +215,19 @@ resources:
           mgmt_network_name: { get_resource: mgmt_network }
           ext_network_name: { get_resource: ext_network }
           ooo_frontend_secgroup: { get_resource: frontend_secgroup }
+
+  net_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: net_server_count}
+      resource_def:
+        type: net-node.yaml
+        properties:
+          index: "%index%"
+          net_node_names: { get_param: net_node_names }
+          proj_network_name: { get_resource: proj_network }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ooo_network_secgroup: { get_resource: network_secgroup }
 
   galera_nodes:
     type: OS::Heat::ResourceGroup
@@ -269,6 +308,9 @@ outputs:
   api_nodes_group:
     description: The group of API nodes
     value: { get_attr: [api_nodes, show] }
+  net_nodes_group:
+    description: The group of network nodes
+    value: { get_attr: [net_nodes, show] }
   galera_nodes_group:
     description: The group of Galera nodes
     value: { get_attr: [galera_nodes, show] }
