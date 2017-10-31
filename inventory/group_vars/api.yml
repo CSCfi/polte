@@ -1,2 +1,3 @@
 ---
 ansible_ssh_common_args: "-o ProxyCommand='ssh -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
+loopfail: false
