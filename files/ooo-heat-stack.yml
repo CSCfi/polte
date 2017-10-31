@@ -270,6 +270,25 @@ resources:
       router_id: { get_resource: ext_router }
       subnet: { get_resource: ext_subnet }
 
+  api_ext_lb_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_resource: ext_network }
+      fixed_ips:
+        - ip_address: "10.42.42.254"
+
+  api_ext_lb_public_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: floating_ip_pool }
+#      port_id: { get_resource: api_ext_lb_port }
+
+  api_ext_lb_floating_ip_association:
+    type: OS::Neutron::FloatingIPAssociation
+    properties:
+      floatingip_id: { get_resource: api_ext_lb_public_ip }
+      port_id: { get_resource: api_ext_lb_port }
+
   mgmt_network:
     type: OS::Neutron::Net
 

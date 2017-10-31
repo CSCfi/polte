@@ -1,0 +1,32 @@
+#!/bin/bash
+sed -i '/^ - ssh$/a \ - resolv_conf' /etc/cloud/cloud.cfg
+echo "$hostname.openstacklocal" > /etc/hostname
+cat >/etc/cloud/cloud.cfg.d/99_hostname.cfg<<EOF
+hostname: $hostname.openstacklocal
+manage-resolv-conf: true
+manage_resolv_conf: true
+resolv_conf:
+  nameservers: $nameservers
+  searchdomains:
+    - openstacklocal
+  domain: openstacklocal
+  options:
+    rotate: true
+    timeout: 1
+EOF
+cat >/etc/sysconfig/network-scripts/ifcfg-eth0<<EOF
+DEVICE="eth0"
+BOOTPROTO="dhcp"
+ONBOOT="yes"
+PEERDNS="no"
+DEFROUTE="no"
+EOF
+cat >/etc/sysconfig/network-scripts/ifcfg-eth1<<EOF
+DEVICE="eth1"
+BOOTPROTO="dhcp"
+ONBOOT="yes"
+PEERDNS="no"
+DEFROUTE="yes"
+EOF
+killall dhclient;dhclient eth1
+killall dhclient;dhclient eth0

@@ -44,8 +44,9 @@ resources:
         - { get_param: ooo_frontend_secgroup }
       name: { get_param: [api_node_names, {get_param: index}] }
       networks:
+        - { network: { get_param: ext_network_name },
+            port_extra_properties: { allowed_address_pairs: [ { ip_address: 10.42.42.254 } ] } }
         - network: { get_param: mgmt_network_name }
-        - network: { get_param: ext_network_name }
       metadata: { 'ansible_group': 'api' }
       user_data_format: RAW
       user_data:
@@ -53,7 +54,7 @@ resources:
           params:
             $hostname: { get_param: [api_node_names, {get_param: index}] }
             $nameservers: { get_param: cloud_init_nameservers }
-          template: { get_file: user-data-generic.yaml }
+          template: { get_file: user-data-api.yaml }
 
 outputs:
   show:
