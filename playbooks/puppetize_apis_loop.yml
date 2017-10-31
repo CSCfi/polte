@@ -16,3 +16,7 @@
         insertafter: import\ sys
         line: "sys.argv.append('--insecure')"
       ignore_errors: true
+# TODO: AND through api group rather than individual nodes
+# TODO: see if role could be swapped to be played last and thus failing could be done by vanilla ansible-role-puppetize/master
+    - fail:
+      when: hostvars['api-node0'].puppetize_result.rc != 0 and hostvars['api-node1'].puppetize_result.rc != 0
