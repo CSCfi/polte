@@ -14,7 +14,7 @@ pipeline {
                 echo 'Building Heat stack'
                 sh '''
                     mkdir -p .ssh/cm_socket
-                    echo "export PUPPET_ENVIRONMENT=cpouta" > puppet_env.sh
+                    echo "export PUPPET_ENVIRONMENT=epouta" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
                 '''
@@ -82,12 +82,6 @@ pipeline {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-compute.sh
-                    '''
-                },
-                "Puppetize object nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-obj.sh
                     '''
                 })
             }

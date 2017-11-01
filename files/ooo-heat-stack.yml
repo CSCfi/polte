@@ -101,6 +101,9 @@ parameters:
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
+  create_obj_nodes:
+    type: boolean
+    default: false
 
 resources:
   backend_secgroup:
@@ -319,6 +322,7 @@ resources:
           ooo_frontend_secgroup: { get_resource: frontend_secgroup }
 
   obj_nodes:
+    condition: obj_cond
     type: OS::Heat::ResourceGroup
     properties:
       count: {get_param: obj_server_count}
@@ -466,6 +470,7 @@ outputs:
     description: The group of API nodes
     value: { get_attr: [api_nodes, show] }
   obj_nodes_group:
+    condition: obj_cond
     description: The group of object storage nodes
     value: { get_attr: [obj_nodes, show] }
   ceph_mon_nodes_group:
@@ -486,3 +491,7 @@ outputs:
   compute_nodes_group:
     description: The group of compute nodes
     value: { get_attr: [compute_nodes, show] }
+
+conditions:
+  obj_cond:
+    get_param: create_obj_nodes
