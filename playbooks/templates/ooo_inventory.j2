@@ -3,10 +3,12 @@
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
 {% endfor %}
 
+{% if groups['obj'] is defined %}
 [obj]
 {% for node in groups['obj'] %}
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
 {% endfor %}
+{% endif %}
 
 [mons]
 {% for node in groups['cephmon'] %}
