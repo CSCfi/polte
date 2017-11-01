@@ -6,7 +6,7 @@ pipeline {
             steps {
                 echo 'Building Heat stack'
                 sh '''
-                    echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
+                    echo "export PUPPET_ENVIRONMENT=cccp_master_epouta" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
                 '''
@@ -68,14 +68,6 @@ pipeline {
                         source puppetize-compute.sh
                     '''
                 })
-            }
-        }
-        stage('Post-API puppetize') {
-            steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-obj.sh
-                '''
             }
         }
         stage('Cleanup and Horizon mods') {

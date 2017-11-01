@@ -101,6 +101,10 @@ parameters:
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
+  env_type:
+    type: string
+    default: 'epouta'
+#    allowed_values: ['cpouta', 'epouta']
 
 resources:
   backend_secgroup:
@@ -304,6 +308,7 @@ resources:
           ooo_frontend_secgroup: { get_resource: frontend_secgroup }
 
   obj_nodes:
+    condition: 'for_cpouta'
     type: OS::Heat::ResourceGroup
     properties:
       count: {get_param: obj_server_count}
@@ -450,9 +455,10 @@ outputs:
   api_nodes_group:
     description: The group of API nodes
     value: { get_attr: [api_nodes, show] }
-  obj_nodes_group:
-    description: The group of object storage nodes
-    value: { get_attr: [obj_nodes, show] }
+#  obj_nodes_group:
+#    description: The group of object storage nodes
+#    value: { get_attr: [obj_nodes, show] }
+#    condition: 'for_cpouta'
   ceph_mon_nodes_group:
     description: The group of Ceph monitor nodes
     value: { get_attr: [ceph_mon_nodes, show] }
@@ -471,3 +477,7 @@ outputs:
   compute_nodes_group:
     description: The group of compute nodes
     value: { get_attr: [compute_nodes, show] }
+
+conditions: {
+  'for_cpouta': {equals: [{get_param: env_type}, 'cpouta']}
+}
