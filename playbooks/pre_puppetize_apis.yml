@@ -19,6 +19,18 @@
     - shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
         creates: /usr/bin/pip-python
+# workaround: use insecure in all /bin/openstack calls due to self-signed cert, modify periodically
+    - cron:
+        name: "inject insecure flag to /bin/openstack"
+        user: root
+        job: perl -i -0pe "s/import\ sys\n\n/import\ sys\nsys.argv.append('--insecure')\n\n/" /bin/openstack
+# workaround: preinstall openstack CLI
+    - yum:
+        name: centos-release-openstack-newton
+        state: present
+    - yum:
+        name: python-openstackclient
+        state: present
 # workaround: Create NFS share for glance
     - file:
         path: /srv/glance_nfs/cloud_devel
