@@ -4,9 +4,6 @@
   become_user: root
   pre_tasks:
     - shell: iptables -F
-    - name: workaround - assign admin role to service members
-      shell: source /root/openrc.admintoken;openstack role add --project service --group service admin
-      ignore_errors: true
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
   post_tasks:

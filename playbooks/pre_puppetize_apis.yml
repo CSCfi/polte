@@ -19,11 +19,11 @@
     - shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
         creates: /usr/bin/pip-python
-# workaround: use insecure in all /bin/openstack calls due to self-signed cert, modify periodically
+# workaround: Add admin role outside of puppet code
     - cron:
-        name: "inject insecure flag to /bin/openstack"
+        name: Add admin role to service group
         user: root
-        job: perl -i -0pe "s/import\ sys\n\n/import\ sys\nsys.argv.append('--insecure')\n\n/" /bin/openstack
+        job: source /root/openrc.admintoken;openstack role add --project service --group service admin
 # workaround: preinstall openstack CLI
     - yum:
         name: centos-release-openstack-newton
