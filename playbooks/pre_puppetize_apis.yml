@@ -26,11 +26,6 @@
         recurse: yes
         mode: 0755
     - meta: clear_host_errors
-# use insecure in all /bin/openstack calls due to self-signed cert. inject ASAP
-    - cron:
-        name: "inject insecure flag to /bin/openstack"
-        user: root
-        job: perl -i -0pe "s/import\ sys\n\n/import\ sys\nsys.argv.append('--insecure')\n\n/" /bin/openstack
   roles:
     - { role: ansible-role-nfs, nfs_exports: { "/srv/glance_nfs/cloud_devel *(rw,sync,no_root_squash)" } }
 
