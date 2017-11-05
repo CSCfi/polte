@@ -3,6 +3,10 @@
 An Ansible playbook for creating a Heat stack for hosting various OpenStack
 components.
 
+This playbook is intended for providing a minimal environment for development
+purposes. It disables certain features, such as Pacemaker. Thus it is not
+suitable for deploying production environments.
+
 ## Requirements
 
 * ansible >= 2.3
