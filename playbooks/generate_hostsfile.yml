@@ -1,4 +1,12 @@
 ---
+# workaround: SELinux blocks rabbitmq HiPE compilation and httpd
+- hosts: api
+  become: yes
+  become_user: root
+  gather_facts: no
+  tasks:
+    - shell: sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+
 - hosts: all:!puppet
   become: yes
   become_user: root

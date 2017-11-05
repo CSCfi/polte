@@ -4,12 +4,6 @@
   become_user: root
   pre_tasks:
     - shell: iptables -F
-    - name: workaround - use insecure in all /bin/openstack calls due to self-signed cert
-      lineinfile:
-        path: /bin/openstack
-        insertafter: import\ sys
-        line: "sys.argv.append('--insecure')"
-      ignore_errors: true
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
   post_tasks:

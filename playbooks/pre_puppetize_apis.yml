@@ -4,17 +4,17 @@
   become: true
   become_user: root
   pre_tasks:
-# workaround: SELinux blocks rabbitmq HiPE compilation and httpd
-    - shell: sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
-    - shell: sleep 5 && shutdown -r now
-      async: 1
-      poll: 0
-      args:
-        creates: /usr/bin/pip-python
-      ignore_errors: true
-    - meta: clear_host_errors
-    - pause:
-        seconds: 30
+# # workaround: SELinux blocks rabbitmq HiPE compilation and httpd
+#     - shell: sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
+#     - shell: sleep 5 && shutdown -r now
+#       async: 1
+#       poll: 0
+#       args:
+#         creates: /usr/bin/pip-python
+#       ignore_errors: true
+#     - meta: clear_host_errors
+#     - pause:
+#         seconds: 30
 # workaround: pip provider fails
     - shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
@@ -31,6 +31,12 @@
     - yum:
         name: python-openstackclient
         state: present
+    - name: use insecure in all /bin/openstack calls due to self-signed cert
+      lineinfile:
+        path: /bin/openstack
+        insertafter: import\ sys
+        line: "sys.argv.append('--insecure')"
+      ignore_errors: true
 # workaround: Create NFS share for glance
     - file:
         path: /srv/glance_nfs/cloud_devel
@@ -40,5 +46,3 @@
     - meta: clear_host_errors
   roles:
     - { role: ansible-role-nfs, nfs_exports: { "/srv/glance_nfs/cloud_devel *(rw,sync,no_root_squash)" } }
-
-
