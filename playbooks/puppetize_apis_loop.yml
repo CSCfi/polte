@@ -4,18 +4,9 @@
   become_user: root
   pre_tasks:
     - shell: iptables -F
-    - name: workaround - assign admin role to service members
-      shell: source /root/openrc.admintoken;openstack role add --project service --group service admin
-      ignore_errors: true
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
   post_tasks:
-    - name: workaround - use insecure in all /bin/openstack calls due to self-signed cert
-      lineinfile:
-        path: /bin/openstack
-        insertafter: import\ sys
-        line: "sys.argv.append('--insecure')"
-      ignore_errors: true
 # Rationale: If either puppetize completes, convergence has occurred and the other failure is probably puppetmaster acting up.
 # TODO: AND through api group rather than individual nodes
 # TODO: see if role could be swapped to be played last and thus failing could be done by vanilla ansible-role-puppetize/master
