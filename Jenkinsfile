@@ -7,6 +7,7 @@ pipeline {
                 echo 'Building Heat stack'
                 sh '''
                     cp /tmp/buildscripts/*.sh .
+                    echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
                     source build.sh
                 '''
             }
