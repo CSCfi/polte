@@ -54,6 +54,13 @@ resources:
         - network: { get_param: ext_network_name }
         - network: { get_param: proj_network_name }
       metadata: { 'ansible_group': 'net' }
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          params:
+            $hostname: { get_param: [net_node_names, {get_param: index}] }
+            $nameservers: { get_param: cloud_init_nameservers }
+          template: { get_file: user-data-generic.yaml }
 
   net_public_ip:
     type: OS::Nova::FloatingIP
