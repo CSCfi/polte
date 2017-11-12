@@ -229,9 +229,9 @@ resources:
         properties:
           index: "%index%"
           net_node_names: { get_param: net_node_names }
-          proj_network_name: { get_resource: proj_network }
-          ext_network_name: { get_resource: ext_network }
           mgmt_network_name: { get_resource: mgmt_network }
+          ext_network_name: { get_resource: ext_network }
+          proj_network_name: { get_resource: proj_network }
           ooo_network_secgroup: { get_resource: network_secgroup }
 
   galera_nodes:

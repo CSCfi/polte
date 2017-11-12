@@ -24,8 +24,8 @@
 
     # In the next task, addresses[0] or addresses.0 did not
     # work for some reason.
-    # 
-    # shifted for netnode testing
+    #
+    # shifted for network node testing
     - debug: msg="{{ heat_stack.stack.outputs[1].output_value[0].addresses.keys()[0] }}"
       register: second_found_network
 
