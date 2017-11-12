@@ -24,14 +24,16 @@
 
     # In the next task, addresses[0] or addresses.0 did not
     # work for some reason.
-    - debug: msg="{{ heat_stack.stack.outputs[0].output_value[0].addresses.keys()[0] }}"
-      register: first_found_network
+    # 
+    # shifted for netnode testing
+    - debug: msg="{{ heat_stack.stack.outputs[1].output_value[0].addresses.keys()[0] }}"
+      register: second_found_network
 
     - name: Add Galera nodes to inventory
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[first_found_network.msg][0].addr }}"
+        ansible_ssh_host: "{{ item.addresses[second_found_network.msg][0].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -46,7 +48,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[first_found_network.msg][0].addr }}"
+        ansible_ssh_host: "{{ item.addresses[second_found_network.msg][0].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -61,7 +63,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[first_found_network.msg][1].addr }}"
+        ansible_ssh_host: "{{ item.addresses[second_found_network.msg][1].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
@@ -76,7 +78,7 @@
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
-        ansible_ssh_host: "{{ item.addresses[first_found_network.msg][0].addr }}"
+        ansible_ssh_host: "{{ item.addresses[second_found_network.msg][0].addr }}"
         ansible_ssh_user: "{{ vm_user_account }}"
       no_log: yes
       with_items:
