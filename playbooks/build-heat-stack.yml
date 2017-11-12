@@ -36,6 +36,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "galera"
 
     - name: Add api nodes to inventory
@@ -50,6 +51,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "api"
 
     - name: Add puppet node to inventory
@@ -64,6 +66,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "puppet"
 
     - name: Add LDAP node to inventory
@@ -78,6 +81,7 @@
         - "{{ heat_stack.stack.outputs[1].output_value }}"
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "ldap"
 
     - name: Generate an inventory file

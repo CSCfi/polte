@@ -310,15 +310,15 @@ resources:
       server_id: { get_resource: puppet_node }
 
 outputs:
+  galera_nodes_group:
+    description: The group of Galera nodes
+    value: { get_attr: [galera_nodes, show] }
   api_nodes_group:
     description: The group of API nodes
     value: { get_attr: [api_nodes, show] }
   net_nodes_group:
     description: The group of network nodes
     value: { get_attr: [net_nodes, show] }
-  galera_nodes_group:
-    description: The group of Galera nodes
-    value: { get_attr: [galera_nodes, show] }
   puppet_node:
     description: The puppet node
     value: { get_attr: [puppet_node, show] }
