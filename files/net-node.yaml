@@ -12,9 +12,11 @@ parameters:
   net_node_flavor:
     description: The flavor to use for the VMs running OpenStack network nodes.
     type: string
+    default: 'io.70GB'
   net_node_image:
     description: The image to use for the VMs running OpenStack network nodes.
     type: string
+    default: 'CentOS-7'
   ext_network_name:
     description: The network to use for the VMs.
     type: string
@@ -24,9 +26,9 @@ parameters:
   proj_network_name:
     description: The network to use for project networks.
     type: string
-  proj_subnet_name:
-    description: The subnet to use for project networks.
-    type: string
+#  proj_subnet_name:
+#    description: The subnet to use for project networks.
+#    type: string
   floating_ip_pool:
     type: string
     label: Floating IP pool
@@ -45,7 +47,7 @@ resources:
       image: { get_param: net_node_image }
       key_name: { get_param: ssh_key_name }
       security_groups:
-        - ooo_network_secgroup
+        -  { get_param: ooo_network_secgroup }
       name: { get_param: [net_node_names, {get_param: index}] }
       networks:
         - network: { get_param: mgmt_network_name }
