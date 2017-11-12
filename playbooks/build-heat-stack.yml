@@ -59,6 +59,21 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "api"
 
+    - name: Add net nodes to inventory
+      add_host:
+        name: "{{ item.name }}"
+        groups: "{{ item.metadata.ansible_group }}"
+        ansible_ssh_host: "{{ item.addresses[second_found_network.msg][0].addr }}"
+        ansible_ssh_user: "{{ vm_user_account }}"
+      no_log: yes
+      with_items:
+        - "{{ heat_stack.stack.outputs[0].output_value }}"
+        - "{{ heat_stack.stack.outputs[1].output_value }}"
+        - "{{ heat_stack.stack.outputs[2].output_value }}"
+        - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
+      when: item.metadata.ansible_group == "net"
+
     - name: Add puppet node to inventory
       add_host:
         name: "{{ item.name }}"
