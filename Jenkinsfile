@@ -64,12 +64,20 @@ pipeline {
                 })
             }
         }
-        stage('Puppetize APIs') {
+        stage('Parallel extnet nodes') {
             steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-api.sh
-                '''
+                parallel("Puppetize APIs": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-api.sh
+                    '''
+                },
+                "Puppetize net nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-net.sh
+                    '''
+                })
             }
         }
         stage('Post-puppetize actions') {
