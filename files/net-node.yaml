@@ -12,11 +12,9 @@ parameters:
   net_node_flavor:
     description: The flavor to use for the VMs running OpenStack network nodes.
     type: string
-    default: 'io.70GB'
   net_node_image:
     description: The image to use for the VMs running OpenStack network nodes.
     type: string
-    default: 'CentOS-7'
   ext_network_name:
     description: The network to use for the VMs.
     type: string

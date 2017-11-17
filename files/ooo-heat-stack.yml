@@ -55,7 +55,6 @@ parameters:
   proj_subnet_cidr:
     type: string
     description: The CIDR of the proj subnet of NET nodes.
-    default: '10.3.3.0/24'
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
