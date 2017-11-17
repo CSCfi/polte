@@ -20,9 +20,14 @@
 
 # Puppetize API nodes
 - include: playbooks/pre_puppetize_apis.yml
-- include: playbooks/puppetize_apis_loop.yml # init
-- include: playbooks/puppetize_apis_loop.yml # cluster formation
-- include: playbooks/puppetize_apis_loop.yml # openstack cli gets added only after this 3rd run
-- include: playbooks/puppetize_apis_loop.yml # first run to accept selfsigned certs
-- include: playbooks/puppetize_apis_loop.yml # first run with admin role for service project
+- include: playbooks/puppetize_apis_loop.yml # fails quite fast
+- include: playbooks/puppetize_apis_loop.yml # fails quite fast
+- include: playbooks/puppetize_apis_loop.yml # typically runs for more than an hour and does not succeed - fastest strategy seems to be to timeout this 3rd run after 20 minutes or so
+- include: playbooks/puppetize_apis_loop.yml # first run to succeed
+
+# Puppetize net nodes
+- include: playbooks/puppetize_nets.yml
+- include: playbooks/puppetize_nets.yml
+
+# Post puppetize actions
 - include: playbooks/post_puppetize_apis.yml
