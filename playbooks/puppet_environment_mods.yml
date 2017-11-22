@@ -31,7 +31,7 @@
     - name: workaround - disable pacemaker
       shell: 'sed -i "s/\(^\s*ensure.*running\)/#\1/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/ha/pacemaker/common.pp'
     - name: workaround - remove reference to cs_primitive
-      shell: 'sed -i "/\'pri_cinder_volume/,+34d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp'
+      shell: 'sed -i "/''pri_cinder_volume/,+34d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp'
     - name: fix issue in openrc.admintoken leaving extra space character into pwd
       shell: sed -i "s/)$/\|awk '{\$1=\$1};1')/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/keystone/openrc.admintoken.erb"
     - name: workaround - disable formatter workaround dependency of pacemaker
