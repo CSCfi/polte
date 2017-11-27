@@ -4,18 +4,13 @@ An Ansible playbook for creating a Heat stack for hosting various OpenStack
 components.
 
 This playbook is intended for providing a minimal environment for development
-purposes. It disables certain features, such as Pacemaker. Thus it is not
+purposes. It disables certain HA features, such as Pacemaker. Thus it is not
 suitable for deploying production environments.
 
 ## Requirements
 
 * ansible >= 2.3
 * shade >= 1.8.0
-
-## Caveats
-
-SSH agent is forwarded to all connections. Think about what kind of keys you
-are forwarding and modify this behavior if necessary.
 
 ## Installation
 
