@@ -55,3 +55,8 @@
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
     - name: optimization - disable cinder debug logging
       shell: 'sed -i "s/\(.*debug.*\)true/\1false/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"'
+    - name: workaround - modify db connection strings since tunneling doesn't work
+      shell: 'sed -i "s/localhost/galera-node0.openstacklocal/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp'
+      with_items:
+        - magnum
+        - barbican
