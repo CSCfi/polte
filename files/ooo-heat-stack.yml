@@ -263,6 +263,20 @@ resources:
           ext_network_name: { get_resource: ext_network }
           ooo_frontend_secgroup: { get_resource: frontend_secgroup }
 
+  obj_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: obj_server_count}
+      resource_def:
+        type: obj-node.yaml
+        properties:
+          index: "%index%"
+          obj_node_names: { get_param: obj_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ext_network_name: { get_resource: ext_network }
+          proj_network_name: { get_resource: proj_network }
+          ooo_object_secgroup: { get_resource: object_secgroup }
+
   ceph_mon_nodes:
     type: OS::Heat::ResourceGroup
     properties:

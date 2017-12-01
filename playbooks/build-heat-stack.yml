@@ -82,7 +82,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "cephmon"
 
-    - name: Add obj nodes to inventory
+    - name: Add Ceph osd nodes to inventory
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
