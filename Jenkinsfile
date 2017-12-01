@@ -77,6 +77,12 @@ pipeline {
                     sh '''
                         source puppetize-obj.sh
                     '''
+                },
+                "Ansiblize Ceph monitor nodes": {
+                    echo 'Ansiblizing'
+                    sh '''
+                        source ansible-mon.sh
+                    '''
                 })
             }
         }
