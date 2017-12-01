@@ -230,6 +230,7 @@ resources:
           obj_node_names: { get_param: obj_node_names }
           mgmt_network_name: { get_resource: mgmt_network }
           ext_network_name: { get_resource: ext_network }
+          proj_network_name: { get_resource: proj_network }
           ooo_object_secgroup: { get_resource: object_secgroup }
 
   galera_nodes:
