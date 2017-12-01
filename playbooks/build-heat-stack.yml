@@ -19,7 +19,7 @@
         environment:
           - "{{ heat_environment_file }}"
 
-    - debug: msg="{{ heat_stack.stack.outputs[0].output_value[0].addresses.keys()[1] }}"
+    - debug: msg="{{ heat_stack.stack.outputs[0].output_value[0].addresses.keys()[0] }}"
       register: magic_index_network
 
     - name: Add Galera nodes to inventory
