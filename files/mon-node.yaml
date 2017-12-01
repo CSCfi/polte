@@ -10,10 +10,10 @@ parameters:
     description: The name of the SSH key in OpenStack to add to hosts.
     type: string
   ceph_mon_node_flavor:
-    description: The flavor to use for the VMs running OpenStack object nodes.
+    description: The flavor to use for the VMs running Ceph monitor nodes.
     type: string
   ceph_mon_node_image:
-    description: The image to use for the VMs running OpenStack object nodes.
+    description: The image to use for the VMs running Ceph monitor nodes.
     type: string
   mgmt_network_name:
     description: The network to use for the VMs.
@@ -27,7 +27,7 @@ parameters:
     description: The nameservers to configure via cloud-init.
 
 resources:
-  obj_node:
+  mon_node:
     type: OS::Nova::Server
     properties:
       flavor: { get_param: ceph_mon_node_flavor }
@@ -49,4 +49,4 @@ resources:
 
 outputs:
   show:
-    value: {get_attr: [obj_node, show]}
+    value: {get_attr: [mon_node, show]}
