@@ -372,6 +372,12 @@ outputs:
   obj_nodes_group:
     description: The group of object storage nodes
     value: { get_attr: [obj_nodes, show] }
+  ceph_mon_nodes_group:
+    description: The group of Ceph monitor nodes
+    value: { get_attr: [ceph_mon_nodes, show] }
+  ceph_osd_nodes_group:
+    description: The group of Ceph OSD nodes
+    value: { get_attr: [ceph_osd_nodes, show] }
   puppet_node:
     description: The puppet node
     value: { get_attr: [puppet_node, show] }
