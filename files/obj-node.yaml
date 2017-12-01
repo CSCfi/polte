@@ -9,11 +9,11 @@ parameters:
   ssh_key_name:
     description: The name of the SSH key in OpenStack to add to hosts.
     type: string
-  net_node_flavor:
-    description: The flavor to use for the VMs running OpenStack network nodes.
+  obj_node_flavor:
+    description: The flavor to use for the VMs running OpenStack object nodes.
     type: string
-  net_node_image:
-    description: The image to use for the VMs running OpenStack network nodes.
+  obj_node_image:
+    description: The image to use for the VMs running OpenStack object nodes.
     type: string
   ext_network_name:
     description: The network to use for the VMs.
@@ -29,48 +29,47 @@ parameters:
     label: Floating IP pool
     description: The pool from which floating IPs should be reserved.
     default: 'public'
-  net_node_names:
+  obj_node_names:
     type: comma_delimited_list
-  ooo_network_secgroup:
+  ooo_object_secgroup:
     type: string
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
 
 resources:
-  net_node:
+  obj_node:
     type: OS::Nova::Server
     properties:
-      flavor: { get_param: net_node_flavor }
-      image: { get_param: net_node_image }
+      flavor: { get_param: obj_node_flavor }
+      image: { get_param: obj_node_image }
       key_name: { get_param: ssh_key_name }
       security_groups:
-        -  { get_param: ooo_network_secgroup }
-      name: { get_param: [net_node_names, {get_param: index}] }
+        -  { get_param: ooo_object_secgroup }
+      name: { get_param: [obj_node_names, {get_param: index}] }
       networks:
         - network: { get_param: mgmt_network_name }
         - network: { get_param: ext_network_name }
-        - network: { get_param: proj_network_name }
-      metadata: { 'ansible_group': 'net' }
+      metadata: { 'ansible_group': 'obj' }
       user_data_format: RAW
       user_data:
         str_replace:
           params:
-            $hostname: { get_param: [net_node_names, {get_param: index}] }
+            $hostname: { get_param: [obj_node_names, {get_param: index}] }
             $nameservers: { get_param: cloud_init_nameservers }
           template: { get_file: user-data-generic.yaml }
 
-  net_public_ip:
+  obj_public_ip:
     type: OS::Nova::FloatingIP
     properties:
       pool: { get_param: floating_ip_pool }
 
-  net_floating_ip_association:
+  obj_floating_ip_association:
     type: OS::Nova::FloatingIPAssociation
     properties:
-      floating_ip: { get_resource: net_public_ip }
-      server_id: { get_resource: net_node }
+      floating_ip: { get_resource: obj_public_ip }
+      server_id: { get_resource: obj_node }
 
 outputs:
   show:
-    value: {get_attr: [net_node, show]}
+    value: {get_attr: [obj_node, show]}

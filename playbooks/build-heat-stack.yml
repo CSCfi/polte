@@ -56,7 +56,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
       when: item.metadata.ansible_group == "api"
 
-    - name: Add net nodes to inventory
+    - name: Add obj nodes to inventory
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
@@ -69,7 +69,7 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
-      when: item.metadata.ansible_group == "net"
+      when: item.metadata.ansible_group == "obj"
 
     - name: Add puppet node to inventory
       add_host:

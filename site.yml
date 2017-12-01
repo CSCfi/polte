@@ -26,8 +26,8 @@
 - include: playbooks/puppetize_apis_loop.yml # first run to succeed
 
 # Puppetize net nodes
-- include: playbooks/puppetize_nets.yml
-- include: playbooks/puppetize_nets.yml
+- include: playbooks/puppetize_objs.yml
+- include: playbooks/puppetize_objs.yml
 
 # Post puppetize actions
 - include: playbooks/post_puppetize_apis.yml
