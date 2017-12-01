@@ -72,10 +72,10 @@ pipeline {
                         source puppetize-api.sh
                     '''
                 },
-                "Puppetize net nodes": {
+                "Puppetize obj nodes": {
                     echo 'Puppetizing'
                     sh '''
-                        source puppetize-net.sh
+                        source puppetize-obj.sh
                     '''
                 })
             }
