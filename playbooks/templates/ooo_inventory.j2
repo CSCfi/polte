@@ -3,8 +3,8 @@
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
 {% endfor %}
 
-[net]
-{% for node in groups['net'] %}
+[obj]
+{% for node in groups['obj'] %}
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
 {% endfor %}
 
