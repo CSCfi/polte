@@ -35,6 +35,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "galera"
 
     - name: Add api nodes to inventory
@@ -50,6 +52,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "api"
 
     - name: Add obj nodes to inventory
@@ -65,6 +69,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "obj"
 
     - name: Add Ceph mon nodes to inventory
@@ -80,6 +86,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "cephmon"
 
     - name: Add Ceph osd nodes to inventory
@@ -95,6 +103,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "cephosd"
 
     - name: Add puppet node to inventory
@@ -110,6 +120,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "puppet"
 
     - name: Add LDAP node to inventory
@@ -125,6 +137,8 @@
         - "{{ heat_stack.stack.outputs[2].output_value }}"
         - "{{ heat_stack.stack.outputs[3].output_value }}"
         - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
       when: item.metadata.ansible_group == "ldap"
 
     - name: Generate an inventory file
