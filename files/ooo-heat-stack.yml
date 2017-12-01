@@ -283,7 +283,7 @@ resources:
         type: osd-node.yaml
         properties:
           index: "%index%"
-          ceph_mon_node_names: { get_param: ceph_osd_node_names }
+          ceph_osd_node_names: { get_param: ceph_osd_node_names }
           mgmt_network_name: { get_resource: mgmt_network }
           ooo_osd_secgroup: { get_resource: ceph_osd_secgroup }
 
