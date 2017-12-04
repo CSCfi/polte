@@ -6,3 +6,6 @@ monitor_interface: eth0
 public_network: "10.99.99.0/24"
 osd_scenario: collocated
 radosgw_interface: eth0
+devices:
+  - /dev/vdb
+
