@@ -148,6 +148,7 @@ resources:
       rules:
         - protocol: icmp
         - protocol: tcp
+        - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
           port_range_min: 22
           port_range_max: 22
@@ -177,6 +178,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
           port_range_min: 22
