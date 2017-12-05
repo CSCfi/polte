@@ -7,3 +7,4 @@ public_network: "10.99.99.0/24"
 osd_scenario: collocated
 radosgw_interface: eth0
 fsid: "12345678-90ab-cdef-1234-567890abcdef"
+generate_fsid: false
