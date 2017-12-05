@@ -39,6 +39,12 @@ pipeline {
                     sh '''
                         source api-pre.sh
                     '''
+                },
+                "Bootstrap Ceph nodes": {
+                    echo 'Ansiblizing'
+                    sh '''
+                        source ceph-ansible.sh
+                    '''
                 })
             }
         }
@@ -76,12 +82,6 @@ pipeline {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
-                    '''
-                },
-                "Ansiblize Ceph monitor nodes": {
-                    echo 'Ansiblizing'
-                    sh '''
-                        source ansible-mon.sh
                     '''
                 })
             }
