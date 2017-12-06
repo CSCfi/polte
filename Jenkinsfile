@@ -70,20 +70,20 @@ pipeline {
                 })
             }
         }
-        stage('Parallel extnet nodes') {
+        stage('Puppetize API nodes') {
             steps {
-                parallel("Puppetize APIs": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-api.sh
-                    '''
-                },
-                "Puppetize obj nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-obj.sh
-                    '''
-                })
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-api.sh
+                '''
+            }
+        }
+        stage('Puppetize object storage nodes') {
+            steps {
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-obj.sh
+                '''
             }
         }
         stage('Post-puppetize actions') {
