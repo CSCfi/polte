@@ -3,16 +3,20 @@
 parameter_defaults:
   ssh_key_name: frank
 
-  api_node_flavor:    io.70GB
-  api_node_image:     CentOS-7
-  galera_node_flavor: io.70GB
-  galera_node_image:  CentOS-7
-  puppet_node_flavor: io.70GB
-  puppet_node_image:  CentOS-7
-  ldap_node_flavor:   io.70GB
-  ldap_node_image:    CentOS-7
-  obj_node_flavor:    io.70GB
-  obj_node_image:     CentOS-7
+  api_node_flavor:      standard.large
+  api_node_image:       CentOS-7
+  galera_node_flavor:   standard.tiny
+  galera_node_image:    CentOS-7
+  puppet_node_flavor:   standard.medium
+  puppet_node_image:    CentOS-7
+  ldap_node_flavor:     standard.tiny
+  ldap_node_image:      CentOS-7
+  obj_node_flavor:      standard.tiny
+  obj_node_image:       CentOS-7
+  ceph_mon_node_flavor: standard.small
+  ceph_mon_node_image:  CentOS-7
+  ceph_osd_node_flavor: io.70GB
+  ceph_osd_node_image:  CentOS-7
 
   jumphost_allow_ssh_cidr: X.Y.Z.V/32
   mgmt_subnet_cidr:        S.P.Q.R/24
