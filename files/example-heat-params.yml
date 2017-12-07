@@ -7,7 +7,7 @@ parameter_defaults:
   api_node_image:       CentOS-7
   galera_node_flavor:   standard.tiny
   galera_node_image:    CentOS-7
-  puppet_node_flavor:   standard.medium
+  puppet_node_flavor:   standard.large
   puppet_node_image:    CentOS-7
   ldap_node_flavor:     standard.tiny
   ldap_node_image:      CentOS-7
