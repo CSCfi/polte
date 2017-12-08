@@ -7,6 +7,13 @@ This playbook is intended for providing a minimal environment for development
 purposes. It disables certain HA features, such as Pacemaker. Thus it is not
 suitable for deploying production environments.
 
+## Caveats
+
+* The ceph nodes are not currently provisioned by site.yml
+* Running site.yml may take a long time. Before root cause is fixed, consider
+  halting the 3rd puppetize run of the API nodes after about 15 minutes for
+  fastest results.
+
 ## Requirements
 
 * ansible >= 2.3
