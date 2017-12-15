@@ -1,5 +1,6 @@
 ---
 ansible_ssh_common_args: "-o ProxyCommand='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
+
 ceph_origin: distro
 ceph_stable_release: jewel
 monitor_interface: eth0
@@ -26,13 +27,85 @@ openstack_radosgw_pool:
   name: radosgw-devel
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+openstack_radosgw_root_pool:
+  name: .rgw.root
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_control_pool:
+  name: fi-polte-devel.rgw.control
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_data_root_pool:
+  name: fi-polte-devel.rgw.data.root
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_gc_pool:
+  name: fi-polte-devel.rgw.gc
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_log_pool:
+  name: fi-polte-devel.rgw.log
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_intent_log_pool:
+  name: fi-polte-devel.rgw.intent-log
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_usage_pool:
+  name: fi-polte-devel.rgw.usage
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_users_keys_pool:
+  name: fi-polte-devel.rgw.users.keys
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_users_email_pool:
+  name: fi-polte-devel.rgw.users.email
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_users_swift_pool:
+  name: fi-polte-devel.rgw.users.swift
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_users_uid_pool:
+  name: fi-polte-devel.rgw.users.uid
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_buckets_index_pool:
+  name: fi-polte-devel.rgw.buckets.index
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_buckets_data_pool:
+  name: fi-polte-devel.rgw.buckets.data
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+openstack_radosgw_meta_pool:
+  name: fi-polte-devel.rgw.meta
+  pg_num: "{{ osd_pool_default_pg_num }}"
+  rule_name: ""
+
 openstack_pools:
   - "{{ openstack_glance_pool }}"
   - "{{ openstack_cinder_pool }}"
   - "{{ openstack_nova_pool }}"
   - "{{ openstack_radosgw_pool }}"
+  - "{{ openstack_radosgw_root_pool }}"
+  - "{{ openstack_radosgw_control_pool }}"
+  - "{{ openstack_radosgw_data_root_pool }}"
+  - "{{ openstack_radosgw_gc_pool }}"
+  - "{{ openstack_radosgw_log_pool }}"
+  - "{{ openstack_radosgw_intent_log_pool }}"
+  - "{{ openstack_radosgw_usage_pool }}"
+  - "{{ openstack_radosgw_users_keys_pool }}"
+  - "{{ openstack_radosgw_users_email_pool }}"
+  - "{{ openstack_radosgw_users_swift_pool }}"
+  - "{{ openstack_radosgw_users_uid_pool }}"
+  - "{{ openstack_radosgw_buckets_index_pool }}"
+  - "{{ openstack_radosgw_buckets_data_pool }}"
+  - "{{ openstack_radosgw_meta_pool }}"
+
 openstack_keys:
   - { name: client.glance-devel, key: "{{ vault_glance_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_glance_pool.name }}", mode: "0600", acls: [] }
   - { name: client.cinder-devel, key: "{{ vault_cinder_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_cinder_pool.name }}, allow rwx pool={{ openstack_nova_pool.name }}, allow rx pool={{ openstack_glance_pool.name }}", mode: "0600", acls: []  }
   - { name: client.nova-devel, key: "{{ vault_nova_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_glance_pool.name }}, allow rwx pool={{ openstack_nova_pool.name }}, allow rwx pool={{ openstack_cinder_pool.name }}", mode: "0600", acls: [] }
-  - { name: client.radosgw-devel, key: "{{ vault_radosgw_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_radosgw_pool.name }}", mode: "0600", acls: [] }
+  - { name: client.radosgw-devel, key: "{{ vault_radosgw_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_radosgw_pool.name }}, allow rwx pool={{ openstack_radosgw_root_pool.name }}, allow rwx pool={{ openstack_radosgw_control_pool.name }}, allow rwx pool={{ openstack_radosgw_data_root_pool.name }}, allow rwx pool={{ openstack_radosgw_gc_pool.name }}, allow rwx pool={{ openstack_radosgw_log_pool.name }}, allow rwx pool={{ openstack_radosgw_intent_log_pool.name }}, allow rwx pool={{ openstack_radosgw_usage_pool.name }}, allow rwx pool={{ openstack_radosgw_users_keys_pool.name }}, allow rwx pool={{ openstack_radosgw_users_email_pool.name }}, allow rwx pool={{ openstack_radosgw_users_swift_pool.name }}, allow rwx pool={{ openstack_radosgw_users_uid_pool.name }}, allow rwx pool={{ openstack_radosgw_buckets_index_pool.name }}, allow rwx pool={{ openstack_radosgw_buckets_data_pool.name }}, allow rwx pool={{ openstack_radosgw_meta_pool.name }}", mode: "0600", acls: [] }
