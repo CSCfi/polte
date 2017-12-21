@@ -29,10 +29,10 @@ openstack_nova_pool:
 #  pg_num: "{{ osd_pool_default_pg_num }}"
 #  rule_name: ""
 
-openstack_radosgw_zonegroup_root_pool:
-  name: fi.rgw.root
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
+#openstack_radosgw_zonegroup_root_pool:
+#  name: fi.rgw.root
+#  pg_num: "{{ osd_pool_default_pg_num }}"
+#  rule_name: ""
 
 openstack_radosgw_data_root_pool_1:
   name: fi-polte-devel.rgw.data.root
@@ -154,7 +154,7 @@ openstack_pools:
   - "{{ openstack_nova_pool }}"
 
 #  - "{{ openstack_radosgw_root_pool }}"
-  - "{{ openstack_radosgw_zonegroup_root_pool }}"
+#  - "{{ openstack_radosgw_zonegroup_root_pool }}"
 
   - "{{ openstack_radosgw_data_root_pool_1 }}"
   - "{{ openstack_radosgw_control_pool_1 }}"
@@ -215,9 +215,10 @@ openstack_keys:
   - { name: client.radosgw.fi-polte-devel,
       key: "{{ vault_radosgw_devel_key }}",
       mon_cap: "allow r",
-      #OMITTED FROM osd_cap: allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      #OMITTED FROM osd_cap:
+      # allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      # allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
       osd_cap: "allow class-read object_prefix rbd_children,
-                allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
                 allow rwx pool={{ openstack_radosgw_data_root_pool_1.name }},
                 allow rwx pool={{ openstack_radosgw_control_pool_1.name }},
                 allow rwx pool={{ openstack_radosgw_gc_pool_1.name }},
@@ -237,9 +238,10 @@ openstack_keys:
   - { name: client.radosgw.fi-polte-devel2,
       key: "{{ vault_radosgw_devel_key_2 }}",
       mon_cap: "allow r",
-      #OMITTED FROM osd_cap: allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      #OMITTED FROM osd_cap:
+      # allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      # allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
       osd_cap: "allow class-read object_prefix rbd_children,
-                allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
                 allow rwx pool={{ openstack_radosgw_data_root_pool_2.name }},
                 allow rwx pool={{ openstack_radosgw_control_pool_2.name }},
                 allow rwx pool={{ openstack_radosgw_gc_pool_2.name }},
