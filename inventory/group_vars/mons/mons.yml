@@ -24,13 +24,13 @@ openstack_nova_pool:
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 
-openstack_radosgw_root_pool:
-  name: .rgw.root
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
+#openstack_radosgw_root_pool:
+#  name: .rgw.root
+#  pg_num: "{{ osd_pool_default_pg_num }}"
+#  rule_name: ""
 
 openstack_radosgw_zonegroup_root_pool:
-  name: fi.root
+  name: fi.rgw.root
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 
@@ -153,7 +153,7 @@ openstack_pools:
   - "{{ openstack_cinder_pool }}"
   - "{{ openstack_nova_pool }}"
 
-  - "{{ openstack_radosgw_root_pool }}"
+#  - "{{ openstack_radosgw_root_pool }}"
   - "{{ openstack_radosgw_zonegroup_root_pool }}"
 
   - "{{ openstack_radosgw_data_root_pool_1 }}"
@@ -187,8 +187,72 @@ openstack_pools:
   - "{{ openstack_radosgw_root_pool_2 }}"
 
 openstack_keys:
-  - { name: client.glance-devel, key: "{{ vault_glance_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_glance_pool.name }}", mode: "0600", acls: [] }
-  - { name: client.cinder-devel, key: "{{ vault_cinder_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_cinder_pool.name }}, allow rwx pool={{ openstack_nova_pool.name }}, allow rx pool={{ openstack_glance_pool.name }}", mode: "0600", acls: []  }
-  - { name: client.nova-devel, key: "{{ vault_nova_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_glance_pool.name }}, allow rwx pool={{ openstack_nova_pool.name }}, allow rwx pool={{ openstack_cinder_pool.name }}", mode: "0600", acls: [] }
-  - { name: client.radosgw.fi-polte-devel, key: "{{ vault_radosgw_devel_key }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_radosgw_root_pool.name }}, allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }}, allow rwx pool={{ openstack_radosgw_data_root_pool_1.name }}, allow rwx pool={{ openstack_radosgw_control_pool_1.name }}, allow rwx pool={{ openstack_radosgw_gc_pool_1.name }}, allow rwx pool={{ openstack_radosgw_log_pool_1.name }}, allow rwx pool={{ openstack_radosgw_intent_log_pool_1.name }}, allow rwx pool={{ openstack_radosgw_usage_pool_1.name }}, allow rwx pool={{ openstack_radosgw_users_keys_pool_1.name }}, allow rwx pool={{ openstack_radosgw_users_email_pool_1.name }}, allow rwx pool={{ openstack_radosgw_users_swift_pool_1.name }}, allow rwx pool={{ openstack_radosgw_users_uid_pool_1.name }}, allow rwx pool={{ openstack_radosgw_buckets_index_pool_1.name }}, allow rwx pool={{ openstack_radosgw_buckets_data_pool_1.name }}, allow rwx pool={{ openstack_radosgw_meta_pool_1.name }}, allow rwx pool={{ openstack_radosgw_root_pool_1.name }}", mode: "0600", acls: [] }
-  - { name: client.radosgw.fi-polte-devel2, key: "{{ vault_radosgw_devel_key_2 }}", mon_cap: "allow r", osd_cap: "allow class-read object_prefix rbd_children, allow rwx pool={{ openstack_radosgw_root_pool.name }}, allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }}, allow rwx pool={{ openstack_radosgw_data_root_pool_2.name }}, allow rwx pool={{ openstack_radosgw_control_pool_2.name }}, allow rwx pool={{ openstack_radosgw_gc_pool_2.name }}, allow rwx pool={{ openstack_radosgw_log_pool_2.name }}, allow rwx pool={{ openstack_radosgw_intent_log_pool_2.name }}, allow rwx pool={{ openstack_radosgw_usage_pool_2.name }}, allow rwx pool={{ openstack_radosgw_users_keys_pool_2.name }}, allow rwx pool={{ openstack_radosgw_users_email_pool_2.name }}, allow rwx pool={{ openstack_radosgw_users_swift_pool_2.name }}, allow rwx pool={{ openstack_radosgw_users_uid_pool_2.name }}, allow rwx pool={{ openstack_radosgw_buckets_index_pool_2.name }}, allow rwx pool={{ openstack_radosgw_buckets_data_pool_2.name }}, allow rwx pool={{ openstack_radosgw_meta_pool_2.name }}, allow rwx pool={{ openstack_radosgw_root_pool_2.name }}", mode: "0600", acls: [] }
+  - { name: client.glance-devel,
+      key: "{{ vault_glance_devel_key }}",
+      mon_cap: "allow r",
+      osd_cap: "allow class-read object_prefix rbd_children,
+                allow rwx pool={{ openstack_glance_pool.name }}",
+                mode: "0600",
+                acls: [] }
+  - { name: client.cinder-devel,
+      key: "{{ vault_cinder_devel_key }}",
+      mon_cap: "allow r",
+      osd_cap: "allow class-read object_prefix rbd_children,
+                allow rwx pool={{ openstack_cinder_pool.name }},
+                allow rwx pool={{ openstack_nova_pool.name }},
+                allow rx pool={{ openstack_glance_pool.name }}",
+                mode: "0600",
+                acls: []  }
+  - { name: client.nova-devel,
+      key: "{{ vault_nova_devel_key }}",
+      mon_cap: "allow r",
+      osd_cap: "allow class-read object_prefix rbd_children,
+                allow rwx pool={{ openstack_glance_pool.name }},
+                allow rwx pool={{ openstack_nova_pool.name }},
+                allow rwx pool={{ openstack_cinder_pool.name }}",
+                mode: "0600",
+                acls: [] }
+  - { name: client.radosgw.fi-polte-devel,
+      key: "{{ vault_radosgw_devel_key }}",
+      mon_cap: "allow r",
+      #OMITTED FROM osd_cap: allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      osd_cap: "allow class-read object_prefix rbd_children,
+                allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
+                allow rwx pool={{ openstack_radosgw_data_root_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_control_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_gc_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_log_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_intent_log_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_usage_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_users_keys_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_users_email_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_users_swift_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_users_uid_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_buckets_index_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_buckets_data_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_meta_pool_1.name }},
+                allow rwx pool={{ openstack_radosgw_root_pool_1.name }}",
+      mode: "0600",
+      acls: [] }
+  - { name: client.radosgw.fi-polte-devel2,
+      key: "{{ vault_radosgw_devel_key_2 }}",
+      mon_cap: "allow r",
+      #OMITTED FROM osd_cap: allow rwx pool={{ openstack_radosgw_root_pool.name }},
+      osd_cap: "allow class-read object_prefix rbd_children,
+                allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
+                allow rwx pool={{ openstack_radosgw_data_root_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_control_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_gc_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_log_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_intent_log_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_usage_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_users_keys_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_users_email_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_users_swift_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_users_uid_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_buckets_index_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_buckets_data_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_meta_pool_2.name }},
+                allow rwx pool={{ openstack_radosgw_root_pool_2.name }}",
+      mode: "0600",
+      acls: [] }
