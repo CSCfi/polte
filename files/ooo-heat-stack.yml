@@ -23,7 +23,7 @@ parameters:
     default: ["mon-node0", "mon-node1", "mon-node2"]
   ceph_osd_server_count:
     type: number
-    default: 3
+    default: 1
   ceph_osd_node_names:
     description: List of api node hostnames
     type: comma_delimited_list
