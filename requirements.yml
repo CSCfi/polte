@@ -15,3 +15,6 @@
   name: ansible-role-openldap-server
   path: roles
   version: simpleusertemplate
+
+- src: https://github.com/CSCfi/ansible-role-squid.git
+  path: roles
