@@ -1,7 +1,6 @@
 # polte
 
-An Ansible playbook for creating a Heat stack for hosting various OpenStack
-components.
+An Ansible playbook for creating a Heat stack for Openstack and Ceph.
 
 This playbook is intended for providing a minimal environment for development
 purposes. It disables certain HA features, such as Pacemaker. Thus it is not
@@ -9,14 +8,14 @@ suitable for deploying production environments.
 
 ## Caveats
 
-* The ceph nodes are not currently provisioned by site.yml
+* Ceph is not currently provisioned by site.yml.
 * Running site.yml may take a long time. Before root cause is fixed, consider
   halting the 3rd puppetize run of the API nodes after about 15 minutes for
   fastest results.
 
 ## Requirements
 
-* ansible >= 2.3
+* ansible >= 2.4
 * shade >= 1.8.0
 
 ## Installation
@@ -32,6 +31,10 @@ suitable for deploying production environments.
   * vault_keystone_password - Hashed into userPassword LDAP attribute
   * vault_heat_password - Hashed into userPassword LDAP attribute
   * vault_neutron_password - Hashed into userPassword LDAP attribute
+  * vault_glance_devel_key: - Ceph key identical to hieradata key
+  * vault_cinder_devel_key: - Ceph key identical to hieradata key
+  * vault_nova_devel_key: - Ceph key identical to hieradata key
+  * vault_radosgw_devel_key: - Ceph key identical to hieradata key
 * Run playbook (--ask-vault-pass presumed but not mandatory):
 
 `$ ansible-playbook -i inventory site.yml --ask-vault-pass`
