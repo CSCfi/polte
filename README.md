@@ -31,10 +31,10 @@ suitable for deploying production environments.
   * vault_keystone_password - Hashed into userPassword LDAP attribute
   * vault_heat_password - Hashed into userPassword LDAP attribute
   * vault_neutron_password - Hashed into userPassword LDAP attribute
-  * vault_glance_devel_key: - Ceph key identical to hieradata key
-  * vault_cinder_devel_key: - Ceph key identical to hieradata key
-  * vault_nova_devel_key: - Ceph key identical to hieradata key
-  * vault_radosgw_devel_key: - Ceph key identical to hieradata key
+  * vault_glance_devel_key - Ceph key identical to hieradata key
+  * vault_cinder_devel_key - Ceph key identical to hieradata key
+  * vault_nova_devel_key - Ceph key identical to hieradata key
+  * vault_radosgw_devel_key - Ceph key identical to hieradata key
 * Run playbook (--ask-vault-pass presumed but not mandatory):
 
 `$ ansible-playbook -i inventory site.yml --ask-vault-pass`
