@@ -6,3 +6,7 @@
   become_user: root
   roles:
     - role: ansible-role-puppetmaster
+    - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
+  post_tasks:
+    - shell: iptables -F
+

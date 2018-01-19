@@ -14,6 +14,27 @@ parameters:
     description: List of api node hostnames
     type: comma_delimited_list
     default: ["api-node0", "api-node1"]
+  ceph_mon_server_count:
+    type: number
+    default: 3
+  ceph_mon_node_names:
+    description: List of api node hostnames
+    type: comma_delimited_list
+    default: ["mon-node0", "mon-node1", "mon-node2"]
+  ceph_osd_server_count:
+    type: number
+    default: 3
+  ceph_osd_node_names:
+    description: List of api node hostnames
+    type: comma_delimited_list
+    default: ["osd-node0", "osd-node1", "osd-node2"]
+  obj_server_count:
+    type: number
+    default: 2
+  obj_node_names:
+    description: List of obj node hostnames
+    type: comma_delimited_list
+    default: ["obj-node0", "obj-node1"]
   jumphost_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the jumphost from.
     type: string
@@ -35,6 +56,18 @@ parameters:
   puppet_node_image:
     description: The image to use for Puppet nodes.
     type: string
+  ceph_mon_node_flavor:
+    description: The flavor to use for Ceph monitor nodes.
+    type: string
+  ceph_mon_node_image:
+    description: The image to use for Ceph monitor nodes.
+    type: string
+  ceph_osd_node_flavor:
+    description: The flavor to use for Ceph monitor nodes.
+    type: string
+  ceph_osd_node_image:
+    description: The image to use for Ceph monitor nodes.
+    type: string
   floating_ip_pool:
     type: string
     description: The pool from which floating IPs should be reserved.
@@ -45,6 +78,9 @@ parameters:
   ext_subnet_cidr:
     type: string
     description: The CIDR of the ext subnet of API nodes.
+  proj_subnet_cidr:
+    type: string
+    description: The CIDR of the proj subnet of NET nodes.
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
@@ -102,6 +138,10 @@ resources:
           port_range_min: 22
           port_range_max: 22
         - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 3128
+          port_range_max: 3128
+        - protocol: tcp
           remote_ip_prefix: { get_param: jumphost_allow_ssh_cidr }
           port_range_min: 22
           port_range_max: 22
@@ -111,6 +151,7 @@ resources:
     properties:
       rules:
         - protocol: icmp
+        - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
           port_range_min: 22
@@ -136,6 +177,46 @@ resources:
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
           port_range_min: 636
           port_range_max: 636
+
+  object_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  ceph_mon_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  ceph_osd_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
+  proj_network:
+    type: OS::Neutron::Net
+
+  proj_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      cidr: { get_param: proj_subnet_cidr }
+      gateway_ip: null
+      network: { get_resource: proj_network }
 
   ext_network:
     type: OS::Neutron::Net
@@ -189,6 +270,44 @@ resources:
           mgmt_network_name: { get_resource: mgmt_network }
           ext_network_name: { get_resource: ext_network }
           ooo_frontend_secgroup: { get_resource: frontend_secgroup }
+
+  obj_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: obj_server_count}
+      resource_def:
+        type: obj-node.yaml
+        properties:
+          index: "%index%"
+          obj_node_names: { get_param: obj_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ext_network_name: { get_resource: ext_network }
+          proj_network_name: { get_resource: proj_network }
+          ooo_object_secgroup: { get_resource: object_secgroup }
+
+  ceph_mon_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: ceph_mon_server_count}
+      resource_def:
+        type: mon-node.yaml
+        properties:
+          index: "%index%"
+          ceph_mon_node_names: { get_param: ceph_mon_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ooo_mon_secgroup: { get_resource: ceph_mon_secgroup }
+
+  ceph_osd_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: ceph_osd_server_count}
+      resource_def:
+        type: osd-node.yaml
+        properties:
+          index: "%index%"
+          ceph_osd_node_names: { get_param: ceph_osd_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ooo_osd_secgroup: { get_resource: ceph_osd_secgroup }
 
   galera_nodes:
     type: OS::Heat::ResourceGroup
@@ -266,12 +385,21 @@ resources:
       server_id: { get_resource: puppet_node }
 
 outputs:
-  api_nodes_group:
-    description: The group of API nodes
-    value: { get_attr: [api_nodes, show] }
   galera_nodes_group:
     description: The group of Galera nodes
     value: { get_attr: [galera_nodes, show] }
+  api_nodes_group:
+    description: The group of API nodes
+    value: { get_attr: [api_nodes, show] }
+  obj_nodes_group:
+    description: The group of object storage nodes
+    value: { get_attr: [obj_nodes, show] }
+  ceph_mon_nodes_group:
+    description: The group of Ceph monitor nodes
+    value: { get_attr: [ceph_mon_nodes, show] }
+  ceph_osd_nodes_group:
+    description: The group of Ceph OSD nodes
+    value: { get_attr: [ceph_osd_nodes, show] }
   puppet_node:
     description: The puppet node
     value: { get_attr: [puppet_node, show] }

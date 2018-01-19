@@ -1,0 +1,13 @@
+---
+ansible_ssh_common_args: "-o ProxyCommand='ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
+ceph_origin: distro
+ceph_stable_release: jewel
+monitor_interface: eth0
+public_network: "10.99.99.0/24"
+osd_scenario: collocated
+radosgw_interface: eth0
+fsid: "12345678-90ab-cdef-1234-567890abcdef"
+generate_fsid: false
+devices:
+  - /dev/vdb
+

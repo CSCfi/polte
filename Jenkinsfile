@@ -39,6 +39,12 @@ pipeline {
                     sh '''
                         source api-pre.sh
                     '''
+                },
+                "Bootstrap Ceph nodes": {
+                    echo 'Ansiblizing'
+                    sh '''
+                        source ceph-ansible.sh
+                    '''
                 })
             }
         }
@@ -64,11 +70,19 @@ pipeline {
                 })
             }
         }
-        stage('Puppetize APIs') {
+        stage('Puppetize API nodes') {
             steps {
                 echo 'Puppetizing'
                 sh '''
                     source puppetize-api.sh
+                '''
+            }
+        }
+        stage('Puppetize object storage nodes') {
+            steps {
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-obj.sh
                 '''
             }
         }

@@ -1,0 +1,12 @@
+---
+- hosts: obj
+  become: true
+  become_user: root
+  serial: 1
+  pre_tasks:
+# workaround: pip provider fails
+    - shell: ln -s /usr/bin/pip /usr/bin/pip-python
+      args:
+        creates: /usr/bin/pip-python
+  roles:
+    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
