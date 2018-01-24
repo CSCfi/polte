@@ -60,5 +60,7 @@
       with_items:
         - magnum
         - barbican
-    - name: workaround - modify puppetdb -Xmx setting
-      shell: 'sed -i "s/512m/4096m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
+    - name: workaround - modify puppetdb -Xmx setting and restart services
+      shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
+    - shell: systemctl restart puppetdb
+    - shell: systemctl restart puppetmaster
