@@ -28,7 +28,7 @@ pipeline {
                         source ldap.sh
                     '''
                 },
-                "Bootstrap puppetmaster": {
+                "Bootstrap and puppetize puppetmaster": {
                     echo "Puppetmaster"
                     sh '''
                         source puppetmaster.sh
@@ -72,7 +72,7 @@ pipeline {
                         source puppetize-api.sh
                     '''
                 },
-                "Bootstrap Ceph nodes": {
+                "Ansiblize Ceph nodes": {
                     echo 'Ansiblizing'
                     sh '''
                         source ceph-ansible.sh
