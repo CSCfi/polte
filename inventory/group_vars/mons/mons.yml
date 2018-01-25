@@ -24,137 +24,138 @@ openstack_nova_pool:
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 
+# HOX! These pools are not used in Pouta environments.
+#
 #openstack_radosgw_root_pool:
 #  name: .rgw.root
 #  pg_num: "{{ osd_pool_default_pg_num }}"
 #  rule_name: ""
-
 #openstack_radosgw_zonegroup_root_pool:
 #  name: fi.rgw.root
 #  pg_num: "{{ osd_pool_default_pg_num }}"
 #  rule_name: ""
 
 openstack_radosgw_data_root_pool_1:
-  name: fi-polte-devel.rgw.data.root
+  name: polte-devel-cloud.rgw.data.root
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_control_pool_1:
-  name: fi-polte-devel.rgw.control
+  name: polte-devel-cloud.rgw.control
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_gc_pool_1:
-  name: fi-polte-devel.rgw.gc
+  name: polte-devel-cloud.rgw.gc
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_log_pool_1:
-  name: fi-polte-devel.rgw.log
+  name: polte-devel-cloud.rgw.log
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_intent_log_pool_1:
-  name: fi-polte-devel.rgw.intent-log
+  name: polte-devel-cloud.rgw.intent-log
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_usage_pool_1:
-  name: fi-polte-devel.rgw.usage
+  name: polte-devel-cloud.rgw.usage
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_users_keys_pool_1:
-  name: fi-polte-devel.rgw.users.keys
+  name: polte-devel-cloud.rgw.users.keys
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_users_email_pool_1:
-  name: fi-polte-devel.rgw.users.email
+  name: polte-devel-cloud.rgw.users.email
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_users_swift_pool_1:
-  name: fi-polte-devel.rgw.users.swift
+  name: polte-devel-cloud.rgw.users.swift
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_users_uid_pool_1:
-  name: fi-polte-devel.rgw.users.uid
+  name: polte-devel-cloud.rgw.users.uid
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_buckets_index_pool_1:
-  name: fi-polte-devel.rgw.buckets.index
+  name: polte-devel-cloud.rgw.buckets.index
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_buckets_data_pool_1:
-  name: fi-polte-devel.rgw.buckets.data
+  name: polte-devel-cloud.rgw.buckets.data
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_meta_pool_1:
-  name: fi-polte-devel.rgw.meta
+  name: polte-devel-cloud.rgw.meta
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 openstack_radosgw_root_pool_1:
-  name: fi-polte-devel.rgw.root
+  name: polte-devel-cloud.rgw.root
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
 
-openstack_radosgw_data_root_pool_2:
-  name: fi-polte-devel.rgw.data.root
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_control_pool_2:
-  name: fi-polte-devel.rgw.control
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_gc_pool_2:
-  name: fi-polte-devel.rgw.gc
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_log_pool_2:
-  name: fi-polte-devel.rgw.log
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_intent_log_pool_2:
-  name: fi-polte-devel.rgw.intent-log
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_usage_pool_2:
-  name: fi-polte-devel.rgw.usage
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_users_keys_pool_2:
-  name: fi-polte-devel.rgw.users.keys
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_users_email_pool_2:
-  name: fi-polte-devel.rgw.users.email
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_users_swift_pool_2:
-  name: fi-polte-devel.rgw.users.swift
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_users_uid_pool_2:
-  name: fi-polte-devel.rgw.users.uid
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_buckets_index_pool_2:
-  name: fi-polte-devel.rgw.buckets.index
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_buckets_data_pool_2:
-  name: fi-polte-devel.rgw.buckets.data
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_meta_pool_2:
-  name: fi-polte-devel.rgw.meta
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
-openstack_radosgw_root_pool_2:
-  name: fi-polte-devel.rgw.root
-  pg_num: "{{ osd_pool_default_pg_num }}"
-  rule_name: ""
+# Ceph cluster zone sharing test pools.
+# Preserved just in case more testing is needed.
+
+# openstack_radosgw_data_root_pool_2:
+#   name: polte-devel-cloud2.rgw.data.root
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_control_pool_2:
+#   name: polte-devel-cloud2.rgw.control
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_gc_pool_2:
+#   name: polte-devel-cloud2.rgw.gc
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_log_pool_2:
+#   name: polte-devel-cloud2.rgw.log
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_intent_log_pool_2:
+#   name: polte-devel-cloud2.rgw.intent-log
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_usage_pool_2:
+#   name: polte-devel-cloud2.rgw.usage
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_users_keys_pool_2:
+#   name: polte-devel-cloud2.rgw.users.keys
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_users_email_pool_2:
+#   name: polte-devel-cloud2.rgw.users.email
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_users_swift_pool_2:
+#   name: polte-devel-cloud2.rgw.users.swift
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_users_uid_pool_2:
+#   name: polte-devel-cloud2.rgw.users.uid
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_buckets_index_pool_2:
+#   name: polte-devel-cloud2.rgw.buckets.index
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_buckets_data_pool_2:
+#   name: polte-devel-cloud2.rgw.buckets.data
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_meta_pool_2:
+#   name: polte-devel-cloud2.rgw.meta
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
+# openstack_radosgw_root_pool_2:
+#   name: polte-devel-cloud2.rgw.root
+#   pg_num: "{{ osd_pool_default_pg_num }}"
+#   rule_name: ""
 
 openstack_pools:
   - "{{ openstack_glance_pool }}"
   - "{{ openstack_cinder_pool }}"
   - "{{ openstack_nova_pool }}"
-
-#  - "{{ openstack_radosgw_root_pool }}"
-#  - "{{ openstack_radosgw_zonegroup_root_pool }}"
 
   - "{{ openstack_radosgw_data_root_pool_1 }}"
   - "{{ openstack_radosgw_control_pool_1 }}"
@@ -171,20 +172,20 @@ openstack_pools:
   - "{{ openstack_radosgw_meta_pool_1 }}"
   - "{{ openstack_radosgw_root_pool_1 }}"
 
-  - "{{ openstack_radosgw_data_root_pool_2 }}"
-  - "{{ openstack_radosgw_control_pool_2 }}"
-  - "{{ openstack_radosgw_gc_pool_2 }}"
-  - "{{ openstack_radosgw_log_pool_2 }}"
-  - "{{ openstack_radosgw_intent_log_pool_2 }}"
-  - "{{ openstack_radosgw_usage_pool_2 }}"
-  - "{{ openstack_radosgw_users_keys_pool_2 }}"
-  - "{{ openstack_radosgw_users_email_pool_2 }}"
-  - "{{ openstack_radosgw_users_swift_pool_2 }}"
-  - "{{ openstack_radosgw_users_uid_pool_2 }}"
-  - "{{ openstack_radosgw_buckets_index_pool_2 }}"
-  - "{{ openstack_radosgw_buckets_data_pool_2 }}"
-  - "{{ openstack_radosgw_meta_pool_2 }}"
-  - "{{ openstack_radosgw_root_pool_2 }}"
+  # - "{{ openstack_radosgw_data_root_pool_2 }}"
+  # - "{{ openstack_radosgw_control_pool_2 }}"
+  # - "{{ openstack_radosgw_gc_pool_2 }}"
+  # - "{{ openstack_radosgw_log_pool_2 }}"
+  # - "{{ openstack_radosgw_intent_log_pool_2 }}"
+  # - "{{ openstack_radosgw_usage_pool_2 }}"
+  # - "{{ openstack_radosgw_users_keys_pool_2 }}"
+  # - "{{ openstack_radosgw_users_email_pool_2 }}"
+  # - "{{ openstack_radosgw_users_swift_pool_2 }}"
+  # - "{{ openstack_radosgw_users_uid_pool_2 }}"
+  # - "{{ openstack_radosgw_buckets_index_pool_2 }}"
+  # - "{{ openstack_radosgw_buckets_data_pool_2 }}"
+  # - "{{ openstack_radosgw_meta_pool_2 }}"
+  # - "{{ openstack_radosgw_root_pool_2 }}"
 
 openstack_keys:
   - { name: client.glance-devel,
@@ -212,12 +213,9 @@ openstack_keys:
                 allow rwx pool={{ openstack_cinder_pool.name }}",
                 mode: "0600",
                 acls: [] }
-  - { name: client.radosgw.fi-polte-devel,
+  - { name: client.radosgw.polte-devel-cloud,
       key: "{{ vault_radosgw_devel_key }}",
       mon_cap: "allow r",
-      #OMITTED FROM osd_cap:
-      # allow rwx pool={{ openstack_radosgw_root_pool.name }},
-      # allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
       osd_cap: "allow class-read object_prefix rbd_children,
                 allow rwx pool={{ openstack_radosgw_data_root_pool_1.name }},
                 allow rwx pool={{ openstack_radosgw_control_pool_1.name }},
@@ -235,26 +233,23 @@ openstack_keys:
                 allow rwx pool={{ openstack_radosgw_root_pool_1.name }}",
       mode: "0600",
       acls: [] }
-  - { name: client.radosgw.fi-polte-devel2,
-      key: "{{ vault_radosgw_devel_key_2 }}",
-      mon_cap: "allow r",
-      #OMITTED FROM osd_cap:
-      # allow rwx pool={{ openstack_radosgw_root_pool.name }},
-      # allow rwx pool={{ openstack_radosgw_zonegroup_root_pool.name }},
-      osd_cap: "allow class-read object_prefix rbd_children,
-                allow rwx pool={{ openstack_radosgw_data_root_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_control_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_gc_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_log_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_intent_log_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_usage_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_users_keys_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_users_email_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_users_swift_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_users_uid_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_buckets_index_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_buckets_data_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_meta_pool_2.name }},
-                allow rwx pool={{ openstack_radosgw_root_pool_2.name }}",
-      mode: "0600",
-      acls: [] }
+  # - { name: client.radosgw.polte-devel-cloud2,
+  #     key: "{{ vault_radosgw_devel_key_2 }}",
+  #     mon_cap: "allow r",
+  #     osd_cap: "allow class-read object_prefix rbd_children,
+  #               allow rwx pool={{ openstack_radosgw_data_root_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_control_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_gc_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_log_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_intent_log_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_usage_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_users_keys_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_users_email_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_users_swift_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_users_uid_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_buckets_index_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_buckets_data_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_meta_pool_2.name }},
+  #               allow rwx pool={{ openstack_radosgw_root_pool_2.name }}",
+  #     mode: "0600",
+  #     acls: [] }
