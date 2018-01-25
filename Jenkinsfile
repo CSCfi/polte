@@ -28,7 +28,7 @@ pipeline {
                         source ldap.sh
                     '''
                 },
-                "Bootstrap puppetmaster": {
+                "Bootstrap and puppetize puppetmaster": {
                     echo "Puppetmaster"
                     sh '''
                         source puppetmaster.sh
@@ -38,12 +38,6 @@ pipeline {
                     echo "APIs"
                     sh '''
                         source api-pre.sh
-                    '''
-                },
-                "Bootstrap Ceph nodes": {
-                    echo 'Ansiblizing'
-                    sh '''
-                        source ceph-ansible.sh
                     '''
                 })
             }
@@ -70,12 +64,20 @@ pipeline {
                 })
             }
         }
-        stage('Puppetize API nodes') {
+        stage('Provision API and Ceph nodes') {
             steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-api.sh
-                '''
+                parallel("Puppetize API nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-api.sh
+                    '''
+                },
+                "Ansiblize Ceph nodes": {
+                    echo 'Ansiblizing'
+                    sh '''
+                        source ceph-ansible.sh
+                    '''
+                })
             }
         }
         stage('Puppetize object storage nodes') {
