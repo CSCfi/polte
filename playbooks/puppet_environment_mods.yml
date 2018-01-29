@@ -8,10 +8,6 @@
   become: true
   become_user: root
   tasks:
-    - name: workaround - modify puppetdb -Xmx setting and restart services
-      shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
-    - shell: systemctl restart puppetdb
-    - shell: systemctl restart puppetmaster
     - name: workaround - hosts file gets overwritten
       shell: 'sed -i "/hosts\.erb/d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
     - name: workaround - all galera nodes as master
