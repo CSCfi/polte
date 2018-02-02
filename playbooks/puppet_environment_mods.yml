@@ -10,8 +10,6 @@
   tasks:
     - name: workaround - hosts file gets overwritten
       shell: 'sed -i "/hosts\.erb/d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
-    - name: workaround - all galera nodes as master
-      shell: 'sed -i "s/\${server_csl}//" /etc/puppet/environments/{{puppet_environment}}/modules/galera/manifests/params.pp'
     - name: workaround - disable pacemaker requirements
       shell: 'sed -i "s/\(^\s*require.*pacemaker\)/#\1/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp'
       with_items:
