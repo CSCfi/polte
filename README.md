@@ -1,10 +1,10 @@
 # polte
 
-An Ansible playbook for creating a Heat stack for Openstack and Ceph.
+An Ansible playbook for provisioning Openstack and Ceph into a Heat stack.
 
 This playbook is intended for providing a minimal environment for development
-purposes. It disables certain HA features, such as Pacemaker. Thus it is not
-suitable for deploying production environments.
+purposes. It disables certain HA features from the CSC Common Cloud Platform
+Puppet module. Thus it is not suitable for deploying production environments.
 
 ## Caveats
 
@@ -12,6 +12,9 @@ suitable for deploying production environments.
 * Running site.yml may take a long time. Before root cause is fixed, consider
   halting the 3rd puppetize run of the API nodes after about 15 minutes for
   fastest results.
+* Multiple stacks in a project are not supported. For solving this, unique
+  hostnames per Heat stack may be required. Thus a contraption which
+  supports dynamic hostnames in Hiera data may be required.
 
 ## Requirements
 
