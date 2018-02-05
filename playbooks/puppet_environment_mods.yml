@@ -10,51 +10,10 @@
   tasks:
     - name: workaround - hosts file gets overwritten
       shell: 'sed -i "/hosts\.erb/d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
-    - name: workaround - all galera nodes as master
-      shell: 'sed -i "s/\${server_csl}//" /etc/puppet/environments/{{puppet_environment}}/modules/galera/manifests/params.pp'
-    - name: workaround - disable pacemaker requirements
-      shell: 'sed -i "s/\(^\s*require.*pacemaker\)/#\1/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp'
-      with_items:
-        - horizon
-        - keystone
-        - nova
-        - neutron
-        - glance
-        - cinder
-    - name: workaround - disable pacemaker requirements
-      shell: 'sed -i "s/\(^\s*require.*pacemaker\)/#\1/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/ha/pacemaker/node_api.pp'
-    - name: workaround - disable crm
-      lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/ha/pacemaker/node_api.pp"
-        regexp: '.*unless.*'
-        line: "    unless  => '/bin/true',"
-    - name: workaround - disable pacemaker
-      shell: 'sed -i "s/\(^\s*ensure.*running\)/#\1/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/ha/pacemaker/common.pp'
-    - name: workaround - remove reference to cs_primitive
-      shell: 'sed -i "/''pri_cinder_volume/,+34d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp'
-    - name: fix issue in openrc.admintoken leaving extra space character into pwd
-      shell: sed -i "s/)$/\|awk '{\$1=\$1};1')/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/keystone/openrc.admintoken.erb"
-    - name: workaround - disable formatter workaround dependency of pacemaker
-      shell: sed -i "s/'cinder-volume-pacemaker',//" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/api_node_patches.pp"
-    - name: workaround - use insecure due to self-signed cert
-      lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/nova/manifests/api.pp"
-        insertafter: ^\ \ nova_paste_api_ini\ \{
-        line: "    'filter:authtoken/insecure':          value => True;"
-    - name: workaround - use insecure due to self-signed cert
-      blockinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cinder/manifests/api.pp"
-        insertbefore: ^}$
-        block: |2
-            cinder_api_paste_ini {
-              'filter:authtoken/insecure': value => True;
-            }
     - name: workaround - use insecure for tenant creation script
       shell: 'sed -i "s/auth=neutron_auth)/auth=neutron_auth,verify=False)/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/files/tools/create-tenants.py'
     - name: workaround - ignore public network related errors
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
-    - name: optimization - disable cinder debug logging
-      shell: 'sed -i "s/\(.*debug.*\)true/\1false/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"'
     - name: workaround - modify db connection strings since tunneling doesn't work
       shell: 'sed -i "s/localhost/galera-node0.openstacklocal/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp'
       with_items:

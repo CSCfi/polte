@@ -3,8 +3,7 @@
 An Ansible playbook for provisioning Openstack and Ceph into a Heat stack.
 
 This playbook is intended for providing a minimal environment for development
-purposes. It disables certain HA features from the CSC Common Cloud Platform
-Puppet module. Thus it is not suitable for deploying production environments.
+purposes. It is not suitable for deploying production environments.
 
 ## Caveats
 
