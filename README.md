@@ -3,8 +3,7 @@
 An Ansible playbook for creating a Heat stack for Openstack and Ceph.
 
 This playbook is intended for providing a minimal environment for development
-purposes. It disables certain HA features, such as Pacemaker. Thus it is not
-suitable for deploying production environments.
+purposes. It is not suitable for deploying production environments.
 
 ## Caveats
 
