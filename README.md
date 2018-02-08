@@ -11,9 +11,6 @@ purposes. It is not suitable for deploying production environments.
 * Running site.yml may take a long time. Before root cause is fixed, consider
   halting the 3rd puppetize run of the API nodes after about 15 minutes for
   fastest results.
-* Multiple stacks in a project are not supported. For solving this, unique
-  hostnames per Heat stack may be required. Thus a contraption which
-  supports dynamic hostnames in Hiera data may be required.
 
 ## Requirements
 
