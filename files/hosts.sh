@@ -9,9 +9,8 @@ eval $(ssh-agent -s)
 ssh-add "$OS_KEY_FILE"
 
 #run
-ansible-playbook playbooks/build-heat-stack.yml \
--i inventory \
--e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_$PUPPET_ENVIRONMENT"
+ansible-playbook playbooks/generate_hostsfile.yml \
+-i inventory
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k
