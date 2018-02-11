@@ -10,7 +10,8 @@ ssh-add "$OS_KEY_FILE"
 
 #run
 ansible-playbook playbooks/puppetize_backends.yml \
--i inventory
+-i inventory \
+-e "puppet_environment=$PUPPET_ENVIRONMENT"
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k
