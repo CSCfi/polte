@@ -8,13 +8,8 @@ pipeline {
                 sh '''
                     echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
                     ansible-vault decrypt files/ansible_shell_env.sh.vault --output - --vault-password-file=/tmp/.vault_pass > ansible_shell_env.sh
-                    source ansible_shell_env.sh
-                    mkdir -p .ssh/cm_socket
-                    ssh-agent -k
-                    eval $(ssh-agent -s)
-                    ssh-add "$OS_KEY_FILE"
-                    ansible-playbook -i inventory playbooks/build-heat-stack.yml -e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_$PUPPET_ENVIRONMENT" --vault-password-file="$VAULT_PASS_FILE"
-                    [ $? -eq 0 ] && ssh-agent -k
+                    cp files/build.sh .
+                    source build.sh
                 '''
             }
         }
