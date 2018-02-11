@@ -9,7 +9,6 @@ pipeline {
                     echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
-                    echo '\033[31mRed\033[0m'
                 '''
             }
         }
