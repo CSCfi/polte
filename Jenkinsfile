@@ -8,7 +8,7 @@ pipeline {
                 sh '''
                     echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
                     ansible-vault decrypt files/ansible_shell_env.sh.vault --output - --vault-password-file=/tmp/.vault_pass > ansible_shell_env.sh
-                    cp files/build.sh .
+                    cp files/*.sh .
                     source build.sh
                 '''
             }
