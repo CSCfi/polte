@@ -5,6 +5,7 @@ ansible-vault decrypt files/ansible_shell_env.sh.vault --output - --vault-passwo
 source ansible_shell_env.sh
 
 #ssh agent
+mkdir -p .ssh/cm_socket
 ssh-agent -k
 eval $(ssh-agent -s)
 ssh-add "$OS_KEY_FILE"
