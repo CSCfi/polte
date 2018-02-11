@@ -1,6 +1,7 @@
 #!/bin/bash +xe
 
-#env
+#secrets
+ansible-vault decrypt files/ansible_shell_env.sh.vault --output - --vault-password-file=/tmp/.vault_pass > ansible_shell_env.sh
 source ansible_shell_env.sh
 
 #ssh agent
@@ -19,4 +20,3 @@ ansible-playbook playbooks/build-heat-stack.yml \
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k
-
