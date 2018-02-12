@@ -22,7 +22,7 @@ cp ../../ansible.cfg .
 ln -s ../../.ssh
 mkdir -p fetch/12345678-90ab-cdef-1234-567890abcdef/etc/ceph
 echo "12345678-90ab-cdef-1234-567890abcdef" > fetch/ceph_cluster_uuid.conf
-ansible-playbook -i ../../inventory site.yml.sample --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds"
+ansible-playbook -i ../../inventory --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds" site.yml.sample
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k

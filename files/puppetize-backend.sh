@@ -9,9 +9,9 @@ eval $(ssh-agent -s)
 ssh-add "$OS_KEY_FILE"
 
 #run
-ansible-playbook playbooks/puppetize_backends.yml \
--i inventory \
--e "puppet_environment=$PUPPET_ENVIRONMENT"
+ansible-playbook -i inventory \
+-e "puppet_environment=$PUPPET_ENVIRONMENT" \
+playbooks/puppetize_backends.yml
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k

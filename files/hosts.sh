@@ -9,8 +9,7 @@ eval $(ssh-agent -s)
 ssh-add "$OS_KEY_FILE"
 
 #run
-ansible-playbook playbooks/generate_hostsfile.yml \
--i inventory
+ansible-playbook -i inventory playbooks/generate_hostsfile.yml
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k

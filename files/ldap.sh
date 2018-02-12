@@ -9,8 +9,7 @@ eval $(ssh-agent -s)
 ssh-add "$OS_KEY_FILE"
 
 #run
-ansible-playbook playbooks/ldap_server.yml \
--i inventory
+ansible-playbook -i inventory playbooks/ldap_server.yml
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k

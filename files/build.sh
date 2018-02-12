@@ -15,9 +15,9 @@ mkdir -p roles
 ansible-galaxy install -r requirements.yml --roles-path roles/
 
 #run
-ansible-playbook playbooks/build-heat-stack.yml \
--i inventory \
--e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_$PUPPET_ENVIRONMENT"
+ansible-playbook -i inventory \
+-e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_$PUPPET_ENVIRONMENT" \
+playbooks/build-heat-stack.yml
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k
