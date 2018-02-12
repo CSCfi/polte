@@ -14,4 +14,3 @@ ansible-playbook playbooks/generate_hostsfile.yml \
 
 #cleanup
 [ $? -eq 0 ] && ssh-agent -k
-
