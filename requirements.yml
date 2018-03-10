@@ -8,9 +8,6 @@
   path: roles
   version: puppetconfmod
 
-- src: https://github.com/geerlingguy/ansible-role-nfs.git
-  path: roles
-
 - src: https://github.com/junousi/ansible-openldap_server.git
   name: ansible-role-openldap-server
   path: roles
