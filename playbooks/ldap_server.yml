@@ -27,7 +27,7 @@
       openldap_server_groups:
         testgroup:
           - testuser
-        service:
+        "{{ service_group_name }}":
           - keystone
           - heat
           - neutron

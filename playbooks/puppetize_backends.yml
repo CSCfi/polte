@@ -6,8 +6,6 @@
 #  become_user: root
 #  roles:
 #    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
-
-### NB! The cluster will consist only of the first node for now.
 #
 ## Then we run Puppet on the rest of the backend nodes.
 #- hosts: galera:!galera[0]
@@ -16,15 +14,15 @@
 #  roles:
 #    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
 #
-## workaround for MariaDB access
+#### workaround for MariaDB access. 3-node cluster provisioning had some issues with this.
 #- hosts: galera:!galera[0]
 #  become: true
 #  become_user: root
 #  tasks:
 #    - name: workaround for bootstrapping
-#      shell: PASS=$(awk -F= '$0 ~ /password/ {print $2}' /root/.my.cnf);sed -i 's/password=.*/password=/' /root/.my.cnf;mysql --defaults-file=/root/.my.cnf -e "SET PASSWORD FOR "root"@"localhost"=PASSWORD("$PASS")"
+#      shell: PASS=$(awk -F= '$0 ~ /password/ {print $2}' /root/.my.cnf); sed -i 's/password=.*/password=/' /root/.my.cnf; mysql --defaults-file=/root/.my.cnf -e "SET PASSWORD FOR "root"@"localhost"=PASSWORD("$PASS")"
 #      ignore_errors: true
-
+#
 # Finally run Puppet on the first backend node again so the cluster gets
 # properly formed
 - hosts: galera[0]
@@ -33,6 +31,6 @@
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
 
-# workaround: Missing ssh tunneling for bootstrap.
+# workaround: Missing ssh tunneling for bootstrap. TODO: Check current status, remove if possible.
   tasks:
     - shell: iptables -F

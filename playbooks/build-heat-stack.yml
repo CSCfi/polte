@@ -1,4 +1,7 @@
 ---
+# Build a heat stack. Generate an inventory file based on a
+# successfully created stack.
+
 - hosts: localhost
   gather_facts: no
   tasks:
