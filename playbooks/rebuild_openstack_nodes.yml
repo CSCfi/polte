@@ -1,4 +1,6 @@
 ---
+# Stub playbook to rebuild nodes.
+
 - hosts: localhost
   gather_facts: no
   tasks:
@@ -10,4 +12,6 @@
         image: CentOS-7
       with_items:
         - groups.api
-#        - groups.galera
+        - groups.galera
+# Or maybe
+#      os_stack:

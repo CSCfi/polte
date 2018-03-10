@@ -1,4 +1,6 @@
 ---
+# Puppetize galera nodes. Configure 1-node cluster for now.
+
 # Run Puppet on the first backend node only. Needed to initialize MongoDB
 # without authentication enabled.
 #- hosts: galera[0]
