@@ -1,6 +1,6 @@
 ---
 # This playbook:
-# 
+#
 # - modifies interface configurations to not control DNS
 # - reboots hosts to enforce configurations
 # - generates an /etc/hosts file based on IPs that have been

@@ -6,4 +6,3 @@ puppetmaster: "{{hostvars['puppet-node']['inventory_hostname']}}"
 puppetmaster_fqdn: "{{hostvars['puppet-node']['inventory_hostname']}}.openstacklocal"
 
 service_group_name: service
-
