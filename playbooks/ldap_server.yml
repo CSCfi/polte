@@ -1,9 +1,11 @@
 ---
+# Install LDAP server.
+
 - hosts: ldap
   become: true
   become_user: root
   pre_tasks:
-    - shell: mkdir /etc/openldap/slapd.d;mkdir /etc/ldap;touch /etc/ldap/acl.conf
+    - shell: mkdir /etc/openldap/slapd.d; mkdir /etc/ldap; touch /etc/ldap/acl.conf
       ignore_errors: true
   roles:
     - role: ansible-role-openldap-server

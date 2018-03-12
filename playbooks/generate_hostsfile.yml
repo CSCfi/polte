@@ -1,5 +1,23 @@
 ---
-# workaround: SELinux blocks rabbitmq HiPE compilation and httpd
+# This playbook:
+#
+# - modifies interface configurations to not control DNS
+# - reboots hosts to enforce configurations
+# - generates an /etc/hosts file based on IPs that have been
+# successfully provisioned to interfaces & learned by Ansible
+#
+# Currently, just about everything in Polte relies in
+# /etc/hosts being present in this form on every host.
+#
+# This may also be a handy entrypoint for adding e.g. default
+# gateways and static routes for API/object/network nodes or
+# other nodes which have legs in multiple networks.
+#
+# API node SELinux is also disabled. That part is not related to
+# the hosts file per se, it's just most optimal to do before
+# reboots.
+
+# workaround: SELinux blocks rabbitmq HiPE compilation and httpd.
 - hosts: api
   become: yes
   become_user: root
@@ -13,7 +31,7 @@
   gather_facts: yes
   tasks:
     - meta: clear_host_errors
-# workaround: Prevent dhcp on eth[012] touching DNS
+# workaround: Prevent dhcp on eth[01] touching DNS
     - name: Modify interface network-scripts
       copy:
         content: |
@@ -44,7 +62,7 @@
   gather_facts: yes
   tasks:
     - meta: clear_host_errors
-# workaround: Prevent dhcp on eth[012] touching DNS
+# workaround: Prevent dhcp on eth[01] touching DNS
     - name: Modify interface network-scripts
       copy:
         content: |

@@ -1,4 +1,6 @@
 ---
+# Puppetize API nodes.
+
 - hosts: api
   become: true
   become_user: root
@@ -7,8 +9,10 @@
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal", ignore_puppetize_errors: true }
   post_tasks:
-# Rationale: If either puppetize completes, convergence has occurred and the other failure is probably puppetmaster acting up.
+# Condition used to declare victory. Ignored if loopfail=false.
+# Rationale: If either puppetize completes, convergence has occurred
+# and the other failure is probably puppet-server/passenger acting up.
 # TODO: AND through api group rather than individual nodes
-# TODO: see if role could be swapped to be played last and thus failing could be done by vanilla ansible-role-puppetize/master
+# TODO: See if failing could be deferred to vanilla ansible-role-puppetize/master
     - fail:
       when: loopfail and hostvars['api-node0'].puppetize_result.rc != 2 and hostvars['api-node1'].puppetize_result.rc != 2

@@ -1,30 +1,16 @@
 ---
-# Workarounds for both api nodes
+# This playbook contains API node modifications that
+# should be done before puppetizing.
+
 - hosts: api
   become: true
   become_user: root
   pre_tasks:
-# # workaround: SELinux blocks rabbitmq HiPE compilation and httpd
-#     - shell: sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
-#     - shell: sleep 5 && shutdown -r now
-#       async: 1
-#       poll: 0
-#       args:
-#         creates: /usr/bin/pip-python
-#       ignore_errors: true
-#     - meta: clear_host_errors
-#     - pause:
-#         seconds: 30
 # workaround: pip provider fails
     - shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
         creates: /usr/bin/pip-python
-# workaround: Add admin role outside of puppet code
-    - cron:
-        name: Add admin role to service group
-        user: root
-        job: source /root/openrc.admintoken;openstack role add --project service --group service admin
-# workaround: preinstall openstack CLI
+# workaround: Preinstall openstack CLI
     - yum:
         name: centos-release-openstack-newton
         state: present
@@ -36,13 +22,10 @@
         path: /bin/openstack
         insertafter: import\ sys
         line: "sys.argv.append('--insecure')"
-      ignore_errors: true
-# workaround: Create NFS share for glance
-    - file:
-        path: /srv/glance_nfs/cloud_devel
-        state: directory
-        recurse: yes
-        mode: 0755
-    - meta: clear_host_errors
-  roles:
-    - { role: ansible-role-nfs, nfs_exports: { "/srv/glance_nfs/cloud_devel *(rw,sync,no_root_squash)" } }
+#     ignore_errors: true
+# workaround: Add admin role outside of puppet code
+    - cron:
+        name: Add admin role to service group
+        user: root
+        job: "source /root/openrc.admintoken; openstack role add --project {{ service_group_name }} --group {{ service_group_name }} admin"
+#    - meta: clear_host_errors

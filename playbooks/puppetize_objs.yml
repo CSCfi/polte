@@ -1,4 +1,6 @@
 ---
+# Puppetize object nodes.
+
 - hosts: obj
   become: true
   become_user: root
