@@ -80,12 +80,20 @@ pipeline {
                 })
             }
         }
-        stage('Puppetize object storage nodes') {
+        stage('Parallel external network nodes') {
             steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-obj.sh
-                '''
+                parallel("Puppetize object storage nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-obj.sh
+                    '''
+                },
+                "Puppetize network nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-net.sh
+                    '''
+                })
             }
         }
         stage('Post-puppetize actions') {

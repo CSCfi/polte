@@ -22,7 +22,11 @@
         environment:
           - "{{ heat_environment_file }}"
 
-    - debug: msg="{{ heat_stack.stack.outputs[0].output_value[0].addresses.keys()[0] }}"
+    # In the next task, addresses[0] or addresses.0 did not
+    # work for some reason.
+    #
+    # shifted for network node testing
+    - debug: msg="{{ heat_stack.stack.outputs[1].output_value[0].addresses.keys()[0] }}"
       register: magic_index_network
 
     - name: Add Galera nodes to inventory
@@ -40,6 +44,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "galera"
 
     - name: Add api nodes to inventory
@@ -57,6 +62,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "api"
 
     - name: Add obj nodes to inventory
@@ -74,7 +80,26 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "obj"
+
+    - name: Add net nodes to inventory
+      add_host:
+        name: "{{ item.name }}"
+        groups: "{{ item.metadata.ansible_group }}"
+        ansible_ssh_host: "{{ item.addresses[magic_index_network.msg][0].addr }}"
+        ansible_ssh_user: "{{ vm_user_account }}"
+      no_log: yes
+      with_items:
+        - "{{ heat_stack.stack.outputs[0].output_value }}"
+        - "{{ heat_stack.stack.outputs[1].output_value }}"
+        - "{{ heat_stack.stack.outputs[2].output_value }}"
+        - "{{ heat_stack.stack.outputs[3].output_value }}"
+        - "{{ heat_stack.stack.outputs[4].output_value }}"
+        - "{{ heat_stack.stack.outputs[5].output_value }}"
+        - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
+      when: item.metadata.ansible_group == "net"
 
     - name: Add Ceph mon nodes to inventory
       add_host:
@@ -91,6 +116,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "cephmon"
 
     - name: Add Ceph osd nodes to inventory
@@ -108,6 +134,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "cephosd"
 
     - name: Add puppet node to inventory
@@ -125,6 +152,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "puppet"
 
     - name: Add LDAP node to inventory
@@ -142,6 +170,7 @@
         - "{{ heat_stack.stack.outputs[4].output_value }}"
         - "{{ heat_stack.stack.outputs[5].output_value }}"
         - "{{ heat_stack.stack.outputs[6].output_value }}"
+        - "{{ heat_stack.stack.outputs[7].output_value }}"
       when: item.metadata.ansible_group == "ldap"
 
     - name: Generate an inventory file
