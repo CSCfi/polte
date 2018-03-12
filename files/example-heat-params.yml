@@ -17,6 +17,8 @@ parameter_defaults:
   ceph_mon_node_image:  CentOS-7
   ceph_osd_node_flavor: io.70GB
   ceph_osd_node_image:  CentOS-7
+  net_node_flavor:      standard.tiny
+  net_node_image:       CentOS-7
 
   jumphost_allow_ssh_cidr: X.Y.Z.V/32
   mgmt_subnet_cidr:        S.P.Q.R/24

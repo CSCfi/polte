@@ -31,7 +31,7 @@
   gather_facts: yes
   tasks:
     - meta: clear_host_errors
-# workaround: Prevent dhcp on eth[01] touching DNS
+# workaround: Prevent dhcp on eth interfaces touching DNS
     - name: Modify interface network-scripts
       copy:
         content: |
@@ -62,7 +62,7 @@
   gather_facts: yes
   tasks:
     - meta: clear_host_errors
-# workaround: Prevent dhcp on eth[01] touching DNS
+# workaround: Prevent dhcp on eth interfaces touching DNS
     - name: Modify interface network-scripts
       copy:
         content: |

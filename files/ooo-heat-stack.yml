@@ -35,6 +35,13 @@ parameters:
     description: List of obj node hostnames
     type: comma_delimited_list
     default: ["obj-node0", "obj-node1"]
+  net_server_count:
+    type: number
+    default: 1
+  net_node_names:
+    description: List of net node hostnames
+    type: comma_delimited_list
+    default: ["net-node0"]
   jumphost_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the jumphost from.
     type: string
@@ -183,6 +190,12 @@ resources:
     properties:
       rules:
         - protocol: tcp
+
+  network_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
           port_range_min: 22
@@ -309,6 +322,20 @@ resources:
           mgmt_network_name: { get_resource: mgmt_network }
           ooo_osd_secgroup: { get_resource: ceph_osd_secgroup }
 
+  net_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: {get_param: net_server_count}
+      resource_def:
+        type: net-node.yaml
+        properties:
+          index: "%index%"
+          net_node_names: { get_param: net_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          ext_network_name: { get_resource: ext_network }
+          proj_network_name: { get_resource: proj_network }
+          ooo_network_secgroup: { get_resource: network_secgroup }
+
   galera_nodes:
     type: OS::Heat::ResourceGroup
     properties:
@@ -400,6 +427,9 @@ outputs:
   ceph_osd_nodes_group:
     description: The group of Ceph OSD nodes
     value: { get_attr: [ceph_osd_nodes, show] }
+  net_nodes_group:
+    description: The group of network nodes
+    value: { get_attr: [net_nodes, show] }
   puppet_node:
     description: The puppet node
     value: { get_attr: [puppet_node, show] }
