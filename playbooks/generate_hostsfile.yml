@@ -40,7 +40,7 @@
           ONBOOT="yes"
           PEERDNS="no"
         dest: /etc/sysconfig/network-scripts/ifcfg-{{ item }}
-      with_items: "{{ ansible_interfaces | difference('lo') }}"
+      with_items: "{{ ansible_interfaces | difference('lo') | difference('fake') }}"
       notify:
         - Reboot
     - meta: flush_handlers
@@ -71,7 +71,7 @@
           ONBOOT="yes"
           PEERDNS="no"
         dest: /etc/sysconfig/network-scripts/ifcfg-{{ item }}
-      with_items: "{{ ansible_interfaces | difference('lo') }}"
+      with_items: "{{ ansible_interfaces | difference('lo') | difference('fake') }}"
       notify:
         - Reboot
     - meta: flush_handlers
