@@ -17,6 +17,7 @@ cd playbooks
 rm -Rf ceph-ansible
 git clone https://github.com/ceph/ceph-ansible.git
 cd ceph-ansible
+git checkout v3.1.0beta3
 cp ../../ssh.config .
 cp ../../ansible.cfg .
 ln -s ../../.ssh
