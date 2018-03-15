@@ -77,12 +77,8 @@ pipeline {
                     sh '''
                         source ceph-ansible.sh
                     '''
-                })
-            }
-        }
-        stage('Parallel external network nodes') {
-            steps {
-                parallel("Puppetize object storage nodes": {
+                },
+                "Puppetize object storage nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
