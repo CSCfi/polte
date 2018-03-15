@@ -22,19 +22,19 @@ pipeline {
         }
         stage('Parallel bootstrap') {
             steps {
-                parallel("Bootstrap LDAP server": {
+                parallel("Ansiblize LDAP server": {
                     echo "LDAP"
                     sh '''
                         source ldap.sh
                     '''
                 },
-                "Bootstrap and puppetize puppetmaster": {
+                "Puppetize puppetmaster and apply mods": {
                     echo "Puppetmaster"
                     sh '''
                         source puppetmaster.sh
                     '''
                 },
-                "Bootstrap API nodes": {
+                "Pre-API modifications": {
                     echo "APIs"
                     sh '''
                         source api-pre.sh
@@ -44,29 +44,19 @@ pipeline {
         }
         stage('Parallel backend') {
             steps {
-                parallel("Puppetize backend": {
+                parallel("Puppetize backend nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-backend.sh
                     '''
                 },
-                "Regenerate hostsfile": {
-                    echo 'Generating hostsfile'
+                "Puppetize network nodes": {
+                    echo 'Puppetizing'
                     sh '''
-                        source hosts.sh
+                        source puppetize-net.sh
                     '''
                 },
-                "Puppetmaster mods": {
-                    echo "Modifying puppet envs"
-                    sh '''
-                        source puppet-env-mods.sh
-                    '''
-                })
-            }
-        }
-        stage('Provision API and Ceph nodes') {
-            steps {
-                parallel("Puppetize API nodes": {
+                "Puppetize API nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-api.sh
@@ -80,28 +70,20 @@ pipeline {
                 })
             }
         }
-        stage('Parallel external network nodes') {
+        stage('Post-API actions') {
             steps {
-                parallel("Puppetize object storage nodes": {
+                parallel("Post-API modifications": {
+                    echo 'Deploying'
+                    sh '''
+                        source api-post.sh
+                    '''
+                },
+                "Puppetize object storage nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
                     '''
-                },
-                "Puppetize network nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-net.sh
-                    '''
                 })
-            }
-        }
-        stage('Post-puppetize actions') {
-            steps {
-                echo 'Deploying'
-                sh '''
-                    source api-post.sh
-                '''
             }
         }
     }
