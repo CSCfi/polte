@@ -34,7 +34,7 @@ pipeline {
                         source puppetmaster.sh
                     '''
                 },
-                "Bootstrap API nodes": {
+                "Pre-API modifications": {
                     echo "APIs"
                     sh '''
                         source api-pre.sh
