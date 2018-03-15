@@ -28,7 +28,7 @@ pipeline {
                         source ldap.sh
                     '''
                 },
-                "Puppetize puppetmaster": {
+                "Puppetize puppetmaster and apply mods": {
                     echo "Puppetmaster"
                     sh '''
                         source puppetmaster.sh
