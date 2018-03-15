@@ -1,5 +1,5 @@
 #!/bin/bash +xe
-TIMEOUT=1000
+TIMEOUT=1100
 
 #env
 source ansible_shell_env.sh
