@@ -22,13 +22,13 @@ pipeline {
         }
         stage('Parallel bootstrap') {
             steps {
-                parallel("Bootstrap LDAP server": {
+                parallel("Ansiblize LDAP server": {
                     echo "LDAP"
                     sh '''
                         source ldap.sh
                     '''
                 },
-                "Bootstrap and puppetize puppetmaster": {
+                "Puppetize puppetmaster": {
                     echo "Puppetmaster"
                     sh '''
                         source puppetmaster.sh
