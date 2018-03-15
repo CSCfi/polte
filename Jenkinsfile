@@ -55,12 +55,8 @@ pipeline {
                     sh '''
                         source puppetize-net.sh
                     '''
-                })
-            }
-        }
-        stage('Provision API and Ceph nodes') {
-            steps {
-                parallel("Puppetize API nodes": {
+                },
+                "Puppetize API nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-api.sh
