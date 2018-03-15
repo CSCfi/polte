@@ -44,22 +44,16 @@ pipeline {
         }
         stage('Parallel backend') {
             steps {
-                parallel("Puppetize backend": {
+                parallel("Puppetize backend nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-backend.sh
                     '''
                 },
-                "Regenerate hostsfile": {
-                    echo 'Generating hostsfile'
+                "Puppetize network nodes": {
+                    echo 'Puppetizing'
                     sh '''
-                        source hosts.sh
-                    '''
-                },
-                "Puppetmaster mods": {
-                    echo "Modifying puppet envs"
-                    sh '''
-                        source puppet-env-mods.sh
+                        source puppetize-net.sh
                     '''
                 })
             }
@@ -77,27 +71,23 @@ pipeline {
                     sh '''
                         source ceph-ansible.sh
                     '''
+                })
+            }
+        }
+        stage('Post-API actions') {
+            steps {
+                parallel("Post-API modifications": {
+                    echo 'Deploying'
+                    sh '''
+                        source api-post.sh
+                    '''
                 },
                 "Puppetize object storage nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
                     '''
-                },
-                "Puppetize network nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-net.sh
-                    '''
                 })
-            }
-        }
-        stage('Post-puppetize actions') {
-            steps {
-                echo 'Deploying'
-                sh '''
-                    source api-post.sh
-                '''
             }
         }
     }
