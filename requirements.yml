@@ -6,7 +6,6 @@
 - src: git@github.com:CSCfi/ansible-role-puppetize.git
   scm: git
   path: roles
-  version: puppetconfmod
 
 - src: https://github.com/junousi/ansible-openldap_server.git
   name: ansible-role-openldap-server
