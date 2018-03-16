@@ -12,6 +12,9 @@
     - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
   post_tasks:
     - shell: iptables -F
+    - shell: rm -Rf /etc/puppet/modules
+    - shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
+      ignore_errors: True
     - name: Modify puppetdb -Xmx setting and restart services
       shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
     - shell: 'sed -i "s/Xmx512m/Xmx2048m/" "/etc/sysconfig/puppetdb"'
