@@ -4,7 +4,8 @@
 
 {% for item in ansible_play_hosts %}
 {% set alt_name = item | regex_replace('^(.*)$', '\\1.openstacklocal') %}
-{{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} {{ item }} {{ alt_name }} {% if hostvars[item] == "puppet-node" %}puppet{% endif %}
+{{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} {{ item }} {{ alt_name }} {% if item == "puppet-node" %}puppet{% endif %}
+
 {% endfor %}
 
 {% for item in ansible_play_hosts %}
