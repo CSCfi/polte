@@ -91,7 +91,7 @@
 - hosts: all
   become: yes
   become_user: root
-  gather_facts: yes
+  gather_facts: no
   tasks:
     - meta: clear_host_errors
     - name: Generate /etc/hosts file
