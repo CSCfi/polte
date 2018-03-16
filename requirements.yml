@@ -1,7 +1,6 @@
 - src: git@github.com:CSCfi/ansible-role-puppetmaster.git
   scm: git
   path: roles
-  version: cloud-OoO-workarounds
 
 - src: git@github.com:CSCfi/ansible-role-puppetize.git
   scm: git
