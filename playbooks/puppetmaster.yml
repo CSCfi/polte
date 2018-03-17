@@ -18,3 +18,5 @@
     - name: Workaround - Modules may fall back to this dir
       shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
       ignore_errors: True
+    - name: Workaround - Create production dir
+      shell: mkdir -p /etc/puppet/environments/production; chown apache:root /etc/puppet/environments/production
