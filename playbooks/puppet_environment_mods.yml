@@ -20,8 +20,8 @@
         - magnum
         - barbican
     - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib2\/puppet\/provider\/openstack')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
+      shell: sed -i "s/require 'puppet\/provider\/openstack'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib\/puppet\/provider\/openstack')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
     - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack\/auth'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib2\/puppet\/provider\/openstack\/auth')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
+      shell: sed -i "s/require 'puppet\/provider\/openstack\/auth'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib\/puppet\/provider\/openstack\/auth')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
     - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack\/credentials'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib2\/puppet\/provider\/openstack\/credentials')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
+      shell: sed -i "s/require 'puppet\/provider\/openstack\/credentials'/require File.join(File.dirname(__FILE__),'..','..','..','..','puppet\/lib\/puppet\/provider\/openstack\/credentials')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
