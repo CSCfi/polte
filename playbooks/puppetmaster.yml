@@ -11,12 +11,18 @@
     - role: ansible-role-puppetmaster
     - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
   post_tasks:
-    - shell: iptables -F
-    - shell: rm -Rf /etc/puppet/modules
-    - shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
+    - name: Workaround
+      shell: iptables -F
+    - name: Workaround - Some bugs lead to modules falling back to this dir
+      shell: rm -Rf /etc/puppet/modules
+    - name: Workaround - Some bugs lead to modules falling back to this dir
+      shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
       ignore_errors: True
-    - name: Modify puppetdb -Xmx setting and restart services
-      shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
-    - shell: 'sed -i "s/Xmx512m/Xmx2048m/" "/etc/sysconfig/puppetdb"'
-    - shell: systemctl restart puppetdb
-    - shell: systemctl restart puppetmaster
+    # - name: Modify puppetdb -Xmx setting in pp
+    #   shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
+    # - name: Modify puppetdb -Xmx setting in cfg
+    #   shell: 'sed -i "s/Xmx512m/Xmx2048m/" "/etc/sysconfig/puppetdb"'
+    # - name: Restart puppetdb
+    #   shell: systemctl restart puppetdb
+    # - name: Restart puppet server
+    #   shell: systemctl restart puppetmaster
