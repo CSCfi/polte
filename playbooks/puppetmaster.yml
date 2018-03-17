@@ -13,16 +13,8 @@
   post_tasks:
     - name: Workaround
       shell: iptables -F
-    - name: Workaround - Some bugs lead to modules falling back to this dir
+    - name: Workaround - Modules may fall back to this dir
       shell: rm -Rf /etc/puppet/modules
-    - name: Workaround - Some bugs lead to modules falling back to this dir
+    - name: Workaround - Modules may fall back to this dir
       shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
       ignore_errors: True
-    # - name: Modify puppetdb -Xmx setting in pp
-    #   shell: 'sed -i "s/512m/2048m/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/puppetmaster.pp"'
-    # - name: Modify puppetdb -Xmx setting in cfg
-    #   shell: 'sed -i "s/Xmx512m/Xmx2048m/" "/etc/sysconfig/puppetdb"'
-    # - name: Restart puppetdb
-    #   shell: systemctl restart puppetdb
-    # - name: Restart puppet server
-    #   shell: systemctl restart puppetmaster
