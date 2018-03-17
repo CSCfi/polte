@@ -24,5 +24,5 @@
     #   shell: 'sed -i "s/Xmx512m/Xmx2048m/" "/etc/sysconfig/puppetdb"'
     # - name: Restart puppetdb
     #   shell: systemctl restart puppetdb
-    # - name: Restart puppet server
-    #   shell: systemctl restart puppetmaster
+    - name: Restart puppet server
+      shell: systemctl restart puppetmaster
