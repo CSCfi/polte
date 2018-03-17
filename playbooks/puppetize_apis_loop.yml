@@ -5,6 +5,7 @@
   become: true
   become_user: root
   pre_tasks:
-    - shell: iptables -F
+    - name: Flush firewall rules for bootstrap - Puppetize will reinstate them
+      shell: iptables -F
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }

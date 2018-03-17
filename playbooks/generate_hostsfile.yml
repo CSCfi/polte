@@ -30,7 +30,6 @@
   become_user: root
   gather_facts: yes
   tasks:
-    - meta: clear_host_errors
 # workaround: Prevent dhcp on eth interfaces touching DNS
     - name: Modify interface network-scripts
       copy:
@@ -43,7 +42,8 @@
       with_items: "{{ ansible_interfaces | difference('lo') | difference('fake0') }}"
       notify:
         - Reboot
-    - meta: flush_handlers
+    - name: Flush handlers
+      meta: flush_handlers
   handlers:
     - name: Sleep and reboot
       shell: sleep 5 && shutdown -r now
@@ -61,7 +61,6 @@
   become_user: root
   gather_facts: yes
   tasks:
-    - meta: clear_host_errors
 # workaround: Prevent dhcp on eth interfaces touching DNS
     - name: Modify interface network-scripts
       copy:
@@ -74,7 +73,8 @@
       with_items: "{{ ansible_interfaces | difference('lo') | difference('fake0') }}"
       notify:
         - Reboot
-    - meta: flush_handlers
+    - name: Flush handlers
+      meta: flush_handlers
   handlers:
     - name: Sleep and reboot
       shell: sleep 5 && shutdown -r now
@@ -93,7 +93,8 @@
   become_user: root
   gather_facts: no
   tasks:
-    - meta: clear_host_errors
+    - name: Clear host errors
+      meta: clear_host_errors
     - name: Generate /etc/hosts file
       template:
         src: templates/hosts.j2

@@ -35,4 +35,5 @@
 
 # workaround: Missing ssh tunneling for bootstrap. TODO: Check current status, remove if possible.
   tasks:
-    - shell: iptables -F
+    - name: Clear firewall rules
+      shell: iptables -F

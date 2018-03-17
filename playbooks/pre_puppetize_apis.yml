@@ -7,25 +7,26 @@
   become_user: root
   pre_tasks:
 # workaround: pip provider fails
-    - shell: ln -s /usr/bin/pip /usr/bin/pip-python
+    - name: Workaround pip provider failure
+      shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
         creates: /usr/bin/pip-python
 # workaround: Preinstall openstack CLI
-    - yum:
+    - name: Preinstall openstack CLI - Newton repo
+      yum:
         name: centos-release-openstack-newton
         state: present
-    - yum:
+    - name: Preinstall openstack CLI
+      yum:
         name: python-openstackclient
         state: present
-    - name: use insecure in all /bin/openstack calls due to self-signed cert
+    - name: Use insecure in all /bin/openstack calls due to self-signed cert
       lineinfile:
         path: /bin/openstack
         insertafter: import\ sys
         line: "sys.argv.append('--insecure')"
-#     ignore_errors: true
 # workaround: Add admin role outside of puppet code
     - cron:
         name: Add admin role to service group
         user: root
         job: "source /root/openrc.admintoken; openstack role add --project {{ service_group_name }} --group {{ service_group_name }} admin"
-#    - meta: clear_host_errors
