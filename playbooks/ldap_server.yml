@@ -5,8 +5,9 @@
   become: true
   become_user: root
   pre_tasks:
-    - shell: mkdir /etc/openldap/slapd.d; mkdir /etc/ldap; touch /etc/ldap/acl.conf
-      ignore_errors: true
+    - name: Create files and directories presumed by ldap role
+      shell: mkdir -p /etc/openldap/slapd.d; mkdir -p /etc/ldap; touch /etc/ldap/acl.conf
+#      ignore_errors: true
   roles:
     - role: ansible-role-openldap-server
       openldap_server_domain_name: acme.org

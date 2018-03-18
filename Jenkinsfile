@@ -42,7 +42,7 @@ pipeline {
                 })
             }
         }
-        stage('Parallel backend') {
+        stage('Parallel backend and frontend') {
             steps {
                 parallel("Puppetize backend nodes": {
                     echo 'Puppetizing'

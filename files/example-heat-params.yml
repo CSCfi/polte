@@ -3,7 +3,7 @@
 parameter_defaults:
   ssh_key_name: frank
 
-  api_node_flavor:      standard.large
+  api_node_flavor:      standard.xlarge
   api_node_image:       CentOS-7
   galera_node_flavor:   standard.tiny
   galera_node_image:    CentOS-7
