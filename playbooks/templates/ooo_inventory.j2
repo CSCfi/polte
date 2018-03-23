@@ -33,3 +33,8 @@ puppet-node ansible_ssh_host={{ hostvars['puppet-node']['ansible_ssh_host'] }} a
 
 [ldap]
 ldap-node ansible_ssh_host={{ hostvars['ldap-node']['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars['ldap-node']['ansible_ssh_user'] }}
+
+[compute]
+{% for node in groups['compute'] %}
+{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
+{% endfor %}
