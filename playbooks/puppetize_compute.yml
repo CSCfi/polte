@@ -2,5 +2,10 @@
 - hosts: compute
   become: true
   become_user: root
+  pre_tasks:
+    - shell: yum install centos-release-openstack-newton.noarch
+    - shell: rpm -Uvh http://sarepos.cpanel.net/centos/7/noarch/MegaCli-8.07.14-1.el7.centos.noarch.rpm
+    - shell: yum install /bin/ksh libmcrypt bind-utils libtool-libs
+    - shell: rpm -Uvh https://github.com/amuraru/opsview-rpms/raw/master/centos/7/opsview-agent-4.5.4.473-1.ct7.x86_64.rpm
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
