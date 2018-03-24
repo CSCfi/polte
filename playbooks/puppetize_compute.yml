@@ -12,8 +12,10 @@
       ignore_errors: true
     - shell: rpm -Uvh https://github.com/amuraru/opsview-rpms/raw/master/centos/7/opsview-agent-4.5.4.473-1.ct7.x86_64.rpm
       ignore_errors: true
+#TODO sort this out
     - shell: mkdir -p /var/log/nagios/.ssh
     - shell: chmod -R 700 /var/log/nagios
     - shell: touch /var/log/nagios/.ssh/authorized_keys
+    - shell: chmod 777 /var/log/nagios/.ssh/authorized_keys
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
