@@ -5,6 +5,7 @@
   pre_tasks:
     - shell: yum -y install centos-release-openstack-newton.noarch
       ignore_errors: true
+#HACK. TODO, figure out proper repos, keys etc.
     - shell: rpm -Uvh http://sarepos.cpanel.net/centos/7/noarch/MegaCli-8.07.14-1.el7.centos.noarch.rpm
       ignore_errors: true
     - shell: yum -y install /bin/ksh libmcrypt bind-utils libtool-libs
