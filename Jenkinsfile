@@ -67,12 +67,6 @@ pipeline {
                     sh '''
                         source ceph-ansible.sh
                     '''
-                },
-                "Puppetize compute nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-compute.sh
-                    '''
                 })
             }
         }
@@ -88,6 +82,12 @@ pipeline {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
+                    '''
+                },
+                "Puppetize compute nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-compute.sh
                     '''
                 })
             }
