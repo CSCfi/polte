@@ -3,20 +3,32 @@
   become: true
   become_user: root
   pre_tasks:
-    - shell: yum -y install centos-release-openstack-newton.noarch
-      ignore_errors: true
-#HACK. TODO, figure out proper repos, keys etc.
-    - shell: rpm -Uvh http://sarepos.cpanel.net/centos/7/noarch/MegaCli-8.07.14-1.el7.centos.noarch.rpm
-      ignore_errors: true
-    - shell: yum -y install /bin/ksh libmcrypt bind-utils libtool-libs
-      ignore_errors: true
-    - shell: rpm -Uvh https://github.com/amuraru/opsview-rpms/raw/master/centos/7/opsview-agent-4.5.4.473-1.ct7.x86_64.rpm
-      ignore_errors: true
+    - yum:
+        name: "{{ item }}"
+        state: present
+        with_items:
+          - centos-release-openstack-newton.noarch
+          - unzip
+          - ksh
+          - libmcrypt
+          - bind-utils
+          - libtool-libs
+    - unarchive:
+        src: http://www.avagotech.com/docs-and-downloads/raid-controllers/raid-controllers-common-files/8-07-14_MegaCLI.zip
+        dest: /tmp
+        remote_src: yes
+    - yum:
+        name: /tmp/Linux/MegaCli-8.07.14-1.noarch.rpm
+        state: present
+    - get_url:
+        url: https://s3.amazonaws.com/opsview-agents/centos7/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
+        dest: /tmp/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
+        force: no
+    - yum:
+        name: /tmp/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
+        state: present
     - shell: mkdir -p /var/log/nagios/.ssh
-      ignore_errors: true
     - shell: touch /var/log/nagios/.ssh/authorized_keys
-      ignore_errors: true
     - shell: chown nagios:nagios /var/log/nagios/.ssh/authorized_keys
-      ignore_errors: true
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
