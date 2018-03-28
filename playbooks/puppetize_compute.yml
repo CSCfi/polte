@@ -6,13 +6,13 @@
     - yum:
         name: "{{ item }}"
         state: present
-        with_items:
-          - centos-release-openstack-newton.noarch
-          - unzip
-          - ksh
-          - libmcrypt
-          - bind-utils
-          - libtool-libs
+      with_items:
+        - centos-release-openstack-newton.noarch
+        - unzip
+        - ksh
+        - libmcrypt
+        - bind-utils
+        - libtool-libs
     - unarchive:
         src: http://www.avagotech.com/docs-and-downloads/raid-controllers/raid-controllers-common-files/8-07-14_MegaCLI.zip
         dest: /tmp
