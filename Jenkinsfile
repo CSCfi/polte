@@ -70,20 +70,28 @@ pipeline {
                 })
             }
         }
-        stage('Post-API actions') {
+        stage('Post-API puppetize') {
             steps {
-                parallel("Post-API modifications": {
-                    echo 'Deploying'
-                    sh '''
-                        source api-post.sh
-                    '''
-                },
-                "Puppetize object storage nodes": {
+                parallel("Puppetize object storage nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-obj.sh
                     '''
+                },
+                "Puppetize compute nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-compute.sh
+                    '''
                 })
+            }
+        }
+        stage('Cleanup and Horizon mods') {
+            steps {
+                echo 'Post-API Horizon modifications'
+                sh '''
+                    source api-post.sh
+                '''
             }
         }
     }

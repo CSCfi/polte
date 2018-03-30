@@ -42,6 +42,13 @@ parameters:
     description: List of net node hostnames
     type: comma_delimited_list
     default: ["net-node0"]
+  compute_server_count:
+    type: number
+    default: 2
+  compute_node_names:
+    description: List of compute node hostnames
+    type: comma_delimited_list
+    default: ["compute-node0", "compute-node1"]
   jumphost_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the jumphost from.
     type: string
@@ -74,6 +81,9 @@ parameters:
     type: string
   ceph_osd_node_image:
     description: The image to use for Ceph monitor nodes.
+    type: string
+  compute_node_image:
+    description: The image to use for compute nodes.
     type: string
   floating_ip_pool:
     type: string
@@ -221,6 +231,15 @@ resources:
           port_range_min: 22
           port_range_max: 22
 
+  compute_secgroup:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules:
+        - protocol: tcp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 22
+          port_range_max: 22
+
   proj_network:
     type: OS::Neutron::Net
 
@@ -336,6 +355,19 @@ resources:
           proj_network_name: { get_resource: proj_network }
           ooo_network_secgroup: { get_resource: network_secgroup }
 
+  compute_nodes:
+    type: OS::Heat::ResourceGroup
+    properties:
+      count: { get_param: compute_server_count }
+      resource_def:
+        type: compute-node.yaml
+        properties:
+          index: "%index%"
+          compute_node_names: { get_param: compute_node_names }
+          mgmt_network_name: { get_resource: mgmt_network }
+          proj_network_name: { get_resource: proj_network }
+          ooo_compute_secgroup: { get_resource: compute_secgroup }
+
   galera_nodes:
     type: OS::Heat::ResourceGroup
     properties:
@@ -436,3 +468,6 @@ outputs:
   ldap_node:
     description: The LDAP node
     value: { get_attr: [ldap_node, show] }
+  compute_nodes_group:
+    description: The group of compute nodes
+    value: { get_attr: [compute_nodes, show] }

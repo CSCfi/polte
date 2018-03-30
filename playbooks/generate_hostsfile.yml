@@ -91,7 +91,7 @@
 - hosts: all
   become: yes
   become_user: root
-  gather_facts: no
+  gather_facts: yes
   tasks:
     - name: Clear host errors
       meta: clear_host_errors

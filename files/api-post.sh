@@ -13,8 +13,8 @@ ansible-playbook -i inventory playbooks/post_puppetize_apis.yml
 
 #cleanup
 if [ $? -eq 0 ]; then
-#  openstack stack delete MULTIBRANCH_"$PUPPET_ENVIRONMENT"
-#  rm inventory/ooo_inventory
+  openstack stack delete MULTIBRANCH_"$PUPPET_ENVIRONMENT"
+  rm inventory/ooo_inventory
   ssh-agent -k
   exit 0
 else
