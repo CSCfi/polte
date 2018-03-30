@@ -179,7 +179,7 @@
         - "{{ heat_stack.stack.outputs[8].output_value }}"
       when: item.metadata.ansible_group == "ldap"
 
-    - name: Add compute node to inventory
+    - name: Add computes node to inventory
       add_host:
         name: "{{ item.name }}"
         groups: "{{ item.metadata.ansible_group }}"
