@@ -8,7 +8,7 @@
 
 {% endfor %}
 
-{% for item in ansible_play_hosts %}
+{% for item in ( groups['api'] | union(groups['net']) | union(groups['obj']) ) %}
 {% if 'ansible_eth1' in hostvars[item]
 and 'ipv4' in hostvars[item]['ansible_eth1']
 and hostvars[item]['ansible_eth1']['ipv4']['address'] is defined %}
