@@ -86,7 +86,7 @@ pipeline {
                 })
             }
         }
-        stage('Stack delete if no errors') {
+        stage('Cleanup and Horizon mods') {
             steps {
                 echo 'Post-API Horizon modifications'
                 sh '''
