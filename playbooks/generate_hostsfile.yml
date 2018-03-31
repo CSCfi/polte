@@ -13,12 +13,12 @@
 # gateways and static routes for API/object/network nodes or
 # other nodes which have legs in multiple networks.
 #
-# API node SELinux is also disabled. That part is not related to
+# API/obj node SELinux is also disabled. That is not related to
 # the hosts file per se, it's just most optimal to do before
 # reboots.
 
-# workaround: SELinux blocks rabbitmq HiPE compilation and httpd.
-- hosts: api
+# workaround: SELinux <> rabbitmq HiPE compilation, httpd, haproxy..
+- hosts: api:obj
   become: yes
   become_user: root
   gather_facts: no
