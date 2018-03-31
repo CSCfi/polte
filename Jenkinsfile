@@ -67,16 +67,6 @@ pipeline {
                     sh '''
                         source ceph-ansible.sh
                     '''
-                })
-            }
-        }
-        stage('Post-API puppetize') {
-            steps {
-                parallel("Puppetize object storage nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-obj.sh
-                    '''
                 },
                 "Puppetize compute nodes": {
                     echo 'Puppetizing'
@@ -84,6 +74,14 @@ pipeline {
                         source puppetize-compute.sh
                     '''
                 })
+            }
+        }
+        stage('Post-API puppetize') {
+            steps {
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-obj.sh
+                '''
             }
         }
         stage('Cleanup and Horizon mods') {
