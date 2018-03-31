@@ -14,11 +14,6 @@
       shell: 'sed -i "s/auth=neutron_auth)/auth=neutron_auth,verify=False)/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/files/tools/create-tenants.py'
     - name: workaround - ignore public network related errors
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
-    - name: workaround - modify db connection strings since tunneling doesn't work (TODO check current status)
-      shell: 'sed -i "s/localhost/galera-node0.openstacklocal/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp'
-      with_items:
-        - magnum
-        - barbican
     - name: workaround - PUP-7657
       shell: sed -i "s/require 'puppet\/provider\/openstack'/require File.join(File.dirname(__FILE__),'..','..','..','..','openstacklib\/lib\/puppet\/provider\/openstack')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
     - name: workaround - PUP-7657
