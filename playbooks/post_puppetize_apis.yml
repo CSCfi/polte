@@ -33,7 +33,7 @@
     - name: Create testuser openrc header
       shell: echo "#!/usr/bin/env bash" > "{{ testuser_openrc }}"
     - name: Add testuser openrc project UUID
-      shell: echo "export OS_PROJECT_ID=$(openstack project show testgroup -f value -c id)" >> "{{ testuser_openrc }}"
+      shell: echo "export OS_PROJECT_ID=$(source /root/openrc.admintoken;openstack project show testgroup -f value -c id)" >> "{{ testuser_openrc }}"
     - name: Add remainder of testuser openrc file
       blockinfile:
         dest: "{{ testuser_openrc }}"
