@@ -4,6 +4,8 @@
 - hosts: api
   become: yes
   become_user: root
+  vars:
+    testuser_openrc: /root/testuser.sh
   tasks:
     - name: Disable Horizon to keystone SSL verification
       lineinfile:
@@ -14,3 +16,35 @@
       shell: sed -i "s/^ALLOWED_HOSTS.*/ALLOWED_HOSTS = ['*', ]/" /etc/openstack-dashboard/local_settings
     - name: Change Horizon login backend to ldap
       shell: sed -i 's/native/ldap/' /etc/openstack-dashboard/local_settings
+#workaround: For the time being, don't use vanilla scripts for tenant creation and mapping
+    - name: Create non-admin test project
+      shell: openstack project create testgroup --domain Default
+    - name: Grant member role to test project
+      shell: openstack role add --project-domain Default --project testgroup --group testgroup member
+    - name: Grant object role to test project
+      shell: openstack role add --project-domain Default --project testgroup --group testgroup object_store_user
+    - name: Grant admin role to service project
+      shell: openstack role add --project-domain Default --project service --group service admin
+#bonus! create openrc
+    - name: Create testuser openrc header
+      shell: echo "#!/usr/bin/env bash" > "{{ testuser_openrc }}"
+      args:
+        creates: "{{ testuser_openrc }}"
+    - name: Add testuser openrc project UUID
+      shell: echo "export OS_PROJECT_ID=$(openstack project show testgroup -f value -c id)" >> "{{ testuser_openrc }}"
+      args:
+        creates: "{{ testuser_openrc }}"
+    - name: Add remainder of testuser openrc file
+      blockinfile:
+        dest: "{{ testuser_openrc }}"
+        creates: "{{ testuser_openrc }}"
+        insertafter: EOF
+        block: |
+          export OS_USER_DOMAIN_NAME="Default"
+          export OS_PROJECT_NAME=testgroup
+          export OS_USERNAME=testuser
+          export OS_PASSWORD="{{vault_testuser_password}}"
+          export OS_AUTH_URL=https://api-node0.ext.openstacklocal:5001/v3
+          export OS_IDENTITY_API_VERSION=3
+          export OS_REGION_NAME="cloud-devel"
+          export OS_INTERFACE=public
