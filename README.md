@@ -2,15 +2,15 @@
 
 An Ansible playbook for provisioning Openstack and Ceph into a Heat stack.
 
-This playbook is intended for providing a minimal environment for development
-purposes. It is not suitable for deploying production environments.
+<img src="files/polte-jenkins.png" width="49%" alt="A screenshot of polte being built"> <img src="files/polte.png" width="49%" alt="A screenshot of polte in action">
+
+The accompanying playbook and Jenkinsfile are intended for providing a 
+minimal environment for development purposes. They are not suitable for
+deploying production environments.
 
 ## Caveats
 
-* Ceph is not currently provisioned by site.yml.
-* Running site.yml may take a long time. Before root cause is fixed, consider
-  halting the 3rd puppetize run of the API nodes after about 15 minutes for
-  fastest results.
+* Ceph cluster is not currently provisioned by site.yml.
 
 ## Requirements
 
