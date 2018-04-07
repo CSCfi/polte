@@ -2,8 +2,7 @@
 
 An Ansible playbook for provisioning Openstack and Ceph into a Heat stack.
 
-<img src="files/polte-jenkins.png" width="49%" alt="A screenshot of polte being built">
-<img src="files/polte.png" width="49%" alt="A screenshot of polte in action">
+<img src="files/polte-jenkins.png" width="49%" alt="A screenshot of polte being built"> <img src="files/polte.png" width="49%" alt="A screenshot of polte in action">
 
 This playbook is intended for providing a minimal environment for development
 purposes. It is not suitable for deploying production environments.
