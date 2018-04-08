@@ -1,9 +1,7 @@
-- src: git@github.com:CSCfi/ansible-role-puppetmaster.git
-  scm: git
+- src: https://github.com/CSCfi/ansible-role-puppetmaster.git
   path: roles
 
-- src: git@github.com:CSCfi/ansible-role-puppetize.git
-  scm: git
+- src: https://github.com/CSCfi/ansible-role-puppetize.git
   path: roles
 
 - src: https://github.com/junousi/ansible-openldap_server.git
