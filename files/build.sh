@@ -4,6 +4,9 @@
 ansible-vault decrypt files/ansible_shell_env.sh.vault --output=ansible_shell_env.sh --vault-password-file=/tmp/.tmp_vault_pass
 source ansible_shell_env.sh
 
+#ssh dir
+mkdir -p .ssh/cm_socket
+
 #ansible roles
 mkdir -p roles
 ansible-galaxy install -r requirements.yml --roles-path roles/
