@@ -20,7 +20,6 @@ deploying production environments.
 ## Installation
 
 * Install roles from requirements.yml
-* Load keys into SSH agent
 * Load keys into environment (see README.md in ansible-role-puppetmaster)
 * Source openrc.sh
 * Provide host_vars (ansible-vault is presumed but not mandatory):

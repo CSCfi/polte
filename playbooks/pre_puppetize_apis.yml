@@ -25,8 +25,3 @@
         path: /bin/openstack
         insertafter: import\ sys
         line: "sys.argv.append('--insecure')"
-## workaround: Add admin role outside of puppet code
-#    - cron:
-#        name: Add admin role to service group
-#        user: root
-#        job: "source /root/openrc.admintoken; openstack role add --project {{ service_group_name }} --group {{ service_group_name }} admin"
