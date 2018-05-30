@@ -16,6 +16,11 @@
         path: /etc/yum.repos.d/rdo-release.repo
         regexp: 'http://mirror.centos.org.*openstack-newton/'
         replace: 'http://vault.centos.org/centos/7.4.1708/cloud/x86_64/openstack-newton/'
+    - replace:
+        path: /etc/yum.repos.d/CentOS-OpenStack-newton.repo
+        regexp: 'http://mirror.centos.org.*openstack-newton/'
+        replace: 'http://vault.centos.org/centos/7.4.1708/cloud/x86_64/openstack-newton/'
+      ignore_errors: true
     - yum:
         name: "{{ item }}"
         state: present
