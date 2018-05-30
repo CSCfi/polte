@@ -7,5 +7,11 @@
   pre_tasks:
     - name: Flush firewall rules for bootstrap - Puppetize will reinstate them
       shell: iptables -F
+    - name: Use insecure in all /bin/openstack calls due to self-signed cert
+      lineinfile:
+        path: /bin/openstack
+        insertafter: import\ sys
+        line: "sys.argv.append('--insecure')"
+      ignore_errors: True
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
