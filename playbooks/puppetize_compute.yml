@@ -13,7 +13,7 @@
         dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
         mode: 0644
     - replace:
-        path: /etc/yum.repos.d/*
+        path: /etc/yum.repos.d/rdo-release.repo
         regexp: 'http://mirror.centos.org.*openstack-newton/'
         replace: 'http://vault.centos.org/centos/7.4.1708/cloud/x86_64/openstack-newton/'
     - yum:
