@@ -6,6 +6,7 @@
 #workaround: Compensate for missing Spacewalk
     - blockinfile:
         path: /etc/yum.repos.d/rdo-release.repo
+        create: yes
         block: |
           [rdo-release]
           name=OpenStack Newton Repository
