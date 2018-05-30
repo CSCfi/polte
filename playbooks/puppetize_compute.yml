@@ -4,20 +4,18 @@
   become_user: root
   pre_tasks:
 #workaround: Compensate for missing Spacewalk
-    - blockinfile:
-        path: /etc/yum.repos.d/rdo-release.repo
-        create: yes
-        block: |
-          [rdo-release]
-          name=OpenStack Newton Repository
-          baseurl=http://vault.centos.org/7.4.1708/cloud/$basearch/openstack-newton/
-          enabled=1
-          gpgcheck=1
-          gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
     - get_url:
-        url: https://raw.githubusercontent.com/openstack/puppet-openstack_extras/master/files/RPM-GPG-KEY-CentOS-SIG-Cloud
+        url: https://raw.githubusercontent.com/rdo-infra/rdo-release/newton-rdo/rdo-release.repo
+        dest: /etc/yum.repos.d/rdo-release.repo
+        mode: 0644
+    - get_url:
+        url: https://raw.githubusercontent.com/rdo-infra/rdo-release/newton-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
         dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
         mode: 0644
+    - replace:
+        path: /etc/yum.repos.d/*
+        regexp: 'http://mirror.centos.org.*openstack-newton/'
+        replace: 'http://vault.centos.org/centos/7.4.1708/cloud/x86_64/openstack-newton/'
     - yum:
         name: "{{ item }}"
         state: present
