@@ -12,6 +12,7 @@
         url: https://raw.githubusercontent.com/rdo-infra/rdo-release/newton-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
         dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
         mode: 0644
+#Pin to a specific repo in CentOS vault in order to get newton packages
     - replace:
         path: /etc/yum.repos.d/rdo-release.repo
         regexp: 'http://mirror.centos.org.*openstack-newton/'
