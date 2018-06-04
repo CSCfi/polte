@@ -18,7 +18,7 @@
 # reboots.
 
 # workaround: SELinux <> rabbitmq HiPE compilation, httpd, haproxy..
-- hosts: api:obj:compute
+- hosts: api:obj:compute:ldap
   become: yes
   become_user: root
   gather_facts: no

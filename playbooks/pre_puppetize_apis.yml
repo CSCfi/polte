@@ -11,19 +11,3 @@
       shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
         creates: /usr/bin/pip-python
-# workaround: Preinstall openstack CLI
-    - shell: yum list installed python-openstackclient
-      register: pkg
-      ignore_errors: true
-    - yum:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - centos-release-openstack-newton
-        - python-openstackclient
-      when: pkg.rc != 0
-    - name: Use insecure in all /bin/openstack calls due to self-signed cert
-      lineinfile:
-        path: /bin/openstack
-        insertafter: import\ sys
-        line: "sys.argv.append('--insecure')"
