@@ -33,12 +33,6 @@ pipeline {
                     sh '''
                         source puppetmaster.sh
                     '''
-                },
-                "Pre-API modifications": {
-                    echo "APIs"
-                    sh '''
-                        source api-pre.sh
-                    '''
                 })
             }
         }

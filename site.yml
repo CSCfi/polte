@@ -19,7 +19,6 @@
 - include: playbooks/puppetize_backends.yml
 
 # Puppetize API nodes
-- include: playbooks/pre_puppetize_apis.yml
 - include: playbooks/puppetize_apis_loop.yml # fails quite fast
 - include: playbooks/puppetize_apis_loop.yml # fails quite fast
 - include: playbooks/puppetize_apis_loop.yml # typically runs for more than an hour and does not succeed - fastest strategy seems to be to timeout this 3rd run after 20 minutes or so
