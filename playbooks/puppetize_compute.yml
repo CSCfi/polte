@@ -21,16 +21,5 @@
     - yum:
         name: /tmp/Linux/MegaCli-8.07.14-1.noarch.rpm
         state: present
-    - get_url:
-        url: https://s3.amazonaws.com/opsview-agents/centos7/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
-        dest: /tmp/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
-        force: no
-    - yum:
-        name: /tmp/opsview-agent-5.4.1.172541017-1.ct7.x86_64.rpm
-        state: present
-#workaround: Nothing in puppet code seems to create these
-    - shell: mkdir -p /var/log/nagios/.ssh
-    - shell: touch /var/log/nagios/.ssh/authorized_keys
-    - shell: chown nagios:nagios /var/log/nagios/.ssh/authorized_keys
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
