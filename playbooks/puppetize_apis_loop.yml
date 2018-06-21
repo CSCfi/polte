@@ -13,5 +13,9 @@
         insertafter: import\ sys
         line: "sys.argv.append('--insecure')"
       ignore_errors: True
+    - name: Link pip-python to pip
+      shell: ln -s /usr/bin/pip /usr/bin/pip-python
+      args:
+        creates: /usr/bin/pip-python
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
