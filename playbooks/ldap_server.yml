@@ -27,6 +27,15 @@
         neutron:
           password: "{{ vault_neutron_password }}"
           uid: 90000004
+        nova:
+          password: "{{ vault_nova_password }}"
+          uid: 90000005
+        cinder:
+          password: "{{ vault_cinder_password }}"
+          uid: 90000006
+        glance:
+          password: "{{ vault_glance_password }}"
+          uid: 90000007
       openldap_server_groups:
         testgroup:
           - testuser
@@ -34,3 +43,6 @@
           - keystone
           - heat
           - neutron
+          - nova
+          - cinder
+          - glance
