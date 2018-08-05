@@ -58,13 +58,13 @@
           - adminuser: rally-admin
           - adminpassword: "{{ vault_rally-admin_password }}"
           - admin_project_name: adminproject
-          - admin_domain_name: Default
-          - admin_project_domain_name: Default
+          - admin_domain_name: service
+          - admin_project_domain_name: service
           - username: rally
           - userpassword: "{{ vault_rally_password }}"
           - user_project_name: rally
-          - user_domain_name: Default
-          - user_project_domain_name: Default
+          - user_domain_name: service
+          - user_project_domain_name: service
           - network_name: rally_network
           - tempest_extra_settings: []
           - tempest_skip_tests: {}
