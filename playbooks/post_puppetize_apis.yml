@@ -44,8 +44,7 @@
           export OS_INTERFACE=public
 
 - name: Install rally into puppetmaster
-  hosts: puppet
-  tags: puppet
+  hosts: api-node0
   become: true
   become_user: root
   roles:
