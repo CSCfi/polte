@@ -50,14 +50,14 @@
   become_user: root
   roles:
     - ansible-role-rally
-    - ansible-role-rally-scenarios
+    - role: ansible-role-rally-scenarios
       clouds:
         testcloud:
           - region: cloud-devel
           - endpoint: api-node0:5000/v2.0/
           - adminuser: rally-admin
           - adminpassword: "{{ vault_rally-admin_password }}"
-          - admin_project_name: adminproject
+          - admin_project_name: rally
           - admin_domain_name: service
           - admin_project_domain_name: service
           - username: rally
