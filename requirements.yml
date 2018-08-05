@@ -18,3 +18,4 @@
 
 - src: https://github.com/CSCfi/ansible-role-rally-scenarios.git
   path: roles
+  version: polte
