@@ -64,7 +64,7 @@ pipeline {
                 "Ansiblize Ceph nodes": {
                     echo 'Ansiblizing'
                     sh '''
-                        source ceph-ansible.sh
+                        #source ceph-ansible.sh
                     '''
                 })
             }
