@@ -1,2 +1,5 @@
 ---
 puppet_environments_repo: "{{ vault_puppet_environments_repo }}"
+ruby_gems_versions:
+  - { gem: 'puppet_forge', version: '2.2.6' }
+  - { gem: 'r10k', version: '2.2.2' }
