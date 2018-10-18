@@ -43,7 +43,7 @@
           export OS_REGION_NAME="cloud-devel"
           export OS_INTERFACE=public
 
-- name: Install rally into puppetmaster
+- name: Install rally into api-node0
   hosts: api-node0
   become: true
   become_user: root
