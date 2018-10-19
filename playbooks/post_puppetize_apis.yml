@@ -68,3 +68,4 @@
           tempest_extra_settings: []
           tempest_skip_tests: {}
           tempest_cirros_download_url: http://mirror.noris.net/cirros/0.3.5/cirros-0.3.5-x86_64-disk.img
+      environment: "{{ proxy_env }}"
