@@ -12,7 +12,6 @@ pipeline {
         stage('Build Heat stack') {
             steps {
                 echo 'Building Heat stack'
-                echo "Testing: ${CCCP_BRANCH}"
                 sh '''
                     echo "export PUPPET_ENVIRONMENT=cccp_master_epouta" > puppet_env.sh
                     cp files/*.sh .
