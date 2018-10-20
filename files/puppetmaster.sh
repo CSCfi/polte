@@ -5,14 +5,14 @@ source ansible_shell_env.sh
 
 #run
 ansible-playbook -i inventory \
--e "puppet_environment=$PUPPET_ENVIRONMENT" \
+-e "puppet_environment=$PUPPET_ENVIRONMENT cccp_branch=$1" \
 playbooks/puppetmaster.yml
 if [ ! $? -eq 0 ]; then
 #Some kind of delay in iptables rule propagation, related to the
 #newly created router, impacting DNS momentarily.
   sleep 120;
   ansible-playbook -i inventory \
-  -e "puppet_environment=$PUPPET_ENVIRONMENT" \
+  -e "puppet_environment=$PUPPET_ENVIRONMENT cccp_branch=$1" \
   playbooks/puppetmaster.yml;
 fi
 if [ ! $? -eq 0 ]; then exit 1; fi

@@ -1,6 +1,13 @@
 pipeline {
     agent any
 
+    parameters {
+        string(
+            name: 'CCCP_BRANCH',
+            defaultValue: 'master',
+            description: 'CCCP feature branch')
+    }
+
     stages {
         stage('Build Heat stack') {
             steps {
@@ -30,9 +37,7 @@ pipeline {
                 },
                 "Puppetize puppetmaster and apply mods": {
                     echo "Puppetmaster"
-                    sh '''
-                        source puppetmaster.sh
-                    '''
+                    sh "source puppetmaster.sh \"${CCCP_BRANCH}\""
                 })
             }
         }
