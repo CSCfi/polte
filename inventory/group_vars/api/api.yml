@@ -1,2 +1,24 @@
 ---
 ansible_ssh_common_args: "-i {{ ansible_ssh_private_key_file }} -o ProxyCommand='ssh -i {{ ansible_ssh_private_key_file }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
+polte_ss_ca_cert: |
+  -----BEGIN CERTIFICATE-----
+  MIIDhTCCAm2gAwIBAgIJAKLy+j8I1zZNMA0GCSqGSIb3DQEBCwUAMFkxCzAJBgNV
+  BAYTAkZJMRAwDgYDVQQIDAdVdXNpbWFhMQ4wDAYDVQQHDAVFc3BvbzEMMAoGA1UE
+  CgwDQ1NDMQ0wCwYDVQQLDARDQ0NQMQswCQYDVQQDDAJDQTAeFw0xNzA2MDcxNTU4
+  NDhaFw0yMDAzMjcxNTU4NDhaMFkxCzAJBgNVBAYTAkZJMRAwDgYDVQQIDAdVdXNp
+  bWFhMQ4wDAYDVQQHDAVFc3BvbzEMMAoGA1UECgwDQ1NDMQ0wCwYDVQQLDARDQ0NQ
+  MQswCQYDVQQDDAJDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJcz
+  wEFtGwRMAZry+lVOB6bfERYs3tIMx/a2aCBaDpWF9bw2C6j7hL4uCAEetk+eZdG8
+  KRifouSLji4k8aQzpK+yOaXNCs44zdKHzTtVNKDz2i8WlOl6/Y+YbXggy1RCRuTd
+  7VopR4JYvG6f07cIMvOqFDcoG5uP5W8uNG0FtLssT6YMhIkH/ORtd337mXDpkn2F
+  dofMc7Wr7M+VXWOZPyxavk+2YdS2eTQ8+90j2sP6NuZFb7j8ylR9Q8Btzn9Lyh3c
+  zvziZsoqwSsQ8L8hcJ7DKK+rzk2q6FN1oNEpRQ2hFuIWkl1H36ArQnKpiSdRqx1/
+  4LVRaDgL+aoFfsdCbLkCAwEAAaNQME4wHQYDVR0OBBYEFOFEzmXhOOfave+2ldaG
+  QkgXlWi4MB8GA1UdIwQYMBaAFOFEzmXhOOfave+2ldaGQkgXlWi4MAwGA1UdEwQF
+  MAMBAf8wDQYJKoZIhvcNAQELBQADggEBAEEXG2FfB8lRvm7cl2Tq/hRubkosNhmV
+  uycZlsFVdS4UDmJyHtUDzexbkLyg8YRWd5rSfh3F7t5IJjxkm+mydMsBgC2qfvE4
+  Jyl+RUHnzDWuy8d1BATvpuczD1XMSKWwwDlJhqON9wxm1jjtwHVy5Glw7OIlklOs
+  BzOVyPAkCI9Su314E615vs/kY9ztxCekfAZ+uhT0nBEWpFqPOfAOsRJGIsAKMMX1
+  rOfxs/oqDIIt84IBVEB1QhHJxoxLKAhsGtlnqIUb7BiFApQinob0/ri7F/cfOx37
+  DHd3WfVjbZMR7Bnj4H7GeXd9dDBpV6yHtSRqjqH7Q3cvHQ1w1VBMDFk=
+  -----END CERTIFICATE-----
