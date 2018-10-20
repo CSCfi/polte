@@ -21,11 +21,11 @@
       blockinfile:
         path: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
         block: |
-          "{{ polte_ss_ca_cert }}"
+          {{ polte_ss_ca_cert }}
     - name: Add CA to CA bundle
       blockinfile:
         path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
         block: |
-          "{{ polte_ss_ca_cert }}"
+          {{ polte_ss_ca_cert }}
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
