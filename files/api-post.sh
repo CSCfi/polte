@@ -1,7 +1,11 @@
 #!/bin/bash +xe
 
 #env
-source ansible_shell_env.sh
+#source ansible_shell_env.sh
+
+virtualenv rtxt
+source rtxt/bin/activate
+python -m pip install -r requirements.txt
 
 #run
 ansible-playbook -i inventory playbooks/post_puppetize_apis.yml
