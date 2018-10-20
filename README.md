@@ -33,6 +33,8 @@ deploying production environments.
   * vault_cinder_devel_key - Ceph key identical to hieradata key
   * vault_nova_devel_key - Ceph key identical to hieradata key
   * vault_radosgw_devel_key - Ceph key identical to hieradata key
+  * vault_barbican_password - Hashed into userPassword LDAP attribute
+  * vault_magnum_password - Hashed into userPassword LDAP attribute
 * Run playbook (--ask-vault-pass presumed but not mandatory):
 
 `$ ansible-playbook -i inventory site.yml --ask-vault-pass`

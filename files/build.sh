@@ -1,7 +1,8 @@
 #!/bin/bash +xe
 
 #prereq variables for secrets export
-ansible-vault decrypt files/ansible_shell_env.sh.vault --output=ansible_shell_env.sh --vault-password-file=/tmp/.tmp_vault_pass
+cp /var/lib/jenkins/credentials/vault-all.yml inventory/group_vars/all/vault.yml
+ansible localhost -m template -a "src=files/ansible_shell_env.sh dest=." -e @inventory/group_vars/all/vault.yml  --vault-password-file=/tmp/.tmp_vault_pass
 source ansible_shell_env.sh
 
 #ssh dir
