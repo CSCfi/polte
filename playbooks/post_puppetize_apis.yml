@@ -49,7 +49,7 @@
   become_user: root
   roles:
     - role: ansible-role-rally
-      rally_install_version: "stable/0.12"
+      rally_install_version: "master"
     - role: ansible-role-rally-scenarios
       clouds:
         testcloud:
