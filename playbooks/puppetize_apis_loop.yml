@@ -27,9 +27,6 @@
         path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
         block: |
           {{ polte_ss_ca_cert }}
-  roles:
-    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
-  post_tasks:
     - name: Add CAs
       lineinfile:
         path: "/etc/nova/{{ item }}.conf"
@@ -48,3 +45,5 @@
         - openstack-glance-api
         - neutron-server
       ignore_errors: true
+  roles:
+    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
