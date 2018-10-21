@@ -54,7 +54,7 @@
       clouds:
         testcloud:
           region: cloud-devel
-          endpoint: api-node0.ext.openstacklocal:5001/v3
+          endpoint: api-node0:5000/v3
           adminuser: rally-admin
           adminpassword: "{{ vault_rally_admin_password }}"
           admin_project_name: rally
