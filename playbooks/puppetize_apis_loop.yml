@@ -33,7 +33,7 @@
     - name: Add CAs
       lineinfile:
         path: "/etc/{{ item }}.conf"
-        insertafter: [keystone_authtoken]
+        insertafter: "^[keystone_authtoken]"
         line: cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
         state: present
       with_items:
