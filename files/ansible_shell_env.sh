@@ -14,8 +14,8 @@ source "{{ openrc_location }}"
 export OS_PASSWORD=$(cat "{{ os_password_location }}")
 export ANSIBLE_KEY_FILE="{{ ansible_ssh_private_key_file }}"
 export VAULT_PASS_FILE="{{ vault_pass_file_location }}"
-export HIERA_PRIVATE_KEY="$(cat "{{ hiera_private_key_location }}")
-export HIERA_PUBLIC_KEY="$(cat "{{ hiera_public_key_location }}")
+export HIERA_PRIVATE_KEY=$(cat "{{ hiera_private_key_location }}")
+export HIERA_PUBLIC_KEY=$(cat "{{ hiera_public_key_location }}")
 
 #ansible cfg
 echo "vault_password_file=$VAULT_PASS_FILE" >> ansible.cfg
