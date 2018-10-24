@@ -14,9 +14,18 @@
       shell: 'sed -i "s/auth=neutron_auth)/auth=neutron_auth,verify=False)/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/files/tools/create-tenants.py'
     - name: workaround - ignore public network related errors
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
-    - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack'/require File.join(File.dirname(__FILE__),'..','..','..','..','openstacklib\/lib\/puppet\/provider\/openstack')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
-    - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack\/auth'/require File.join(File.dirname(__FILE__),'..','..','..','..','openstacklib\/lib\/puppet\/provider\/openstack\/auth')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
-    - name: workaround - PUP-7657
-      shell: sed -i "s/require 'puppet\/provider\/openstack\/credentials'/require File.join(File.dirname(__FILE__),'..','..','..','..','openstacklib\/lib\/puppet\/provider\/openstack\/credentials')/" "/etc/puppet/environments/{{puppet_environment}}/modules/nova/lib/puppet/provider/nova.rb"
+    - name: Point nova to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
+        insertafter: "::nova::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point glance to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp"
+        insertafter: "::glance::api::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point neutron to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
+        insertafter: "::neutron::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"

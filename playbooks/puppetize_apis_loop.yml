@@ -29,22 +29,3 @@
           {{ polte_ss_ca_cert }}
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
-  post_tasks:
-    - name: Add CAs
-      lineinfile:
-        path: "/etc/{{ item }}.conf"
-        insertafter: "^[keystone_authtoken]"
-        line: cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
-        state: present
-      with_items:
-        - nova/nova
-        - glance/glance-api
-        - neutron/neutron
-      ignore_errors: true
-    - name: Restart services
-      shell: "systemctl restart {{ item }}"
-      with_items:
-        - openstack-nova-api
-        - openstack-glance-api
-        - neutron-server
-      ignore_errors: true
