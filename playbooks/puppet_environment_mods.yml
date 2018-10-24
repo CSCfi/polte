@@ -15,8 +15,16 @@
     - name: workaround - ignore public network related errors
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
     - name: Point nova to SS CA
-      shell: 'sed -i "/nova_config\ \{/a \ \ \'keystone_authtoken\': value => \'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt\'," /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp'
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
+        insertafter: nova_config {
+        line: "    'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+      ignore_errors: True
     - name: Point glance to SS CA
-      shell: 'sed -i "/glance_api_config\ \{/a \ \ 'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt'," /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp'
-    - name: Point neutron to SS CA
-      shell: 'sed -i "/\ \ \{/a \ \ neutron_config { 'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt', }" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp'
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp"
+        insertafter: glance_api_config {
+        line: "    'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+      ignore_errors: True
+#    - name: Point neutron to SS CA
+#      shell: 'sed -i "/\ \ \{/a \ \ neutron_config { 'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt', }" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp'
