@@ -18,13 +18,17 @@
       lineinfile:
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
         insertafter: nova_config {
-        line: "    'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
-      ignore_errors: True
+        line: "    'keystone_authtoken/cafile': value => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+#      ignore_errors: True
     - name: Point glance to SS CA
       lineinfile:
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp"
         insertafter: glance_api_config {
-        line: "    'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
-      ignore_errors: True
-#    - name: Point neutron to SS CA
-#      shell: 'sed -i "/\ \ \{/a \ \ neutron_config { 'keystone_authtoken': value => 'cafile=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt', }" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp'
+        line: "    'keystone_authtoken/cafile': value => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+#      ignore_errors: True
+    - name: Point neutron to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
+        insertafter: "  }"
+        line: "  neutron_config { 'keystone_authtoken/cafile': value => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt', }"
+#      ignore_errors: True
