@@ -17,8 +17,8 @@
     - name: Point nova to SS CA
       lineinfile:
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
-        insertafter: nova_config {
-        line: "    'keystone_authtoken/cafile': value => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt';"
+        insertafter: "::nova::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
 #      ignore_errors: True
     - name: Point glance to SS CA
       lineinfile:
