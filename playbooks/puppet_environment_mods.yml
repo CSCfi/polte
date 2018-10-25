@@ -10,8 +10,6 @@
   tasks:
     - name: workaround - hosts file gets overwritten
       shell: 'sed -i "/hosts\.erb/d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
-    - name: workaround - use insecure for tenant creation script
-      shell: 'sed -i "s/auth=neutron_auth)/auth=neutron_auth,verify=False)/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/files/tools/create-tenants.py'
     - name: workaround - ignore public network related errors
       shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
     - name: Point nova to SS CA
@@ -28,4 +26,24 @@
       lineinfile:
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
         insertafter: "::neutron::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point cinder to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"
+        insertafter: "::cinder::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point heat to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/heat.pp"
+        insertafter: "::heat::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point barbican to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/barbican.pp"
+        insertafter: "::barbican::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point magnum to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
+        insertafter: "::magnum::keystone::authtoken':"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
