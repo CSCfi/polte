@@ -47,5 +47,5 @@
     - name: Point magnum to SS CA
       lineinfile:
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
-        insertafter: "::magnum::keystone::authtoken"
+        insertafter: "::magnum::keystone::authtoken':"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
