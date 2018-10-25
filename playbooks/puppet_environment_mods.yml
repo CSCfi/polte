@@ -29,3 +29,23 @@
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
         insertafter: "::neutron::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point cinder to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"
+        insertafter: "::cinder::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point heat to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"
+        insertafter: "::heat::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point barbican to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/barbican.pp"
+        insertafter: "::barbican::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Point magnum to SS CA
+      lineinfile:
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
+        insertafter: "::magnum::keystone::authtoken"
+        line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"

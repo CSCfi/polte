@@ -7,12 +7,12 @@
   pre_tasks:
     - name: Flush firewall rules for bootstrap - Puppetize will reinstate them
       shell: iptables -F
-    - name: Use insecure in all /bin/openstack calls due to self-signed cert
-      lineinfile:
-        path: /bin/openstack
-        insertafter: import\ sys
-        line: "sys.argv.append('--insecure')"
-      ignore_errors: True
+#    - name: Use insecure in all /bin/openstack calls due to self-signed cert
+#      lineinfile:
+#        path: /bin/openstack
+#        insertafter: import\ sys
+#        line: "sys.argv.append('--insecure')"
+#      ignore_errors: True
     - name: Link pip-python to pip
       shell: ln -s /usr/bin/pip /usr/bin/pip-python
       args:
