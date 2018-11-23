@@ -7,13 +7,3 @@
 {{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} {{ item }} {{ alt_name }} {% if item == "puppet-node" %}puppet{% endif %}
 
 {% endfor %}
-
-{% for item in ( groups['api'] | union(groups['net']) | union(groups['obj']) ) %}
-{% if 'ansible_eth1' in hostvars[item]
-and 'ipv4' in hostvars[item]['ansible_eth1']
-and hostvars[item]['ansible_eth1']['ipv4']['address'] is defined %}
-{% set alt_name = item | regex_replace('^(.*)$', '\\1.ext') %}
-{% set alt_name2 = item | regex_replace('^(.*)$', '\\1.ext.openstacklocal') %}
-{{ hostvars[item]['ansible_eth1']['ipv4']['address'] }} {{ alt_name }} {{ alt_name2 }}
-{% endif %}
-{% endfor %}

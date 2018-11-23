@@ -7,13 +7,13 @@ parameters:
   ssh_key_name:
     description: The name of the SSH key in OpenStack to add to hosts.
     type: string
-  api_server_count:
-    type: number
-    default: 2
-  api_node_names:
-    description: List of api node hostnames
-    type: comma_delimited_list
-    default: ["api-node0", "api-node1"]
+#  api_server_count:
+#    type: number
+#    default: 2
+#  api_node_names:
+#    description: List of api node hostnames
+#    type: comma_delimited_list
+#    default: ["api-node0", "api-node1"]
   ceph_mon_server_count:
     type: number
     default: 3
@@ -28,42 +28,42 @@ parameters:
     description: List of api node hostnames
     type: comma_delimited_list
     default: ["osd-node0", "osd-node1", "osd-node2"]
-  obj_server_count:
-    type: number
-    default: 1
-  obj_node_names:
-    description: List of obj node hostnames
-    type: comma_delimited_list
-    default: ["object-node0"]
-  net_server_count:
-    type: number
-    default: 1
-  net_node_names:
-    description: List of net node hostnames
-    type: comma_delimited_list
-    default: ["net-node0"]
-  compute_server_count:
-    type: number
-    default: 2
-  compute_node_names:
-    description: List of compute node hostnames
-    type: comma_delimited_list
-    default: ["compute-node0", "compute-node1"]
+#  obj_server_count:
+#    type: number
+#    default: 2
+#  obj_node_names:
+#    description: List of obj node hostnames
+#    type: comma_delimited_list
+#    default: ["obj-node0", "obj-node1"]
+#  net_server_count:
+#    type: number
+#    default: 1
+#  net_node_names:
+#    description: List of net node hostnames
+#    type: comma_delimited_list
+#    default: ["net-node0"]
+#  compute_server_count:
+#    type: number
+#    default: 2
+#  compute_node_names:
+#    description: List of compute node hostnames
+#    type: comma_delimited_list
+#    default: ["compute-node0", "compute-node1"]
   jumphost_allow_ssh_cidr:
     description: The CIDR where SSH is allowed to the jumphost from.
     type: string
-  galera_node_flavor:
-    description: The flavor to use for Galera nodes.
-    type: string
-  galera_node_image:
-    description: The image to use for Galera nodes.
-    type: string
-  ldap_node_flavor:
-    description: The flavor to use for LDAP nodes.
-    type: string
-  ldap_node_image:
-    description: The image to use for LDAP nodes.
-    type: string
+#  galera_node_flavor:
+#    description: The flavor to use for Galera nodes.
+#    type: string
+#  galera_node_image:
+#    description: The image to use for Galera nodes.
+#    type: string
+#  ldap_node_flavor:
+#    description: The flavor to use for LDAP nodes.
+#    type: string
+#  ldap_node_image:
+#    description: The image to use for LDAP nodes.
+#    type: string
   puppet_node_flavor:
     description: The flavor to use for Puppet nodes.
     type: string
@@ -82,9 +82,9 @@ parameters:
   ceph_osd_node_image:
     description: The image to use for Ceph monitor nodes.
     type: string
-  compute_node_image:
-    description: The image to use for compute nodes.
-    type: string
+#  compute_node_image:
+#    description: The image to use for compute nodes.
+#    type: string
   floating_ip_pool:
     type: string
     description: The pool from which floating IPs should be reserved.
@@ -92,51 +92,50 @@ parameters:
   mgmt_subnet_cidr:
     type: string
     description: The CIDR of the VM management subnet.
-  ext_subnet_cidr:
-    type: string
-    description: The CIDR of the ext subnet of API nodes.
-  proj_subnet_cidr:
-    type: string
-    description: The CIDR of the proj subnet of NET nodes.
+#  ext_subnet_cidr:
+#    type: string
+#    description: The CIDR of the ext subnet of API nodes.
+#  proj_subnet_cidr:
+#    type: string
+#    description: The CIDR of the proj subnet of NET nodes.
   cloud_init_nameservers:
     type: comma_delimited_list
     description: The nameservers to configure via cloud-init.
 
 resources:
-  backend_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        # TODO remove 'protocol: tcp' which is a HACK
-        - protocol: tcp
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 3306
-          port_range_max: 3306
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 4444
-          port_range_max: 4444
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 4567
-          port_range_max: 4567
-        - protocol: udp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 4567
-          port_range_max: 4567
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 4568
-          port_range_max: 4568
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 27017
-          port_range_max: 27017
+#  backend_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: tcp
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 3306
+#          port_range_max: 3306
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 4444
+#          port_range_max: 4444
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 4567
+#          port_range_max: 4567
+#        - protocol: udp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 4567
+#          port_range_max: 4567
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 4568
+#          port_range_max: 4568
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 22
+#          port_range_max: 22
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 27017
+#          port_range_max: 27017
 
   puppet_secgroup:
     type: OS::Neutron::SecurityGroup
@@ -165,64 +164,53 @@ resources:
           port_range_min: 22
           port_range_max: 22
 
-  frontend_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        - protocol: icmp
-        # TODO remove 'protocol: tcp' which is a HACK
-        - protocol: tcp
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
-        - protocol: tcp
-          remote_ip_prefix: { get_param: ext_subnet_cidr }
-          port_range_min: 1
-          port_range_max: 65535
-        - protocol: udp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 1
-          port_range_max: 65535
-        - protocol: udp
-          remote_ip_prefix: { get_param: ext_subnet_cidr }
-          port_range_min: 1
-          port_range_max: 65535
-
-  ldap_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 389
-          port_range_max: 389
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 636
-          port_range_max: 636
-
-  object_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        # TODO remove 'protocol: tcp' which is a HACK
-        - protocol: tcp
-
-  network_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        # TODO remove 'protocol: tcp' which is a HACK
-        - protocol: tcp
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
+##  frontend_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: icmp
+#        - protocol: tcp
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 22
+#          port_range_max: 22
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: ext_subnet_cidr }
+#          port_range_min: 1
+#          port_range_max: 65535
+#
+#  ldap_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 22
+#          port_range_max: 22
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 389
+#          port_range_max: 389
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 636
+#          port_range_max: 636
+#
+#  object_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: tcp
+#
+#  network_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: tcp
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 22
+#          port_range_max: 22
 
   ceph_mon_secgroup:
     type: OS::Neutron::SecurityGroup
@@ -246,44 +234,44 @@ resources:
           port_range_min: 22
           port_range_max: 22
 
-  compute_secgroup:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      rules:
-        - protocol: tcp
-          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
-
-  proj_network:
-    type: OS::Neutron::Net
-
-  proj_subnet:
-    type: OS::Neutron::Subnet
-    properties:
-      cidr: { get_param: proj_subnet_cidr }
-      gateway_ip: null
-      network: { get_resource: proj_network }
-
-  ext_network:
-    type: OS::Neutron::Net
-
-  ext_subnet:
-    type: OS::Neutron::Subnet
-    properties:
-      cidr: { get_param: ext_subnet_cidr }
-      network: { get_resource: ext_network }
-
-  ext_router:
-    type: OS::Neutron::Router
-    properties:
-      external_gateway_info: { network: public }
-
-  ext_interface:
-    type: OS::Neutron::RouterInterface
-    properties:
-      router_id: { get_resource: ext_router }
-      subnet: { get_resource: ext_subnet }
+#  compute_secgroup:
+#    type: OS::Neutron::SecurityGroup
+#    properties:
+#      rules:
+#        - protocol: tcp
+#          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+#          port_range_min: 22
+#          port_range_max: 22
+#
+#  proj_network:
+#    type: OS::Neutron::Net
+#
+#  proj_subnet:
+#    type: OS::Neutron::Subnet
+#    properties:
+#      cidr: { get_param: proj_subnet_cidr }
+#      gateway_ip: null
+#      network: { get_resource: proj_network }
+#
+#  ext_network:
+#    type: OS::Neutron::Net
+#
+#  ext_subnet:
+#    type: OS::Neutron::Subnet
+#    properties:
+#      cidr: { get_param: ext_subnet_cidr }
+#      network: { get_resource: ext_network }
+#
+#  ext_router:
+#    type: OS::Neutron::Router
+#    properties:
+#      external_gateway_info: { network: public }
+#
+#  ext_interface:
+#    type: OS::Neutron::RouterInterface
+#    properties:
+#      router_id: { get_resource: ext_router }
+#      subnet: { get_resource: ext_subnet }
 
   mgmt_network:
     type: OS::Neutron::Net
@@ -305,32 +293,32 @@ resources:
       router_id: { get_resource: mgmt_router }
       subnet: { get_resource: mgmt_subnet }
 
-  api_nodes:
-    type: OS::Heat::ResourceGroup
-    properties:
-      count: { get_param: api_server_count }
-      resource_def:
-        type: api-node.yaml
-        properties:
-          index: "%index%"
-          api_node_names: { get_param: api_node_names }
-          mgmt_network_name: { get_resource: mgmt_network }
-          ext_network_name: { get_resource: ext_network }
-          ooo_frontend_secgroup: { get_resource: frontend_secgroup }
-
-  obj_nodes:
-    type: OS::Heat::ResourceGroup
-    properties:
-      count: {get_param: obj_server_count}
-      resource_def:
-        type: obj-node.yaml
-        properties:
-          index: "%index%"
-          obj_node_names: { get_param: obj_node_names }
-          mgmt_network_name: { get_resource: mgmt_network }
-          ext_network_name: { get_resource: ext_network }
-          proj_network_name: { get_resource: proj_network }
-          ooo_object_secgroup: { get_resource: object_secgroup }
+#  api_nodes:
+#    type: OS::Heat::ResourceGroup
+#    properties:
+#      count: { get_param: api_server_count }
+#      resource_def:
+#        type: api-node.yaml
+#        properties:
+#          index: "%index%"
+#          api_node_names: { get_param: api_node_names }
+#          mgmt_network_name: { get_resource: mgmt_network }
+#          ext_network_name: { get_resource: ext_network }
+#          ooo_frontend_secgroup: { get_resource: frontend_secgroup }
+#
+#  obj_nodes:
+#    type: OS::Heat::ResourceGroup
+#    properties:
+#      count: {get_param: obj_server_count}
+#      resource_def:
+#        type: obj-node.yaml
+#        properties:
+#          index: "%index%"
+#          obj_node_names: { get_param: obj_node_names }
+#          mgmt_network_name: { get_resource: mgmt_network }
+#          ext_network_name: { get_resource: ext_network }
+#          proj_network_name: { get_resource: proj_network }
+#          ooo_object_secgroup: { get_resource: object_secgroup }
 
   ceph_mon_nodes:
     type: OS::Heat::ResourceGroup
@@ -356,56 +344,56 @@ resources:
           mgmt_network_name: { get_resource: mgmt_network }
           ooo_osd_secgroup: { get_resource: ceph_osd_secgroup }
 
-  net_nodes:
-    type: OS::Heat::ResourceGroup
-    properties:
-      count: {get_param: net_server_count}
-      resource_def:
-        type: net-node.yaml
-        properties:
-          index: "%index%"
-          net_node_names: { get_param: net_node_names }
-          mgmt_network_name: { get_resource: mgmt_network }
-          ext_network_name: { get_resource: ext_network }
-          proj_network_name: { get_resource: proj_network }
-          ooo_network_secgroup: { get_resource: network_secgroup }
-
-  compute_nodes:
-    type: OS::Heat::ResourceGroup
-    properties:
-      count: { get_param: compute_server_count }
-      resource_def:
-        type: compute-node.yaml
-        properties:
-          index: "%index%"
-          compute_node_names: { get_param: compute_node_names }
-          mgmt_network_name: { get_resource: mgmt_network }
-          proj_network_name: { get_resource: proj_network }
-          ooo_compute_secgroup: { get_resource: compute_secgroup }
-
-  galera_nodes:
-    type: OS::Heat::ResourceGroup
-    properties:
-      count: 1
-      resource_def:
-        type: OS::Nova::Server
-        properties:
-          name: galera-node%index%
-          flavor: { get_param: galera_node_flavor }
-          image: { get_param: galera_node_image }
-          key_name: { get_param: ssh_key_name }
-          security_groups:
-            - { get_resource: backend_secgroup }
-          networks:
-            - network: { get_resource: mgmt_network }
-          metadata: { 'ansible_group': 'galera' }
-          user_data_format: RAW
-          user_data:
-            str_replace:
-              params:
-                $hostname: galera-node%index%
-                $nameservers: { get_param: cloud_init_nameservers }
-              template: { get_file: user-data-generic.yaml }
+#  net_nodes:
+#    type: OS::Heat::ResourceGroup
+#    properties:
+#      count: {get_param: net_server_count}
+#      resource_def:
+#        type: net-node.yaml
+#        properties:
+#          index: "%index%"
+#          net_node_names: { get_param: net_node_names }
+#          mgmt_network_name: { get_resource: mgmt_network }
+#          ext_network_name: { get_resource: ext_network }
+#          proj_network_name: { get_resource: proj_network }
+#          ooo_network_secgroup: { get_resource: network_secgroup }
+#
+#  compute_nodes:
+#    type: OS::Heat::ResourceGroup
+#    properties:
+#      count: { get_param: compute_server_count }
+#      resource_def:
+#        type: compute-node.yaml
+#        properties:
+#          index: "%index%"
+#          compute_node_names: { get_param: compute_node_names }
+#          mgmt_network_name: { get_resource: mgmt_network }
+#          proj_network_name: { get_resource: proj_network }
+#          ooo_compute_secgroup: { get_resource: compute_secgroup }
+#
+#  galera_nodes:
+#    type: OS::Heat::ResourceGroup
+#    properties:
+#      count: 1
+#      resource_def:
+#        type: OS::Nova::Server
+#        properties:
+#          name: galera-node%index%
+#          flavor: { get_param: galera_node_flavor }
+#          image: { get_param: galera_node_image }
+#          key_name: { get_param: ssh_key_name }
+#          security_groups:
+#            - { get_resource: backend_secgroup }
+#          networks:
+#            - network: { get_resource: mgmt_network }
+#          metadata: { 'ansible_group': 'galera' }
+#          user_data_format: RAW
+#          user_data:
+#            str_replace:
+#              params:
+#                $hostname: galera-node%index%
+#                $nameservers: { get_param: cloud_init_nameservers }
+#              template: { get_file: user-data-generic.yaml }
 
   puppet_node:
     type: OS::Nova::Server
@@ -427,25 +415,25 @@ resources:
             $nameservers: { get_param: cloud_init_nameservers }
           template: { get_file: user-data-generic.yaml }
 
-  ldap_node:
-    type: OS::Nova::Server
-    properties:
-      name: ldap-node
-      flavor: { get_param: ldap_node_flavor }
-      image: { get_param: ldap_node_image }
-      key_name: { get_param: ssh_key_name }
-      security_groups:
-        - { get_resource: ldap_secgroup }
-      networks:
-        - network: { get_resource: mgmt_network }
-      metadata: { 'ansible_group': 'ldap' }
-      user_data_format: RAW
-      user_data:
-        str_replace:
-          params:
-            $hostname: ldap-node
-            $nameservers: { get_param: cloud_init_nameservers }
-          template: { get_file: user-data-generic.yaml }
+#  ldap_node:
+#    type: OS::Nova::Server
+#    properties:
+#      name: ldap-node
+#      flavor: { get_param: ldap_node_flavor }
+#      image: { get_param: ldap_node_image }
+#      key_name: { get_param: ssh_key_name }
+#      security_groups:
+#        - { get_resource: ldap_secgroup }
+#      networks:
+#        - network: { get_resource: mgmt_network }
+#      metadata: { 'ansible_group': 'ldap' }
+#      user_data_format: RAW
+#      user_data:
+#        str_replace:
+#          params:
+#            $hostname: ldap-node
+#            $nameservers: { get_param: cloud_init_nameservers }
+#          template: { get_file: user-data-generic.yaml }
 
   jumphost_public_ip:
     type: OS::Nova::FloatingIP
@@ -459,30 +447,30 @@ resources:
       server_id: { get_resource: puppet_node }
 
 outputs:
-  galera_nodes_group:
-    description: The group of Galera nodes
-    value: { get_attr: [galera_nodes, show] }
-  api_nodes_group:
-    description: The group of API nodes
-    value: { get_attr: [api_nodes, show] }
-  obj_nodes_group:
-    description: The group of object storage nodes
-    value: { get_attr: [obj_nodes, show] }
+#  galera_nodes_group:
+#    description: The group of Galera nodes
+#    value: { get_attr: [galera_nodes, show] }
+#  api_nodes_group:
+#    description: The group of API nodes
+#    value: { get_attr: [api_nodes, show] }
+#  obj_nodes_group:
+#    description: The group of object storage nodes
+#    value: { get_attr: [obj_nodes, show] }
   ceph_mon_nodes_group:
     description: The group of Ceph monitor nodes
     value: { get_attr: [ceph_mon_nodes, show] }
   ceph_osd_nodes_group:
     description: The group of Ceph OSD nodes
     value: { get_attr: [ceph_osd_nodes, show] }
-  net_nodes_group:
-    description: The group of network nodes
-    value: { get_attr: [net_nodes, show] }
+#  net_nodes_group:
+#    description: The group of network nodes
+#    value: { get_attr: [net_nodes, show] }
   puppet_node:
     description: The puppet node
     value: { get_attr: [puppet_node, show] }
-  ldap_node:
-    description: The LDAP node
-    value: { get_attr: [ldap_node, show] }
-  compute_nodes_group:
-    description: The group of compute nodes
-    value: { get_attr: [compute_nodes, show] }
+#  ldap_node:
+#    description: The LDAP node
+#    value: { get_attr: [ldap_node, show] }
+#  compute_nodes_group:
+#    description: The group of compute nodes
+#    value: { get_attr: [compute_nodes, show] }

@@ -14,7 +14,7 @@ pipeline {
                 echo 'Building Heat stack'
                 sh '''
                     mkdir -p .ssh/cm_socket
-                    echo "export PUPPET_ENVIRONMENT=cpouta" > puppet_env.sh
+                    echo "export PUPPET_ENVIRONMENT=dummy_string" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
                 '''
@@ -28,78 +28,14 @@ pipeline {
                 '''
             }
         }
-        stage('Parallel bootstrap') {
+        stage('Parallel backend and frontend') {
             steps {
-                parallel("Ansiblize LDAP server": {
-                    echo "LDAP"
-                    sh '''
-                        source ldap.sh
-                    '''
-                },
-                "Puppetize puppetmaster and apply mods": {
-                    echo "Puppetmaster"
-                    sh "source puppetmaster.sh \"${CCCP_BRANCH}\""
-                })
-            }
-        }
-        stage('Puppetize backend') {
-            steps {
-                echo 'Puppetizing'
-                sh '''
-                    source puppetize-backend.sh
-                '''
-            }
-        }
-        stage('Parallel storage backend and primary frontend') {
-            steps {
-                parallel("Puppetize network nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-net.sh
-                    '''
-                },
-                "Puppetize primary API node": {
-                    echo 'Puppetizing'
-                    sh '''
-                        HOSTLIMIT=api-node0 source puppetize-api.sh
-                    '''
-                },
-                "Ansiblize Ceph nodes": {
+                parallel("Ansiblize Ceph nodes": {
                     echo 'Ansiblizing'
                     sh '''
                         source ceph-ansible.sh
                     '''
                 })
-            }
-        }
-        stage('Parallel frontends and compute and object') {
-            steps {
-                parallel("Puppetize secondary API node": {
-                    echo 'Puppetizing'
-                    sh '''
-                        HOSTLIMIT=api-node1 source puppetize-api.sh
-                    '''
-                },
-                "Puppetize compute nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-compute.sh
-                    '''
-                },
-                "Puppetize object nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-obj.sh
-                    '''
-                })
-            }
-        }
-        stage('Cleanup and Horizon mods') {
-            steps {
-                echo 'Post-API Horizon modifications'
-                sh '''
-                    source api-post.sh
-                '''
             }
         }
     }

@@ -13,4 +13,4 @@ mkdir -p roles
 ansible-galaxy install -r requirements.yml --roles-path roles/
 
 #run
-ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_$PUPPET_ENVIRONMENT" playbooks/build-heat-stack.yml
+ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT heat_stack_name=MULTIBRANCH_ceph_ansible_stable_3_2" playbooks/build-heat-stack.yml

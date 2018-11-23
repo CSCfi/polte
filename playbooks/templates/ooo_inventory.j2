@@ -1,13 +1,3 @@
-[api]
-{% for node in groups['api'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
-{% endfor %}
-
-[obj]
-{% for node in groups['obj'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
-{% endfor %}
-
 [mons]
 {% for node in groups['cephmon'] %}
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
@@ -26,23 +16,5 @@
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }} osd_crush_location="{ 'root': 'mon-roottt', 'rack': 'mon-rackkkk', 'pod': 'monpod', 'host': '{{ node }}' }"
 {% endfor %}
 
-[net]
-{% for node in groups['net'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
-{% endfor %}
-
-[galera]
-{% for node in groups['galera'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
-{% endfor %}
-
 [puppet]
 puppet-node ansible_ssh_host={{ hostvars['puppet-node']['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars['puppet-node']['ansible_ssh_user'] }}
-
-[ldap]
-ldap-node ansible_ssh_host={{ hostvars['ldap-node']['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars['ldap-node']['ansible_ssh_user'] }}
-
-[compute]
-{% for node in groups['compute'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
-{% endfor %}
