@@ -44,7 +44,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "galera"
+      when: item.metadata is defined and item.metadata.ansible_group == "galera"
 
     - name: Add api nodes to inventory
       add_host:
@@ -63,7 +63,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "api"
+      when: item.metadata is defined and item.metadata.ansible_group == "api"
 
     - name: Add obj nodes to inventory
       add_host:
@@ -82,7 +82,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "obj"
+      when: item.metadata is defined and item.metadata.ansible_group == "obj"
 
     - name: Add net nodes to inventory
       add_host:
@@ -101,7 +101,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "net"
+      when: item.metadata is defined and item.metadata.ansible_group == "net"
 
     - name: Add Ceph mon nodes to inventory
       add_host:
@@ -120,7 +120,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "cephmon"
+      when: item.metadata is defined and item.metadata.ansible_group == "cephmon"
 
     - name: Add Ceph osd nodes to inventory
       add_host:
@@ -139,7 +139,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "cephosd"
+      when: item.metadata is defined and item.metadata.ansible_group == "cephosd"
 
     - name: Add puppet node to inventory
       add_host:
@@ -158,7 +158,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "puppet"
+      when: item.metadata is defined and item.metadata.ansible_group == "puppet"
 
     - name: Add LDAP node to inventory
       add_host:
@@ -177,7 +177,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "ldap"
+      when: item.metadata is defined and item.metadata.ansible_group == "ldap"
 
     - name: Add computes node to inventory
       add_host:
@@ -196,7 +196,7 @@
         - "{{ heat_stack.stack.outputs[6].output_value }}"
         - "{{ heat_stack.stack.outputs[7].output_value }}"
         - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata.ansible_group == "compute"
+      when: item.metadata is defined and item.metadata.ansible_group == "compute"
 
     - name: Generate an inventory file
       template: src=templates/ooo_inventory.j2 dest="../inventory/ooo_inventory"
