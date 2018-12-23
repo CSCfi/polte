@@ -2,7 +2,7 @@
 # Build heat stack
 - include: playbooks/build-heat-stack.yml
 
-# workaround: Generate hosts file, reboot to enforce openstacklocal domain
+# Generate hosts file, reboot to enforce openstacklocal domain
 - include: playbooks/generate_hostsfile.yml
 
 # Install and configure LDAP server
@@ -12,17 +12,16 @@
 - include: playbooks/puppetmaster.yml
 - include: playbooks/puppet_environment_mods.yml
 
-# workaround: Regenerate after puppetmaster puppetization
+# Regenerate after puppetmaster puppetization
 - include: playbooks/generate_hostsfile.yml
 
 # Puppetize backend nodes
 - include: playbooks/puppetize_backends.yml
 
 # Puppetize API nodes
-- include: playbooks/puppetize_apis_loop.yml # fails quite fast
-- include: playbooks/puppetize_apis_loop.yml # fails quite fast
-- include: playbooks/puppetize_apis_loop.yml # typically runs for more than an hour and does not succeed - fastest strategy seems to be to timeout this 3rd run after 20 minutes or so
-- include: playbooks/puppetize_apis_loop.yml # first run to succeed
+- include: playbooks/puppetize_apis_loop.yml
+- include: playbooks/puppetize_apis_loop.yml
+- include: playbooks/puppetize_apis_loop.yml
 
 # Puppetize obj nodes
 - include: playbooks/puppetize_objs.yml
@@ -31,6 +30,10 @@
 # Puppetize net nodes
 - include: playbooks/puppetize_nets.yml
 - include: playbooks/puppetize_nets.yml
+
+# Puppetize compute nodes
+- include: playbooks/puppetize_compute.yml
+- include: playbooks/puppetize_compute.yml
 
 # Post puppetize actions
 - include: playbooks/post_puppetize_apis.yml

@@ -30,11 +30,11 @@ parameters:
     default: ["osd-node0", "osd-node1", "osd-node2"]
   obj_server_count:
     type: number
-    default: 2
+    default: 1
   obj_node_names:
     description: List of obj node hostnames
     type: comma_delimited_list
-    default: ["obj-node0", "obj-node1"]
+    default: ["obj-node0"]
   net_server_count:
     type: number
     default: 1
