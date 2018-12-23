@@ -55,10 +55,16 @@ pipeline {
                         source puppetize-net.sh
                     '''
                 },
-                "Puppetize API nodes": {
+                "Puppetize primary API node": {
                     echo 'Puppetizing'
                     sh '''
-                        source puppetize-api.sh
+                        HOSTLIMIT=api-node0 source puppetize-api.sh
+                    '''
+                },
+                "Puppetize secondary API node": {
+                    echo 'Puppetizing'
+                    sh '''
+                        HOSTLIMIT=api-node1 source puppetize-api.sh
                     '''
                 },
                 "Ansiblize Ceph nodes": {
