@@ -177,6 +177,14 @@ resources:
           remote_ip_prefix: { get_param: ext_subnet_cidr }
           port_range_min: 1
           port_range_max: 65535
+        - protocol: udp
+          remote_ip_prefix: { get_param: mgmt_subnet_cidr }
+          port_range_min: 1
+          port_range_max: 65535
+        - protocol: udp
+          remote_ip_prefix: { get_param: ext_subnet_cidr }
+          port_range_min: 1
+          port_range_max: 65535
 
   ldap_secgroup:
     type: OS::Neutron::SecurityGroup

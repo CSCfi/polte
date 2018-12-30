@@ -4,6 +4,11 @@
 # Ultimately, this file should cease to exist. Everything should be
 # compensated in cccp instead of modifying the puppet environment post-checkout.
 # You receive instant karma for each modification you remove from this file.
+
+# Ensure API node facts are gathered for populating Virtual IP stuff below
+- hosts: api
+  gather_facts: true
+
 - hosts: puppet
   become: true
   become_user: root
@@ -47,3 +52,23 @@
         path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
         insertafter: "::magnum::keystone::authtoken':"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
+    - name: Populate external ping hosts with nodes' own addresses
+      lineinfile:
+        backrefs: yes
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
+        regexp: '@external_ping_hosts'
+        line:         params name="pingd_ext" host_list="{{ hostvars['api-node0']['ansible_eth1']['ipv4']['address'] }} {{ hostvars['api-node1']['ansible_eth1']['ipv4']['address'] }}" \\
+    - name: Populate internal ping hosts with nodes' own addresses
+      lineinfile:
+        backrefs: yes
+        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
+        regexp: '@internal_ping_hosts'
+        line:         params name="pingd_int" host_list="{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }} {{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}" \\
+    - name: Populate ext IP 0
+      shell: sed -i "s/hiera('ha_primary_api_public_ip')/'{{ hostvars['api-node0']['ansible_eth1']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+    - name: Populate ext IP 1
+      shell: sed -i "s/hiera('ha_secondary_api_public_ip')/'{{ hostvars['api-node1']['ansible_eth1']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+    - name: Populate int IP 0
+      shell: sed -i "s/hiera('ha_primary_api_ip')/'{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+    - name: Populate int IP 1
+      shell: sed -i "s/hiera('ha_secondary_api_ip')/'{{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"

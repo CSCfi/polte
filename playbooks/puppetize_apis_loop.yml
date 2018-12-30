@@ -28,3 +28,10 @@
           {{ polte_ss_ca_cert }}
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
+
+- hosts: api-node0
+  become: true
+  become_user: root
+  tasks:
+    - name: Force cinder-volume
+      shell: systemctl start openstack-cinder-volume
