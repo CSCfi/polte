@@ -34,7 +34,7 @@ parameters:
   obj_node_names:
     description: List of obj node hostnames
     type: comma_delimited_list
-    default: ["obj-node0"]
+    default: ["object-node0"]
   net_server_count:
     type: number
     default: 1
