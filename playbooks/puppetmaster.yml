@@ -1,6 +1,6 @@
 ---
 # Install puppetmaster packages, puppetize puppetmaster.
-# Install squid. Increase memory for puppet-server.
+# Install squid.
 
 - name: Configure puppetmaster
   hosts: puppet
@@ -8,15 +8,8 @@
   become: true
   become_user: root
   roles:
-    - role: ansible-role-puppetmaster
+    - { role: ansible-role-puppetmaster, puppetlabs_repo_url: "https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm", yum_proxy: "http://puppet-node:3128" }
     - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
   post_tasks:
-    - name: Workaround
-      shell: iptables -F
-    - name: Workaround - Modules may fall back to this dir
-      shell: rm -Rf /etc/puppet/modules
-    - name: Workaround - Modules may fall back to this dir
-      shell: ln -s /etc/puppet/environments/{{puppet_environment}}/modules /etc/puppet/modules
-      ignore_errors: True
-    - name: Workaround - Create production dir
-      shell: mkdir -p /etc/puppet/environments/production; chown apache:root /etc/puppet/environments/production
+    - shell: iptables -F
+    - shell: systemctl restart puppetserver

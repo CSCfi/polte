@@ -26,6 +26,8 @@
         path: /etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem
         block: |
           {{ polte_ss_ca_cert }}
+    - shell: mkdir -p /etc/keystone/ssl
+      ignore_errors: True
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
 

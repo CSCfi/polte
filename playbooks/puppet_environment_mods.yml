@@ -14,61 +14,70 @@
   become_user: root
   tasks:
     - name: workaround - hosts file gets overwritten
-      shell: 'sed -i "/hosts\.erb/d" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
+      shell: 'sed -i "/hosts\.erb/d" {{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role.pp'
     - name: workaround - ignore public network related errors
-      shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" /etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
+      shell: 'sed -i "s/python create-tenants.py/python create-tenants.py||\/bin\/true/" {{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/templates/tools/create-tenants.sh.erb'
     - name: Point nova to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/nova.pp"
         insertafter: "::nova::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point glance to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/glance.pp"
         insertafter: "::glance::api::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point neutron to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/neutron.pp"
         insertafter: "::neutron::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point cinder to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"
         insertafter: "::cinder::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point heat to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/heat.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/heat.pp"
         insertafter: "::heat::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point barbican to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/barbican.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/barbican.pp"
         insertafter: "::barbican::keystone::authtoken"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Point magnum to SS CA
       lineinfile:
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/magnum.pp"
         insertafter: "::magnum::keystone::authtoken':"
         line: "    cafile              => '/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt',"
     - name: Populate external ping hosts with nodes' own addresses
       lineinfile:
         backrefs: yes
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
         regexp: '@external_ping_hosts'
         line:         params name="pingd_ext" host_list="{{ hostvars['api-node0']['ansible_eth1']['ipv4']['address'] }} {{ hostvars['api-node1']['ansible_eth1']['ipv4']['address'] }}" \\
     - name: Populate internal ping hosts with nodes' own addresses
       lineinfile:
         backrefs: yes
-        path: "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
+        path: "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/templates/cib.txt.erb"
         regexp: '@internal_ping_hosts'
         line:         params name="pingd_int" host_list="{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }} {{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}" \\
     - name: Populate ext IP 0
-      shell: sed -i "s/hiera('ha_primary_api_public_ip')/'{{ hostvars['api-node0']['ansible_eth1']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+      shell: sed -i "s/hiera('ha_primary_api_public_ip')/'{{ hostvars['api-node0']['ansible_eth1']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
     - name: Populate ext IP 1
-      shell: sed -i "s/hiera('ha_secondary_api_public_ip')/'{{ hostvars['api-node1']['ansible_eth1']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+      shell: sed -i "s/hiera('ha_secondary_api_public_ip')/'{{ hostvars['api-node1']['ansible_eth1']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
     - name: Populate int IP 0
-      shell: sed -i "s/hiera('ha_primary_api_ip')/'{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+      shell: sed -i "s/hiera('ha_primary_api_ip')/'{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
     - name: Populate int IP 1
-      shell: sed -i "s/hiera('ha_secondary_api_ip')/'{{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}'/" "/etc/puppet/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+      shell: sed -i "s/hiera('ha_secondary_api_ip')/'{{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+    - name: p4 - Lobotomize ChanceWeigher
+      shell: 'sed -i "/figuring/,+4d" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/cinder.pp"'
+    - name: p4 - Change keystone mapping table hack target db host
+      shell: 'sed -i "s/127.0.0.1/galera-node0.openstacklocal/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/keystone.pp"'
+    - name: workaround - modify db connection strings since tunneling doesn't work
+      shell: 'sed -i "s/localhost/galera-node0.openstacklocal/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/profile/{{ item }}.pp"'
+      with_items:
+       - magnum
+       - barbican

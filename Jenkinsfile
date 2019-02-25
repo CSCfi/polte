@@ -13,7 +13,8 @@ pipeline {
             steps {
                 echo 'Building Heat stack'
                 sh '''
-                    echo "export PUPPET_ENVIRONMENT=cccp_master_cpouta" > puppet_env.sh
+                    mkdir -p .ssh/cm_socket
+                    echo "export PUPPET_ENVIRONMENT=cccp_cpouta_p4_CCCP_1278_B" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
                 '''
@@ -41,15 +42,17 @@ pipeline {
                 })
             }
         }
+        stage('Puppetize backend') {
+            steps {
+                echo 'Puppetize backend nodes'
+                sh '''
+                    source puppetize-backend.sh
+                '''
+            }
+        }
         stage('Parallel backend and primary frontend') {
             steps {
-                parallel("Puppetize backend nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-backend.sh
-                    '''
-                },
-                "Puppetize network nodes": {
+                parallel("Puppetize network nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-net.sh

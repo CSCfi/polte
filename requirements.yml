@@ -1,9 +1,9 @@
 - src: https://github.com/CSCfi/ansible-role-puppetmaster.git
   path: roles
-  version: cccp_branch_inject
+  version: "cccp_branch_inject_p4"
 
 - src: https://github.com/CSCfi/ansible-role-puppetize.git
-  version: poltefqdn
+  version: "2019-11-06"
   path: roles
 
 - src: https://github.com/junousi/ansible-openldap_server.git

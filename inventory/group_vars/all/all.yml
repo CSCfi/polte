@@ -5,3 +5,4 @@ heat_environment_file: "../files/heat-params.yml"
 puppetmaster: "{{hostvars['puppet-node']['inventory_hostname']}}"
 puppetmaster_fqdn: "{{hostvars['puppet-node']['inventory_hostname']}}.openstacklocal"
 
+puppetize_manage_yumrepo: true
