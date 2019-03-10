@@ -1,7 +1,7 @@
 #!/bin/bash +xe
 
 #env
-#source ansible_shell_env.sh
+source ansible_shell_env.sh
 
 virtualenv rtxt
 source rtxt/bin/activate
