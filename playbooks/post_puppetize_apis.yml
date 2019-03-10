@@ -66,6 +66,7 @@
           user_domain_name: service
           user_project_domain_name: service
           network_name: rally_network
+          rally_tempest_swift_discoverability: "False"
           tempest_extra_settings: [ disable_ssl_certificate_validation=True, ]
           tempest_skip_tests: {}
           tempest_cirros_download_url: http://mirror.noris.net/cirros/0.3.5/cirros-0.3.5-x86_64-disk.img
