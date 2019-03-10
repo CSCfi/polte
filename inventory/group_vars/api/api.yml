@@ -22,3 +22,4 @@ polte_ss_ca_cert: |
   rOfxs/oqDIIt84IBVEB1QhHJxoxLKAhsGtlnqIUb7BiFApQinob0/ri7F/cfOx37
   DHd3WfVjbZMR7Bnj4H7GeXd9dDBpV6yHtSRqjqH7Q3cvHQ1w1VBMDFk=
   -----END CERTIFICATE-----
+proxy_env:

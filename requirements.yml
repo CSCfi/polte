@@ -12,3 +12,11 @@
 
 - src: https://github.com/CSCfi/ansible-role-squid.git
   path: roles
+
+- src: https://github.com/CSCfi/ansible-role-rally.git
+  path: roles
+  version: polte
+
+- src: https://github.com/CSCfi/ansible-role-rally-scenarios.git
+  path: roles
+  version: polte

@@ -42,3 +42,32 @@
           export OS_IDENTITY_API_VERSION=3
           export OS_REGION_NAME="cloud-devel"
           export OS_INTERFACE=public
+
+- name: Install rally into api-node0
+  hosts: api-node0
+  become: true
+  become_user: root
+  roles:
+    - role: ansible-role-rally
+      rally_install_version: master
+    - role: ansible-role-rally-scenarios
+      clouds:
+        testcloud:
+          region: cloud-devel
+          endpoint: api-node0.ext.openstacklocal:5001/v3
+          adminuser: rally-admin
+          adminpassword: "{{ vault_rally_admin_password }}"
+          admin_project_name: rally
+          admin_domain_name: service
+          admin_project_domain_name: service
+          username: rally
+          userpassword: "{{ vault_rally_password }}"
+          user_project_name: rally
+          user_domain_name: service
+          user_project_domain_name: service
+          network_name: rally_network
+          rally_tempest_swift_discoverability: "False"
+          tempest_extra_settings: [ disable_ssl_certificate_validation=True, ]
+          tempest_skip_tests: {}
+          tempest_cirros_download_url: http://mirror.noris.net/cirros/0.3.5/cirros-0.3.5-x86_64-disk.img
+      environment: "{{ proxy_env }}"
