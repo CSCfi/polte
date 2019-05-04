@@ -33,7 +33,7 @@
         - bind-utils
         - libtool-libs
     - unarchive:
-        src: http://www.avagotech.com/docs-and-downloads/raid-controllers/raid-controllers-common-files/8-07-14_MegaCLI.zip
+        src: https://mirror.nforce.com/pub/software/raidtools/Megaraid/8-07-14_MegaCLI.zip
         dest: /tmp
         remote_src: yes
     - yum:
