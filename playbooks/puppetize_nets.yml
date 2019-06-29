@@ -2,8 +2,5 @@
 - hosts: net
   become: true
   become_user: root
-  pre_tasks:
-    - shell: yum -y remove epel-release
-      ignore_errors: true
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
