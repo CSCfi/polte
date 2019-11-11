@@ -63,7 +63,7 @@ python-novaclient==9.0.1
 python-openstackclient==3.11.0
 python-swiftclient==3.3.0
 pytz==2017.2
-PyYAML==3.12
+PyYAML==5.1
 requests==2.18.1
 requestsexceptions==1.2.0
 rfc3986==1.0.0
