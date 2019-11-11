@@ -72,7 +72,7 @@ simplejson==3.11.1
 six==1.10.0
 stevedore==1.23.0
 unicodecsv==0.14.1
-urllib3==1.21.1
+urllib3==1.24.2
 virtualenv==15.1.0
 warlock==1.2.0
 wrapt==1.10.10
