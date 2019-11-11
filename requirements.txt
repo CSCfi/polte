@@ -64,7 +64,7 @@ python-openstackclient==3.11.0
 python-swiftclient==3.3.0
 pytz==2017.2
 PyYAML==3.12
-requests==2.18.1
+requests==2.20.0
 requestsexceptions==1.2.0
 rfc3986==1.0.0
 shade==1.20.0
