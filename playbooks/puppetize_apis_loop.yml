@@ -5,6 +5,17 @@
   become: true
   become_user: root
   pre_tasks:
+    - name: create partition for tmp disk
+      parted:
+        device: /dev/vdb
+        number: 1
+        state: present
+    - name: create filesystemp for tmp disk
+      filesystem:
+        fstype: ext4
+        dev: /dev/vdb1
+    - name: hax for something ruby something bug something
+      shell: chmod o+t /tmp; chmod 1777 /tmp
     - name: Flush firewall rules for bootstrap - Puppetize will reinstate them
       shell: iptables -F
     - name: Link pip-python to pip

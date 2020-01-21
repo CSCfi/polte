@@ -54,6 +54,18 @@ resources:
             $hostname: { get_param: [api_node_names, {get_param: index}] }
             $nameservers: { get_param: cloud_init_nameservers }
           template: { get_file: user-data-generic.yaml }
+  volume_var:
+    type: OS::Cinder::Volume
+    properties:
+      name:
+        list_join: [ '_', [{ get_attr: [api_node, name] }, 'var']]
+      size: 1000
+  volume_var_attachment:
+    type: OS::Cinder::VolumeAttachment
+    depends_on: [ volume_var, api_node ]
+    properties:
+      volume_id: { get_resource: volume_var }
+      instance_uuid: { get_resource: api_node }
 
 outputs:
   show:
