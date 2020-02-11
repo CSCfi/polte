@@ -67,6 +67,17 @@ resources:
       volume_id: { get_resource: volume_var }
       instance_uuid: { get_resource: api_node }
 
+  api_public_ip:
+    type: OS::Nova::FloatingIP
+    properties:
+      pool: { get_param: floating_ip_pool }
+
+  api_floating_ip_association:
+    type: OS::Nova::FloatingIPAssociation
+    properties:
+      floating_ip: { get_resource: api_public_ip }
+      server_id: { get_resource: api_node }
+
 outputs:
   show:
     value: {get_attr: [api_node, show]}
