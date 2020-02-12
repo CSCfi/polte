@@ -26,7 +26,7 @@
       lineinfile:
         path: /etc/environment
         insertafter: EOF
-        line: export OS_CACERT=/etc/keystone/ssl/certs/ca.pem
+        line: export OS_CACERT=/etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
     - name: Add CA to CA bundle
       blockinfile:
         path: /etc/pki/ca-trust/extracted/openssl/ca-bundle.trust.crt
