@@ -38,7 +38,7 @@
           export OS_PROJECT_NAME=testgroup
           export OS_USERNAME=testuser
           export OS_PASSWORD="{{vault_testuser_password}}"
-          export OS_AUTH_URL=https://api-node0.ext.openstacklocal:5001/v3
+          export OS_AUTH_URL=https://vm1240.kaj.pouta.csc.fi:5001/v3
           export OS_IDENTITY_API_VERSION=3
           export OS_REGION_NAME="cloud-devel"
           export OS_INTERFACE=public
