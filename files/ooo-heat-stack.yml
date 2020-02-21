@@ -169,10 +169,9 @@ resources:
       rules:
         - protocol: icmp
         - protocol: tcp
-        - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
-          port_range_min: 22
-          port_range_max: 22
+          port_range_min: 1
+          port_range_max: 65535
         - protocol: tcp
           remote_ip_prefix: { get_param: ext_subnet_cidr }
           port_range_min: 1
