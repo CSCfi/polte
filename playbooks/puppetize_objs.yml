@@ -14,6 +14,10 @@
 # HACK - remove when not needed.
   post_tasks:
     - shell: radosgw-admin --id radosgw.polte-devel-cloud1 realm create --rgw-realm=csc --default
+      ignore_errors: true
     - shell: radosgw-admin --id radosgw.polte-devel-cloud1 zonegroup create --rgw-zonegroup=polte-devel --endpoints=https://object-node0.ext.openstacklocal --rgw-realm=csc --master --default
+      ignore_errors: true
     - shell: radosgw-admin --id radosgw.polte-devel-cloud1 zone create --rgw-zonegroup=polte-devel --rgw-zone=polte-devel-cloud --master --default --endpoints=https://object-node0.ext.openstacklocal
+      ignore_errors: true
     - shell: radosgw-admin --id radosgw.polte-devel-cloud1 period update; radosgw-admin --id radosgw.polte-devel-cloud1 period update --commit
+      ignore_errors: true
