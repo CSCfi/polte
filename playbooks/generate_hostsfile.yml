@@ -87,13 +87,13 @@
         seconds: 30
       listen: Reboot
 
-# get api-node0 floating IP's fqdn
-- hosts: localhost
-  gather_facts: no
-  tasks:
-    - name: Check if inventory file has been created
-      local_action: "dig +short -x {{ api_node0_floating_ip }}|rev|cut -b2-256|rev"
-      register: api_node0_floating_ip_fqdn
+## get api-node0 floating IP's fqdn
+#- hosts: localhost
+#  gather_facts: no
+#  tasks:
+#    - name: Check if inventory file has been created
+#      local_action: "dig +short -x {{ api_node0_floating_ip }}|rev|cut -b2-256|rev"
+#      register: api_node0_floating_ip_fqdn
 
 # workaround: Populate hosts file
 - hosts: all

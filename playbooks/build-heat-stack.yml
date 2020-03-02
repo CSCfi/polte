@@ -65,25 +65,25 @@
         - "{{ heat_stack.stack.outputs[8].output_value }}"
       when: item.metadata is defined and item.metadata.ansible_group == "api"
 
-    - name: Register api-node0 floating IP
-      debug: msg="{{ item.addresses[magic_index_network.msg][1].addr }}"
-      register: api_node0_floating_ip_output
-      no_log: yes
-      with_items:
-        - "{{ heat_stack.stack.outputs[0].output_value }}"
-        - "{{ heat_stack.stack.outputs[1].output_value }}"
-        - "{{ heat_stack.stack.outputs[2].output_value }}"
-        - "{{ heat_stack.stack.outputs[3].output_value }}"
-        - "{{ heat_stack.stack.outputs[4].output_value }}"
-        - "{{ heat_stack.stack.outputs[5].output_value }}"
-        - "{{ heat_stack.stack.outputs[6].output_value }}"
-        - "{{ heat_stack.stack.outputs[7].output_value }}"
-        - "{{ heat_stack.stack.outputs[8].output_value }}"
-      when: item.metadata is defined and item.metadata.ansible_group == "api" and item.name == "api-node0"
-
-    - set_fact:
-        api_node0_floating_ip: "{{ api_node0_floating_ip_output.msg }}"
-        cacheable: yes
+#    - name: Register api-node0 floating IP
+#      debug: msg="{{ item.addresses[magic_index_network.msg][1].addr }}"
+#      register: api_node0_floating_ip_output
+#      no_log: yes
+#      with_items:
+#        - "{{ heat_stack.stack.outputs[0].output_value }}"
+#        - "{{ heat_stack.stack.outputs[1].output_value }}"
+#        - "{{ heat_stack.stack.outputs[2].output_value }}"
+#        - "{{ heat_stack.stack.outputs[3].output_value }}"
+#        - "{{ heat_stack.stack.outputs[4].output_value }}"
+#        - "{{ heat_stack.stack.outputs[5].output_value }}"
+#        - "{{ heat_stack.stack.outputs[6].output_value }}"
+#        - "{{ heat_stack.stack.outputs[7].output_value }}"
+#        - "{{ heat_stack.stack.outputs[8].output_value }}"
+#      when: item.metadata is defined and item.metadata.ansible_group == "api" and item.name == "api-node0"
+#
+#    - set_fact:
+#        api_node0_floating_ip: "{{ api_node0_floating_ip_output.msg }}"
+#        cacheable: yes
 
     - name: Add obj nodes to inventory
       add_host:
