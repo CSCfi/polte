@@ -1,5 +1,5 @@
 ---
-# Modifications to cccp/newton/*
+# Modifications to cccp/queens/*
 #
 # Ultimately, this file should cease to exist. Everything should be
 # compensated in cccp instead of modifying the puppet environment post-checkout.
