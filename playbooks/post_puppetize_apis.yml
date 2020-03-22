@@ -12,15 +12,15 @@
     - name: Change Horizon login backend to ldap
       shell: sed -i "s/'native'/'ldap'/" /etc/openstack-dashboard/local_settings
 #workaround: For the time being, don't use vanilla scripts for tenant creation and mapping
-    - name: Create non-admin test project
-      shell: source /root/openrc.admintoken; openstack project create testgroup --domain Default
-      ignore_errors: true
-    - name: Grant member role to test project
-      shell: source /root/openrc.admintoken; openstack role add --project-domain Default --project testgroup --group testgroup member
-      ignore_errors: true
-    - name: Grant object role to test project
-      shell: source /root/openrc.admintoken; openstack role add --project-domain Default --project testgroup --group testgroup object_store_user
-      ignore_errors: true
+#    - name: Create non-admin test project
+#      shell: source /root/openrc.admintoken; openstack project create testgroup --domain Default
+#      ignore_errors: true
+#    - name: Grant member role to test project
+#      shell: source /root/openrc.admintoken; openstack role add --project-domain Default --project testgroup --group testgroup member
+#      ignore_errors: true
+#    - name: Grant object role to test project
+#      shell: source /root/openrc.admintoken; openstack role add --project-domain Default --project testgroup --group testgroup object_store_user
+#      ignore_errors: true
     - name: Grant admin role to service project
       shell: source /root/openrc.admintoken; openstack role add --project-domain Default --project service --group service admin
       ignore_errors: true
