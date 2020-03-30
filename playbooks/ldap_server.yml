@@ -36,9 +36,14 @@
         glance:
           password: "{{ vault_glance_password }}"
           uid: 90000007
+        nagiostest:
+          password: "{{ vault_nagiostest_password }}"
+          uid: 90000008
       openldap_server_groups:
         testgroup:
           - testuser
+        nagiostest:
+          - nagiostest
         service:
           - keystone
           - heat
