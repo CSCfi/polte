@@ -10,7 +10,7 @@
   roles:
     - { role: ansible-role-puppetmaster, puppetlabs_repo_url: "https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm", yum_proxy: "http://puppet-node:3128" }
     - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
-#  post_tasks:
-#    - shell: iptables -F # axe?
-#    - shell: systemctl restart puppetserver axe?
+  post_tasks:
+    - shell: iptables -F
+    - shell: systemctl restart puppetserver
 #    - shell: "/opt/puppetlabs/bin/puppet generate types --environment {{puppet_environment}} # figure out where to best get the env" 
