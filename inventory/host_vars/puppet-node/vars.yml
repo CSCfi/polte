@@ -2,7 +2,7 @@
 puppet_environments_repo: "{{ vault_puppet_environments_repo }}"
 ruby_gems_versions:
   - { gem: 'puppet_forge', version: '2.2.6' }
-  - { gem: 'r10k', version: '2.2.2' }
+  - { gem: 'r10k', version: '2.4.3' }
   - { gem: 'hiera-eyaml', version: '' }
 puppet_etc_dir: /etc/puppetlabs/puppet
 puppet_code_dir: /etc/puppetlabs/code
