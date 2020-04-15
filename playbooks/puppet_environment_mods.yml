@@ -59,3 +59,14 @@
       shell: sed -i "s/hiera('ha_primary_api_ip')/'{{ hostvars['api-node0']['ansible_eth0']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
     - name: Populate int IP 1
       shell: sed -i "s/hiera('ha_secondary_api_ip')/'{{ hostvars['api-node1']['ansible_eth0']['ipv4']['address'] }}'/" "{{puppet_code_dir}}/environments/{{puppet_environment}}/modules/cccp/manifests/role/frontend/api.pp"
+
+- name: Generates types on puppetmaster to prevent "cannot autoload" errors
+  hosts: puppet
+  gather_facts: false
+  become: true
+  become_user: root
+  #vars:
+    #puppet_environment: "{{ hostvars[groups['api'][0]].puppet_environment}}"
+  tasks:
+    - name: Puppet generate types for puppet_environment={{puppet_environment}}
+      command: "/opt/puppetlabs/bin/puppet generate types --environment {{puppet_environment}}"

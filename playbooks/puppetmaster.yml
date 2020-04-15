@@ -13,4 +13,3 @@
   post_tasks:
     - shell: iptables -F
     - shell: systemctl restart puppetserver
-#    - shell: "/opt/puppetlabs/bin/puppet generate types --environment {{puppet_environment}} # figure out where to best get the env" 

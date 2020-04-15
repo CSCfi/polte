@@ -1,6 +1,6 @@
 - src: https://github.com/CSCfi/ansible-role-puppetmaster.git
   path: roles
-  version: "cccp_branch_inject_p4"
+  version: "cccp_branch_inject"
 
 - src: https://github.com/CSCfi/ansible-role-puppetize.git
   version: "2019-11-06"
