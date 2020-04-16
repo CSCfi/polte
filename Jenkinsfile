@@ -42,17 +42,15 @@ pipeline {
                 })
             }
         }
-        stage('Puppetize backend') {
-            steps {
-                echo 'Puppetize backend nodes'
-                sh '''
-                    source puppetize-backend.sh
-                '''
-            }
-        }
         stage('Parallel backend and primary frontend') {
             steps {
-                parallel("Puppetize network nodes": {
+                parallel("Puppetize backend nodes": {
+                    echo 'Puppetizing'
+                    sh '''
+                        source puppetize-backend.sh
+                    '''
+                },
+                "Puppetize network nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-net.sh
@@ -72,28 +70,18 @@ pipeline {
                 })
             }
         }
-        stage('Parallel secondary frontend and compute') {
+        stage('Parallel frontends and compute and object') {
             steps {
-                parallel("Puppetize secondary API node": {
+                parallel("Puppetize both API nodes": {
                     echo 'Puppetizing'
                     sh '''
-                        HOSTLIMIT=api-node1 source puppetize-api.sh
+                        HOSTLIMIT=api source puppetize-api.sh
                     '''
                 },
                 "Puppetize compute nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-compute.sh
-                    '''
-                })
-            }
-        }
-        stage('Parallel frontends and object') {
-            steps {
-                parallel("Puppetize both API nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        HOSTLIMIT=api source puppetize-api.sh
                     '''
                 },
                 "Puppetize object nodes": {
