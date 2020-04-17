@@ -107,6 +107,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
@@ -141,6 +142,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
@@ -168,6 +170,7 @@ resources:
     properties:
       rules:
         - protocol: icmp
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
@@ -207,12 +210,14 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
 
   network_secgroup:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
@@ -223,6 +228,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
@@ -233,6 +239,7 @@ resources:
     type: OS::Neutron::SecurityGroup
     properties:
       rules:
+        # TODO remove 'protocol: tcp' which is a HACK
         - protocol: tcp
         - protocol: tcp
           remote_ip_prefix: { get_param: mgmt_subnet_cidr }
