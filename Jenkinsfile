@@ -72,10 +72,10 @@ pipeline {
         }
         stage('Parallel frontends and compute and object') {
             steps {
-                parallel("Puppetize both API nodes": {
+                parallel("Puppetize secondary API node": {
                     echo 'Puppetizing'
                     sh '''
-                        HOSTLIMIT=api source puppetize-api.sh
+                        HOSTLIMIT=api-node1 source puppetize-api.sh
                     '''
                 },
                 "Puppetize compute nodes": {
