@@ -45,6 +45,10 @@
       ignore_errors: True
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
+  post_tasks:
+    - yum:
+        name: '*'
+        state: latest
 
 - hosts: api-node0
   become: true

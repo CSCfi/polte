@@ -1,0 +1,51 @@
+---
+# Stage API nodes for upgrade
+- hosts: puppet
+  tasks:
+    - name: remove newton environment (naive lookup)
+      command: "rm -Rf /etc/puppetlabs/code/environments/*pouta"
+
+- hosts: api-node1
+  become: true
+  become_user: root
+  tasks:
+    # make all requests go to api-node0
+    - name: stop openstack
+      shell: systemctl stop *openstack*
+    - name: stop neutron
+      shell: systemctl stop *neutron*
+    - name: stop httpd
+      shell: systemctl stop httpd
+    - name: stop haproxy
+      shell: systemctl stop haproxy
+
+- hosts: api-node0
+  become: true
+  become_user: root
+  tasks:
+    # database nova_cell0 should exist by latest at this point
+    # order mimics https://review.opendev.org/#/c/573740/1/docker/services/nova-api.yaml but we just run the simple setup
+    - name: activate cells (while still in newton)
+      shell: nova-manage cell_v2 simple_cell_setup
+      ignore_errors: true
+    - name: db sync
+      shell: nova-manage db sync
+      ignore_errors: true
+    - name: api db sync
+      shell: nova-manage api_db sync
+      ignore_errors: true
+    - name: db migrations
+      shell: nova-manage db online_data_migrations
+      ignore_errors: true
+
+- hosts: api
+  become: true
+  become_user: root
+  tasks:
+    - name: check for newton
+      shell: yum list installed|grep -i newton
+      register: yumnewton
+      ignore_errors: true
+    - name: remove openstack packages if any reference to newton found
+      shell: yum -y remove *openstack*
+      when: yumnewton.rc == 0
