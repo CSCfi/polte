@@ -6,3 +6,7 @@
     - shell: modprobe ip_conntrack
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
+  post_tasks:
+    - yum:
+        name: '*'
+        state: latest

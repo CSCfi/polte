@@ -1,0 +1,34 @@
+---
+- hosts: compute
+  become: true
+  become_user: root
+  pre_tasks:
+    - yum:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - centos-release-openstack-newton.noarch
+        - centos-release-ceph-jewel*
+    - yum:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - centos-release-openstack-queens.noarch
+        - unzip
+        - ksh
+        - libmcrypt
+        - bind-utils
+        - libtool-libs
+    - unarchive:
+        src: https://mirror.nforce.com/pub/software/raidtools/Megaraid/8-07-14_MegaCLI.zip
+        dest: /tmp
+        remote_src: yes
+    - yum:
+        name: /tmp/Linux/MegaCli-8.07.14-1.noarch.rpm
+        state: present
+    - shell: sed -i 's/^exclude=\(.*\)$/exclude=\1,puppet*/' /etc/yum.repos.d/CentOS-OpenStack-queens.repo
+    - yum:
+        name: '*'
+        state: latest
+  roles:
+    - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }

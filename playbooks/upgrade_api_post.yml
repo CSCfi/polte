@@ -1,0 +1,78 @@
+---
+# Modify API nodes after queens repo installed. First get the latest packages
+- hosts: api
+  become: true
+  become_user: root
+  tasks:
+    - yum:
+        name: '*'
+        state: latest
+
+# Then make all requests go to api-node0
+- hosts: api-node1
+  become: true
+  become_user: root
+  tasks:
+    - name: stop openstack
+      shell: systemctl stop *openstack*
+    - name: stop neutron
+      shell: systemctl stop *neutron*
+    - name: stop httpd
+      shell: systemctl stop httpd
+    - name: stop haproxy
+      shell: systemctl stop haproxy
+
+# Then run db syncs which current puppet code doesn't do
+- hosts: api-node0
+  become: true
+  become_user: root
+  tasks:
+    #keystone
+    - shell: keystone-manage db_sync
+
+    #cinder
+    - name: some cinder scripts missing in queens
+      shell: "cp /usr/lib/python2.7/site-packages/cinder/db/sqlalchemy/migrate_repo/versions/092_placeholder.py /usr/lib/python2.7/site-packages/cinder/db/sqlalchemy/migrate_repo/versions/{{item}}"
+      ignore_errors: true
+      with_items:
+        - 080_placeholder.py
+        - 081_placeholder.py
+        - 082_placeholder.py
+        - 083_placeholder.py
+        - 084_placeholder.py
+    - name: overwrite init with pike era datetime patch
+      shell: curl -o /usr/lib/python2.7/site-packages/cinder/db/sqlalchemy/migrate_repo/versions/085_cinder_init.py https://opendev.org/openstack/cinder/raw/branch/stable/pike/cinder/db/sqlalchemy/migrate_repo/versions/085_modify_workers_updated_at.py
+    - name: cinder db sync after scripts in place
+      shell: cinder-manage db sync
+
+    #nova
+    - name: ensure default cell is named default - turns out puppet-nova is picky about this after all.
+      shell: DEFCELL=$(nova-manage cell_v2 list_cells|grep rabbit|awk '{print $4}'); nova-manage cell_v2 update_cell --cell_uuid $DEFCELL --name default
+    - name: nova db sync
+      shell: nova-manage db sync
+
+    #neutron
+    - name: neutron db sync
+      shell: neutron-db-manage upgrade --expand
+    - name: stop neutron
+      shell: systemctl stop *neutron*
+    - name: neutron db sync - redux
+      shell: neutron-db-manage upgrade --contract
+    - name: restart neutron-server
+      shell: systemctl start *neutron*
+
+    #glance
+    - name: glance db sync
+      shell: glance-manage db sync
+
+    #heat
+    - name: heat db sync
+      shell: heat-manage db_sync
+
+    #barbican
+    - name: get a missing file
+      shell: curl -o /usr/lib/python2.7/site-packages/barbican/model/migration/alembic_migrations/script.py.mako https://raw.githubusercontent.com/openstack/barbican/stable/queens/barbican/model/migration/alembic_migrations/script.py.mako
+#    - name: barbican db sync
+#      shell: barbican-manage db revision
+    - name: barbican db sync
+      shell: barbican-manage db upgrade -v head

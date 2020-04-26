@@ -1,0 +1,13 @@
+- hosts: api-node0
+  become: yes
+  become_user: root
+  gather_facts: no
+  vars:
+    testuser_openrc: /root/testuser.sh
+  tasks:
+    - name: Check openrc presence
+      stat:
+        path="{{ testuser_openrc }}"
+      register: openrc
+    - fail:
+      when: not openrc.stat.exists
