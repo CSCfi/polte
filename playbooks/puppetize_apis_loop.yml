@@ -1,5 +1,9 @@
 ---
 # Puppetize API nodes.
+- hosts: puppet
+  tasks:
+    - name: regenerate types for the environments to prevent autoload issues
+      command: "/opt/puppetlabs/bin/puppet generate types --environment {{ puppet_environment }}"
 
 - hosts: api
   become: true
