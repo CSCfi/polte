@@ -138,9 +138,9 @@ pipeline {
                 }
             }
             steps {
-                echo 'Puppetize puppetmaster with queens hiera and queens cccp'
+                echo 'Puppetize puppetmaster with queens hiera that stops services and queens cccp'
                 sh '''
-                    echo "export PUPPET_ENVIRONMENT=cccp_queens_master_cpouta" > puppet_env.sh
+                    echo "export PUPPET_ENVIRONMENT=cpouta_queens_servicestop" > puppet_env.sh
                     source puppetmaster.sh queens/master
                 '''
             }
@@ -167,6 +167,20 @@ pipeline {
             steps {
                 echo 'API post-puppetize'
                 sh "source upgrade_api_post.sh"
+            }
+        }
+        stage('Stage queens code') {
+            when {
+                expression {
+                    sh(returnStatus: true, script: '/bin/bash ansible_shell_env.sh;ansible-playbook -i inventory playbooks/check_post_done.yml') == 0
+                }
+            }
+            steps {
+                echo 'Puppetize puppetmaster with queens hiera that starts services and queens cccp'
+                sh '''
+                    echo "export PUPPET_ENVIRONMENT=cpouta_queens" > puppet_env.sh
+                    source puppetmaster.sh queens/master
+                '''
             }
         }
         stage('Parallel upgrade compute and the rest') {
