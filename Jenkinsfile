@@ -131,7 +131,7 @@ pipeline {
                 sh "source upgrade_api_pre.sh"
             }
         }
-        stage('Stage queens code') {
+        stage('Stage queens code with service stop') {
             when {
                 expression {
                     sh(returnStatus: true, script: '/bin/bash ansible_shell_env.sh;ansible-playbook -i inventory playbooks/check_post_done.yml') == 0
@@ -169,7 +169,7 @@ pipeline {
                 sh "source upgrade_api_post.sh"
             }
         }
-        stage('Stage queens code') {
+        stage('Stage queens code with service start') {
             when {
                 expression {
                     sh(returnStatus: true, script: '/bin/bash ansible_shell_env.sh;ansible-playbook -i inventory playbooks/check_post_done.yml') == 0
