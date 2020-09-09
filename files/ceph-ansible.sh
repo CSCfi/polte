@@ -33,5 +33,13 @@ ln -s ../../inventory
 mkdir -p fetch/12345678-90ab-cdef-1234-567890abcdef/etc/ceph
 echo "12345678-90ab-cdef-1234-567890abcdef" > fetch/ceph_cluster_uuid.conf
 
+#until ephemeral vfat possibly gets sorted
+ansible -m shell -a 'sudo umount /mnt' -i inventory osds
+ansible -m shell -a '/sbin/blkid /dev/vdb1|grep vfat && sudo dd if=/dev/zero of=/dev/vdb bs=512 count=1' -i inventory osds
+ansible -m shell -a '/sbin/blkid /dev/vdb1|grep vfat && sudo dd if=/dev/zero of=/dev/vdb bs=512 count=34 seek=$(($(sudo blockdev --getsz /dev/vdb) - 34))' -i inventory osds
+
 #run
 ansible-playbook -i inventory --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds,mgrs" site.yml.sample
+if [ $? -eq 0 ]; then
+  ansible-playbook -i inventory --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds,mgrs" site.yml.sample
+fi

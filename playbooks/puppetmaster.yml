@@ -16,8 +16,8 @@
       meta: end_play
       when: puppet_env_dir.stat.exists
   roles:
-    - { role: ansible-role-puppetmaster, puppetlabs_repo_url: "https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm", yum_proxy: "http://puppet-node:3128" }
     - { role: ansible-role-squid, internal_net: "10.99.99.0/24" }
+    - { role: ansible-role-puppetmaster, puppetlabs_repo_url: "https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm", yum_proxy: "http://puppet-node:3128" }
   post_tasks:
     - shell: iptables -F
     - shell: systemctl restart puppetserver
