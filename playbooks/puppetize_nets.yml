@@ -2,7 +2,7 @@
 - hosts: net
   become: true
   become_user: root
-  gather_facts: no
+  gather_facts: yes
 #  vars:
 #    puppet_run_only: True
   pre_tasks:
