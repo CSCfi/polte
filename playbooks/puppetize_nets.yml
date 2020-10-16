@@ -3,8 +3,8 @@
   become: true
   become_user: root
   gather_facts: no
-  vars:
-    puppet_run_only: True
+#  vars:
+#    puppet_run_only: True
   pre_tasks:
     - shell: modprobe ip_conntrack
   roles:
