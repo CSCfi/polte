@@ -42,15 +42,17 @@ pipeline {
                 })
             }
         }
-        stage('Parallel backend and primary frontend') {
+        stage('Puppetize backend') {
             steps {
-                parallel("Puppetize backend nodes": {
-                    echo 'Puppetizing'
-                    sh '''
-                        source puppetize-backend.sh
-                    '''
-                },
-                "Puppetize network nodes": {
+                echo 'Puppetizing'
+                sh '''
+                    source puppetize-backend.sh
+                '''
+            }
+        }
+        stage('Parallel storage backend and primary frontend') {
+            steps {
+                parallel("Puppetize network nodes": {
                     echo 'Puppetizing'
                     sh '''
                         source puppetize-net.sh
