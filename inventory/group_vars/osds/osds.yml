@@ -21,14 +21,17 @@ openstack_glance_pool:
   name: glance-devel
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rbd"
 openstack_cinder_pool:
   name: cinder-devel
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rbd"
 openstack_nova_pool:
   name: vms-devel
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rbd"
 
 # HOX! These pools are not used in Pouta environments.
 #
