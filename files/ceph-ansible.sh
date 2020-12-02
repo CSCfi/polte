@@ -8,12 +8,16 @@ source ansible_shell_env.sh
 # stable-3.1 Supports for Ceph version luminous and mimic. This branch supports Ansible version 2.4.
 # stable-3.2 Supports for Ceph version luminous and mimic. This branch supports Ansible version 2.6.
 # master Supports for Ceph@master version. This branch supports Ansible version 2.7.
-export CEPH_ANSIBLE_REF="stable-3.1"
+export CEPH_ANSIBLE_REF="stable-3.2"
 
 # setup virtualenv
-virtualenv ansible2.4
-source ansible2.4/bin/activate
-python -m pip install 'ansible<2.5'
+virtualenv --python /usr/bin/python ansible2.6
+source ansible2.6/bin/activate
+python -m pip install 'setuptools<45.0.0'
+python -m pip install 'ansible<2.7'
+python -m pip install 'notario>=0.0.13'
+python -m pip install 'netaddr'
+
 
 #prereq
 ansible -m shell -a "sudo yum install -y centos-release-ceph-luminous" -i inventory "mons,osds,mgrs" --vault-password-file="$VAULT_PASS_FILE"
