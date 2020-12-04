@@ -39,7 +39,7 @@
           ONBOOT="yes"
           PEERDNS="no"
         dest: /etc/sysconfig/network-scripts/ifcfg-{{ item }}
-      with_items: "{{ ansible_interfaces | difference('lo') | difference('fake0') }}"
+      with_items: "{{ ansible_interfaces | difference('lo') | difference('fake0') | difference('docker0') }}"
       notify:
         - Reboot
     - name: Flush handlers

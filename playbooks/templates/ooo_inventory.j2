@@ -18,9 +18,12 @@
 {{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
 {% endfor %}
 
+[grafana-server]
+{{ hostvars[groups['cephmon'][0]]['inventory_hostname_short'] }} ansible_ssh_host={{ hostvars[groups['cephmon'][0]]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[groups['cephmon'][0]]['ansible_ssh_user'] }}
+
 [osds]
 {% for node in groups['cephosd'] %}
-{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }}
+{{ node }} ansible_ssh_host={{ hostvars[node]['ansible_ssh_host'] }} ansible_ssh_user={{ hostvars[node]['ansible_ssh_user'] }} osd_crush_location="{ 'root': 'mon-roottt', 'rack': 'mon-rackkkk', 'pod': 'monpod', 'host': '{{ node }}' }"
 {% endfor %}
 
 [net]

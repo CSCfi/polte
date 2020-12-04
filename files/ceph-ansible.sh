@@ -10,19 +10,19 @@ source ansible_shell_env.sh
 # stable-4.0 Supports Ceph version nautilus. This branch requires Ansible version 2.8.
 # stable-5.0 Supports Ceph version octopus. This branch requires Ansible version 2.9.
 # master Supports the master branch of Ceph. This branch requires Ansible version 2.9.
-export CEPH_ANSIBLE_REF="stable-3.2"
+export CEPH_ANSIBLE_REF="stable-4.0"
 
 # setup virtualenv
-virtualenv --python /usr/bin/python ansible2.6
-source ansible2.6/bin/activate
+virtualenv --python /usr/bin/python ansible2.9
+source ansible2.9/bin/activate
 python -m pip install 'setuptools<45.0.0'
-python -m pip install 'ansible<2.7'
+python -m pip install 'ansible<2.10'
 python -m pip install 'notario>=0.0.13'
 python -m pip install 'netaddr'
 
 
 #prereq
-ansible -m shell -a "sudo yum install -y centos-release-ceph-luminous" -i inventory "mons,osds,mgrs" --vault-password-file="$VAULT_PASS_FILE"
+ansible -m shell -a "sudo yum install -y centos-release-ceph-nautilus" -i inventory "mons,osds,mgrs" --vault-password-file="$VAULT_PASS_FILE"
 cp /var/lib/jenkins/credentials/vault-mons.yml inventory/group_vars/mons/vault.yml
 cp /var/lib/jenkins/credentials/vault-osds.yml inventory/group_vars/osds/vault.yml
 
