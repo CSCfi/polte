@@ -48,58 +48,72 @@ openstack_radosgw_data_root_pool_1:
   name: polte-devel-cloud.rgw.data.root
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_control_pool_1:
   name: polte-devel-cloud.rgw.control
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_gc_pool_1:
   name: polte-devel-cloud.rgw.gc
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_log_pool_1:
   name: polte-devel-cloud.rgw.log
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_intent_log_pool_1:
   name: polte-devel-cloud.rgw.intent-log
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_usage_pool_1:
   name: polte-devel-cloud.rgw.usage
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_users_keys_pool_1:
   name: polte-devel-cloud.rgw.users.keys
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_users_email_pool_1:
   name: polte-devel-cloud.rgw.users.email
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_users_swift_pool_1:
   name: polte-devel-cloud.rgw.users.swift
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_users_uid_pool_1:
   name: polte-devel-cloud.rgw.users.uid
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_buckets_index_pool_1:
   name: polte-devel-cloud.rgw.buckets.index
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_buckets_data_pool_1:
   name: polte-devel-cloud.rgw.buckets.data
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_meta_pool_1:
   name: polte-devel-cloud.rgw.meta
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 openstack_radosgw_root_pool_1:
   name: polte-devel-cloud.rgw.root
   pg_num: "{{ osd_pool_default_pg_num }}"
   rule_name: ""
+  application: "rgw"
 
 # Ceph cluster zone sharing test pools.
 # Preserved just in case more testing is needed.
