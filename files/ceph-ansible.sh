@@ -4,10 +4,12 @@
 source ansible_shell_env.sh
 
 #ceph-ansible version
-# stable-3.0 Supports for Ceph versions jewel and luminous. This branch supports Ansible version 2.4.
-# stable-3.1 Supports for Ceph version luminous and mimic. This branch supports Ansible version 2.4.
-# stable-3.2 Supports for Ceph version luminous and mimic. This branch supports Ansible version 2.6.
-# master Supports for Ceph@master version. This branch supports Ansible version 2.7.
+# stable-3.0 Supports Ceph versions jewel and luminous. This branch requires Ansible version 2.4. DEPRECATED
+# stable-3.1 Supports Ceph versions luminous and mimic. This branch requires Ansible version 2.4. DEPRECATED
+# stable-3.2 Supports Ceph versions luminous and mimic. This branch requires Ansible version 2.6.
+# stable-4.0 Supports Ceph version nautilus. This branch requires Ansible version 2.8.
+# stable-5.0 Supports Ceph version octopus. This branch requires Ansible version 2.9.
+# master Supports the master branch of Ceph. This branch requires Ansible version 2.9.
 export CEPH_ANSIBLE_REF="stable-3.2"
 
 # setup virtualenv
