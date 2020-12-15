@@ -21,3 +21,5 @@
       ignore_errors: true
     - shell: radosgw-admin --id radosgw.polte-devel-cloud1 period update; radosgw-admin --id radosgw.polte-devel-cloud1 period update --commit
       ignore_errors: true
+# note! need this until certs sorted
+# rgw_keystone_verify_ssl = false
