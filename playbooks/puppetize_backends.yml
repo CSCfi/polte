@@ -30,6 +30,9 @@
 - hosts: galera[0]
   become: true
   become_user: root
+  pre_tasks:
+    - name: Remove mariadb-libs which seems to clash
+      shell: yum -y remove mariadb-libs*
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
 
