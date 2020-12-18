@@ -20,4 +20,5 @@
     - { role: ansible-role-puppetmaster, puppetlabs_repo_url: "https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm", yum_proxy: "http://puppet-node:3128" }
   post_tasks:
     - shell: iptables -F
+    - shell: sed -i 's#vendored-jruby-gems"#vendored-jruby-gems", "/usr/local/share/gems"#' /etc/puppetlabs/puppetserver/conf.d/puppetserver.conf
     - shell: systemctl restart puppetserver
