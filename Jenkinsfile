@@ -4,7 +4,7 @@ pipeline {
     parameters {
         string(
             name: 'CCCP_BRANCH',
-            defaultValue: 'master',
+            defaultValue: 'rocky/devel',
             description: 'CCCP feature branch')
     }
 
