@@ -26,7 +26,7 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - centos-release-openstack-queens.noarch
+        - centos-release-openstack-rocky.noarch
         - unzip
         - ksh
         - libmcrypt
@@ -39,6 +39,6 @@
     - yum:
         name: /tmp/Linux/MegaCli-8.07.14-1.noarch.rpm
         state: present
-    - shell: sed -i 's/^exclude=\(.*\)$/exclude=\1,puppet*/' /etc/yum.repos.d/CentOS-OpenStack-queens.repo
+    - shell: sed -i 's/^exclude=\(.*\)$/exclude=\1,puppet*/' /etc/yum.repos.d/CentOS-OpenStack-rocky.repo
   roles:
     - { role: ansible-role-puppetize, ansible_fqdn: "{{inventory_hostname_short}}.openstacklocal" }
