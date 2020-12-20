@@ -14,7 +14,7 @@ pipeline {
                 echo 'Building Heat stack'
                 sh '''
                     mkdir -p .ssh/cm_socket
-                    echo "export PUPPET_ENVIRONMENT=cpouta" > puppet_env.sh
+                    echo "export PUPPET_ENVIRONMENT=cpouta_rocky" > puppet_env.sh
                     cp files/*.sh .
                     source build.sh
                 '''
