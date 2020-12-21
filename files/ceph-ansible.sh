@@ -46,6 +46,6 @@ ansible -m shell -a '/sbin/blkid /dev/vdb1|grep vfat && sudo dd if=/dev/zero of=
 
 #run
 ansible-playbook -i inventory --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds,mgrs" site.yml.sample
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
   ansible-playbook -i inventory --vault-password-file="$VAULT_PASS_FILE" --limit "mons,osds,mgrs" site.yml.sample
 fi
