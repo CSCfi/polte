@@ -15,15 +15,15 @@ ansible -m shell -i inventory -a "sudo /opt/puppetlabs/bin/puppet agent -t" pupp
 if [ ! $? -eq 0 ]; then
   #re-regenerate the hosts file because puppet agent screws it up
   ansible-playbook -i inventory  playbooks/generate_hostsfile.yml --limit puppet-node
-  #modding time
+  #mod the mods
   ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT" playbooks/puppet_environment_mods.yml
-  #rinse and repeat
+  #rinse and repeat. bail if now ok
   ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT cccp_branch=$1" playbooks/puppetmaster.yml
   if [ ! $? -eq 0 ]; then exit 1; fi
 fi
 
 ### this part feels unnecessary
-ansible-playbook -i inventory playbooks/generate_hostsfile.yml --limit puppet-node
-ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT" playbooks/puppet_environment_mods.yml
-ansible -m shell -i inventory -a "sudo systemctl restart puppetserver" puppet-node
+#ansible-playbook -i inventory playbooks/generate_hostsfile.yml --limit puppet-node
+#ansible-playbook -i inventory -e "puppet_environment=$PUPPET_ENVIRONMENT" playbooks/puppet_environment_mods.yml
+#ansible -m shell -i inventory -a "sudo systemctl restart puppetserver" puppet-node
 ###
