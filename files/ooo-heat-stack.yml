@@ -76,12 +76,14 @@ parameters:
   ceph_mon_node_image:
     description: The image to use for Ceph monitor nodes.
     type: string
+    default: CentOS-8.3.2011-upstream
   ceph_osd_node_flavor:
     description: The flavor to use for Ceph monitor nodes.
     type: string
   ceph_osd_node_image:
     description: The image to use for Ceph monitor nodes.
     type: string
+    default: CentOS-8.3.2011-upstream
 #  compute_node_image:
 #    description: The image to use for compute nodes.
 #    type: string
