@@ -21,6 +21,10 @@
         template: "../files/ooo-heat-stack.yml"
         environment:
           - "{{ heat_environment_file }}"
+        parameters:
+          ceph_mon_node_image: "CentOS-8.3.2011-upstream"
+          ceph_osd_node_image: "CentOS-8.3.2011-upstream"
+          ceph_mgr_node_image: "CentOS-8.3.2011-upstream"
 
     # In the next task, addresses[0] or addresses.0 did not
     # work for some reason.
