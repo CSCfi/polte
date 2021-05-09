@@ -1,5 +1,6 @@
 ---
-ansible_ssh_common_args: "-l centos -i {{ ansible_ssh_private_key_file }} -o ProxyCommand='ssh -i {{ ansible_ssh_private_key_file }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
+ansible_ssh_user: centos
+ansible_ssh_common_args: "-i {{ ansible_ssh_private_key_file }} -o ProxyCommand='ssh -i {{ ansible_ssh_private_key_file }} -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -W %h:%p -q {{ vm_user_account }}@{{ hostvars['puppet-node']['ansible_ssh_host'] }}'"
 
 ceph_origin: distro
 ceph_stable_release: octopus
@@ -7,3 +8,5 @@ public_network: "10.99.99.0/24"
 fsid: "12345678-90ab-cdef-1234-567890abcdef"
 generate_fsid: false
 cephx: true
+
+ansible_python_interpreter: /usr/bin/python3
