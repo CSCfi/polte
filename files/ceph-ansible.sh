@@ -10,7 +10,7 @@ source ansible_shell_env.sh
 # stable-4.0 Supports Ceph version nautilus. This branch requires Ansible version 2.8.
 # stable-5.0 Supports Ceph version octopus. This branch requires Ansible version 2.9.
 # master Supports the master branch of Ceph. This branch requires Ansible version 2.9.
-export CEPH_ANSIBLE_REF="stable-4.0"
+export CEPH_ANSIBLE_REF="stable-3.2"
 
 # setup virtualenv
 virtualenv --python /usr/bin/python ansible2.9
