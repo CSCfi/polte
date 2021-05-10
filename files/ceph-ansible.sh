@@ -13,10 +13,10 @@ source ansible_shell_env.sh
 export CEPH_ANSIBLE_REF="stable-3.2"
 
 # setup virtualenv
-virtualenv --python /usr/bin/python ansible2.9
-source ansible2.9/bin/activate
+virtualenv --python /usr/bin/python ansible2.6
+source ansible2.6/bin/activate
 python -m pip install 'setuptools<45.0.0'
-python -m pip install 'ansible<2.10'
+python -m pip install 'ansible<2.7'
 python -m pip install 'notario>=0.0.13'
 python -m pip install 'netaddr'
 
