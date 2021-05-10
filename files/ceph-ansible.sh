@@ -22,7 +22,7 @@ python -m pip install 'netaddr'
 
 
 #prereq
-ansible -m shell -a "sudo yum install -y centos-release-ceph-nautilus" -i inventory "mons,osds,mgrs" --vault-password-file="$VAULT_PASS_FILE"
+ansible -m shell -a "sudo yum install -y centos-release-ceph-luminous" -i inventory "mons,osds,mgrs" --vault-password-file="$VAULT_PASS_FILE"
 cp /var/lib/jenkins/credentials/vault-mons.yml inventory/group_vars/mons/vault.yml
 cp /var/lib/jenkins/credentials/vault-osds.yml inventory/group_vars/osds/vault.yml
 
